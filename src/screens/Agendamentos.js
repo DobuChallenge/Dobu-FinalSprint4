@@ -24,7 +24,7 @@ export default function Agendamentos({ navigation, route }) {
     <SelectField label="Filtrar por status" value={agenda.status} onChange={agenda.setStatus} options={[{ value: '', label: 'Todos' }, ...appointmentStatuses.map((value) => ({ value, label: value }))]} />
     <QueryState query={agenda.query} empty={!agenda.items.length} emptyTitle="Nenhum agendamento encontrado" emptyMessage="Crie um atendimento ou ajuste os filtros da busca.">
       <Text style={ui.caption}>{agenda.items.length} atendimento(s)</Text>
-      {agenda.items.map((item) => <AppointmentCard key={item.id} item={item} onEdit={() => navigation.navigate('AdicionarAgendamento', { id: item.id })} onDelete={() => remove(item)} pending={agenda.excluir.isPending} />)}
+      {agenda.items.map((item) => <AppointmentCard key={item.id} item={item} onEdit={() => navigation.navigate('AdicionarAgendamento', { id: item.id })} onChat={() => navigation.navigate('ChatAgendamento', { id: item.id, petNome: item.petNome })} onDelete={() => remove(item)} pending={agenda.excluir.isPending} />)}
     </QueryState>
   </Screen>;
 }

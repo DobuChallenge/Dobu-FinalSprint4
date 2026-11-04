@@ -11,6 +11,7 @@ const protectedRoutes = [
   'Lembretes',
   'Informacoes',
   'CadernoCuidados',
+  'ChatAgendamento',
   'Agendamentos',
   'AdicionarAgendamento',
 ];

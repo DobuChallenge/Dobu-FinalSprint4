@@ -5,10 +5,12 @@ export function cameraUrls(base) {
   return { status: `${root}/status`, frame: `${root}/camera-frame`, config: `${root}/configuracao` };
 }
 
-export function cameraReading(data) {
+export function cameraReading(data = {}, now = Date.now()) {
   const lastFrame = Date.parse(data.last_frame_at || '');
-  const online = Boolean(data.camera_online) && Number.isFinite(lastFrame) && Date.now() - lastFrame < 15000;
-  return { online, presente: online && Boolean(data.pet_detected), movimento: online && Boolean(data.pet_moving),
+  const age = now - lastFrame;
+  const online = data.camera_online === true && Number.isFinite(lastFrame) && age >= -5000 && age < 15000;
+  return { online, presente: online && data.pet_detected === true, movimento: online && data.pet_detected === true && data.pet_moving === true,
+    descanso: online && data.pet_detected === true && data.possible_rest === true,
     especie: data.species || '', confianca: Number(data.confidence || 0), lastFrame: data.last_frame_at,
     exemplo: data.telemetry?.sensor === 'video-exemplo', quietSeconds: Number(data.quiet_seconds || 0) };
 }

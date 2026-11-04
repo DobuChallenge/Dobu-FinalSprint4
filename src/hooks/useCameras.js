@@ -5,11 +5,11 @@ import { usePets } from './usePets';
 import { dobuCamApi } from '../api/dobuCam';
 import { accountKey } from '../services/queries';
 
-export function useCameras() {
+export function useCameras(initialPetId = '') {
   const client = useQueryClient();
   const { user } = useAuth();
   const pets = usePets();
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(initialPetId);
   const petId = pets.data?.find((pet) => pet.id === selected)?.id || pets.data?.[0]?.id;
   const cameras = useQuery({ queryKey: [...accountKey(user), 'cameras', petId], queryFn: () => dobuCamApi.listarPorPet(petId), enabled: Boolean(user && petId), retry: false });
   const criar = useMutation({ mutationFn: (nome) => {

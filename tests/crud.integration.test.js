@@ -6,6 +6,9 @@ import { authApi } from '../src/api/auth.js';
 import { request, setAuthToken } from '../src/api/httpClient.js';
 import { petsQuery, petQuery, petMutationOptions, agendamentosQuery, agendamentoQuery, agendamentoMutationOptions } from '../src/services/queries.js';
 import { informacaoMutationOptions, informacoesQuery } from '../src/services/informacoes.js';
+import { vacinasApi } from '../src/api/vacinas.js';
+import { dobuCamApi } from '../src/api/dobuCam.js';
+import { chatAgendamentoApi } from '../src/api/chatAgendamento.js';
 
 test('API real: CRUD pets e agenda, caderno e atualização automática do cache', { skip: !process.env.EXPO_PUBLIC_API_URL }, async () => {
   const client = new QueryClient();
@@ -43,6 +46,28 @@ test('API real: CRUD pets e agenda, caderno e atualização automática do cache
     await appointmentSave.mutate({ id: appointment.id, dados: { ...appointmentBody, status: 'Confirmado', dataAgendamento: '2028-10-21T10:00:00' } });
     assert.equal((await client.fetchQuery(agendamentoQuery(user, appointment.id))).status, 'Confirmado');
     assert.equal((await client.fetchQuery(agendamentosQuery(user)))[0].dataAgendamento, '2028-10-21T10:00:00');
+
+    const vacina = await vacinasApi.criar({ nome: 'Vacina integração', dataAplicacao: '2026-11-03T00:00:00', dataProximaDose: '2027-11-03T00:00:00', petId: pet.id });
+    resources.push(`/api/vacinas/${vacina.id}`);
+    assert.equal((await vacinasApi.listarPorPet(pet.id)).some(item => item.id === vacina.id), true);
+    await vacinasApi.excluir(vacina.id);
+    resources.pop();
+
+    const camera = await dobuCamApi.criar({ localizacao: 'Sala integração', statusCamera: 'ATIVA', dataUltimaMovimentacao: new Date().toISOString(), petId: pet.id });
+    resources.push(`/api/dobucams/${camera.id}`);
+    assert.equal((await dobuCamApi.listarPorPet(pet.id)).some(item => item.id === camera.id), true);
+    await request(`/api/dobucams/${camera.id}`, { method: 'DELETE' });
+    resources.pop();
+
+    const mensagem = await chatAgendamentoApi.enviar(appointment.id, 'Podemos confirmar este horário?');
+    assert.equal(mensagem.autorId, user.id);
+    await chatAgendamentoApi.enviar(appointment.id, '', 'CONFIRMACAO');
+    setAuthToken(vet.token);
+    await chatAgendamentoApi.enviar(appointment.id, '', 'CONFIRMACAO');
+    const conversa = await chatAgendamentoApi.listar(appointment.id);
+    assert.equal(conversa.filter(item => item.tipo === 'CONFIRMACAO').length, 2);
+    assert.equal(conversa.some(item => item.texto === 'Podemos confirmar este horário?'), true);
+    setAuthToken(session.token);
 
     const note = await new MutationObserver(client, informacaoMutationOptions(client, user, 'criar')).mutate({ titulo: 'Retorno', descricao: 'Levar os registros ao próximo atendimento.', petId: pet.id });
     resources.push(`/api/informacoes-cuidado/${note.id}`);

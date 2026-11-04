@@ -10,12 +10,13 @@ export function useBowlMarkers(urls) {
   const [size, setSize] = useState({ width: 1, height: 1 });
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   const start = useRef(null);
   useEffect(() => {
     let active = true;
-    setAreas({ food: null, water: null }); setFrozen(''); setSelected(null);
+    setAreas({ food: null, water: null }); setFrozen(''); setSelected(null); setSaved(false);
     if (urls) dobuCamApi.lerConfiguracao(urls.config).then((value) => {
-      if (active) setAreas({ food: validarArea(value.bowl_config?.food) ? value.bowl_config.food : null, water: validarArea(value.bowl_config?.water) ? value.bowl_config.water : null });
+      if (active) { setAreas({ food: validarArea(value.bowl_config?.food) ? value.bowl_config.food : null, water: validarArea(value.bowl_config?.water) ? value.bowl_config.water : null }); setSaved(true); }
     }).catch(() => { if (active) setError('Não foi possível carregar as marcações.'); });
     return () => { active = false; };
   }, [urls]);
@@ -29,17 +30,17 @@ export function useBowlMarkers(urls) {
       const endX = Math.max(0, Math.min(size.width, first.x + gesture.dx));
       const endY = Math.max(0, Math.min(size.height, first.y + gesture.dy));
       const area = { x: Math.min(first.x, endX) / size.width, y: Math.min(first.y, endY) / size.height, width: Math.abs(first.x - endX) / size.width, height: Math.abs(first.y - endY) / size.height };
-      if (validarArea(area)) { setAreas((current) => ({ ...current, [selected]: area })); setSelected(null); }
+      if (validarArea(area)) { setAreas((current) => ({ ...current, [selected]: area })); setSelected(null); setSaved(false); }
       start.current = null;
     },
   }), [selected, size]);
   async function salvar() {
     if (!urls || saving) return;
     setSaving(true); setError('');
-    try { await dobuCamApi.salvarConfiguracao(urls.config, areas); setFrozen(''); setSelected(null); }
+    try { await dobuCamApi.salvarConfiguracao(urls.config, areas); setFrozen(''); setSelected(null); setSaved(true); }
     catch (err) { setError(err.message); } finally { setSaving(false); }
   }
-  return { areas, frozen, selected, setSize, error, saving, salvar, handlers: responder.panHandlers,
+  return { areas, frozen, selected, setSize, error, saving, saved, salvar, handlers: responder.panHandlers,
     marcar: (kind, frame) => { if (frame) { setFrozen(frame); setSelected(kind); setError(''); } },
     retomar: () => { setFrozen(''); setSelected(null); },
   };

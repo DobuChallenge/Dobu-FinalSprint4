@@ -31,7 +31,8 @@
     "plugins": [
       "expo-secure-store",
       "expo-notifications",
-      "expo-system-ui"
+      "expo-system-ui",
+      "./plugins/withLocalNetwork.cjs"
     ]
   }
 }

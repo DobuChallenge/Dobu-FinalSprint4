@@ -7,13 +7,14 @@ import AuthProvider from './src/providers/AuthProvider';
 import AppNavigator from './src/navigation/AppNavigator';
 import { cores } from './src/styles/tema';
 import ThemeProvider, { useTheme } from './src/providers/ThemeProvider';
+import NotificationProvider from './src/providers/NotificationProvider';
 
 export default function App() {
   return (
     <QueryProvider>
       <AuthProvider>
         <ThemeProvider><SafeAreaProvider>
-          <ThemedNavigation />
+          <NotificationProvider><ThemedNavigation /></NotificationProvider>
         </SafeAreaProvider></ThemeProvider>
       </AuthProvider>
     </QueryProvider>

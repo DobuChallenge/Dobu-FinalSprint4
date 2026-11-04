@@ -71,6 +71,7 @@ export default function Inicio({ navigation }) {
             highlight
             onPress={() => navigation.navigate('MinhasCameras')}
           />
+          <NavigationCard title="Caderno de cuidados" description="Vacinas e anotações" icon="book-outline" highlight onPress={() => navigation.navigate('CadernoCuidados')} />
         </View>
       </ScrollView>
       <BottomNavigation navigation={navigation} active="home" />

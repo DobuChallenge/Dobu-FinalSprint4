@@ -1,5 +1,6 @@
 import { NavigationContainer, DarkTheme, DefaultTheme, createNavigationContainerRef } from '@react-navigation/native';
 import { useState } from 'react';
+import { Platform, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import QueryProvider from './src/providers/QueryProvider';
@@ -31,8 +32,8 @@ function ThemedNavigation() {
   const { mode, colors } = useTheme();
   const base = mode === 'dark' ? DarkTheme : DefaultTheme;
   const theme = { ...base, colors: { ...base.colors, background: colors.fundo, card: colors.fundoClaro, text: colors.texto, primary: colors.principal } };
-  return <NavigationContainer ref={navigationRef} onReady={() => setReady(true)} theme={theme}>
+  return <View style={{ flex: 1, alignItems: 'center', backgroundColor: colors.fundo }}><View style={{ flex: 1, width: '100%', maxWidth: Platform.OS === 'web' ? 480 : undefined }}><NavigationContainer ref={navigationRef} onReady={() => setReady(true)} theme={theme}>
     <StatusBar style={mode === 'dark' ? 'light' : 'dark'} backgroundColor={colors.fundo} />
     <AppNavigator />
-  </NavigationContainer>;
+  </NavigationContainer></View></View>;
 }

@@ -58,7 +58,7 @@ export default function Cadastro({ navigation }) {
     <SafeAreaView style={styles.tela}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <DobuLogo large style={styles.logo} />
-        <Header navigation={navigation} title="Cadastro" subtitle="Crie o seu perfil dobu" />
+        <Header navigation={navigation} title="Cadastro" subtitle="Crie sua conta no Dobu" />
 
         <Card style={styles.cardCadastro}>
           <PhotoPicker

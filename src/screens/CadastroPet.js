@@ -44,8 +44,8 @@ export default function CadastroPet({ navigation, route }) {
     <QueryState query={catalogosQuery}>
       {catalogoVazio ? (
         <Card>
-          <Text style={ui.title}>Vamos preparar as opções</Text>
-          <Text style={ui.body}>Para cadastrar o animal, primeiro escolha algumas espécies e raças. Podemos criar uma lista inicial para você continuar.</Text>
+          <Text style={ui.title}>Catálogo de espécies e raças</Text>
+          <Text style={ui.body}>A lista ainda está vazia. Crie as opções iniciais para cadastrar seu animal.</Text>
           {catalogoBasico.isError ? <Text accessibilityRole="alert" style={ui.error}>{catalogoBasico.error?.message || 'Não foi possível criar as opções agora.'}</Text> : null}
           <Button
             title={catalogoBasico.isPending ? 'Preparando opções...' : 'Criar lista inicial'}

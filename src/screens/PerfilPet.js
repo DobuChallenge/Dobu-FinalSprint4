@@ -98,10 +98,10 @@ export default function PerfilPet({ navigation, route }) {
                   disabled={excluir.isPending}
                 />
                 <Button
-                  title="Informações e cuidados"
+                  title="Caderno de cuidados"
                   icon="document-text-outline"
                   cor="branco"
-                  onPress={() => navigation.navigate('Informacoes', { petId: id })}
+                  onPress={() => navigation.navigate('CadernoCuidados', { petId: id })}
                   disabled={excluir.isPending}
                 />
                 {deleteError ? <Text accessibilityRole="alert" style={ui.error}>{deleteError}</Text> : null}

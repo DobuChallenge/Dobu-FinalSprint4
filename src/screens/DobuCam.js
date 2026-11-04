@@ -25,7 +25,7 @@ export default function DobuCam({ navigation, route }) {
       {!!monitor.frame && <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: cores.campo, borderRadius: 16, overflow: 'hidden' }} onLayout={(event) => markers.setSize(event.nativeEvent.layout)} {...markers.handlers}>
         <View pointerEvents="none" style={{ flex: 1 }}>
           <Image source={{ uri: markers.frozen || monitor.frame }} style={{ width: '100%', height: '100%' }} resizeMode="stretch" />
-          {['food', 'water'].map((kind) => markers.areas[kind] && <View key={kind} style={{ position: 'absolute', left: `${markers.areas[kind].x * 100}%`, top: `${markers.areas[kind].y * 100}%`, width: `${markers.areas[kind].width * 100}%`, height: `${markers.areas[kind].height * 100}%`, borderWidth: 2, borderColor: kind === 'food' ? '#FF8C28' : '#55A5D9' }}><Text style={{ color: '#FFFFFF', backgroundColor: '#333333' }}>{kind === 'food' ? 'COMIDA' : 'ÁGUA'}</Text></View>)}
+          {['food', 'water'].map((kind) => markers.areas[kind] && <View key={kind} style={{ position: 'absolute', left: `${markers.areas[kind].x * 100}%`, top: `${markers.areas[kind].y * 100}%`, width: `${markers.areas[kind].width * 100}%`, height: `${markers.areas[kind].height * 100}%`, borderWidth: 2, borderColor: kind === 'food' ? '#FF8C28' : '#55A5D9' }}><Text numberOfLines={1} style={{ position: 'absolute', top: -17, left: 0, width: 64, fontSize: 11, color: '#FFFFFF', backgroundColor: '#333333' }}>{kind === 'food' ? 'COMIDA' : 'ÁGUA'}</Text></View>)}
         </View>
       </View>}
       <View style={ui.actions}>

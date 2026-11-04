@@ -28,8 +28,8 @@ export default function Header({ title, subtitle, navigation, showBack = true })
   return (
     <View style={styles.container}>
       {mostrarVoltar ? (
-        <Pressable onPress={voltar} style={styles.voltar}>
-          <Ionicons name="close" size={22} color={cores.branco} />
+        <Pressable accessibilityRole="button" accessibilityLabel="Voltar" onPress={voltar} style={styles.voltar}>
+          <Ionicons name="chevron-back" size={22} color={cores.branco} />
         </Pressable>
       ) : null}
       <View style={styles.textos}>

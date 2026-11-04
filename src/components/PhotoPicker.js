@@ -2,7 +2,7 @@ import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
-import { Alert, Image, Linking, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Linking, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function PhotoPicker({ photo, onChangePhoto, title = 'Adicionar foto', type = 'perfil', disabled = false }) {
   const { cores, ui, estilos, styles } = useAppStyles(createStyles);
@@ -122,7 +122,7 @@ const createStyles = (cores) => StyleSheet.create({
     borderColor: cores.branco,
   },
   title: { marginTop: 10, fontWeight: '700', fontSize: 18, color: cores.marrom },
-  overlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.4)' },
+  overlay: { flex: 1, width: '100%', alignSelf: 'center', maxWidth: Platform.OS === 'web' ? 480 : undefined, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.4)' },
   modal: { backgroundColor: cores.fundoClaro, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, gap: 10 },
   modalTitle: { fontWeight: '800', textAlign: 'center', marginBottom: 10, color: cores.texto },
   modalButton: { flexDirection: 'row', gap: 10, padding: 14, backgroundColor: cores.buttonGray, borderRadius: 10, alignItems: 'center' },

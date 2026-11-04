@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput as NativeText
 
 import Button from '../components/Button';
 import Card from '../components/Card';
+import CadernoVacinas from '../components/CadernoVacinas';
 import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import SelectField from '../components/SelectField';
@@ -19,13 +20,13 @@ export default function CadernoCuidados({ navigation, route }) {
   const podeEditar = Boolean(user);
 
   return (
-    <Screen navigation={navigation} title="Caderno de cuidados" subtitle="Acompanhamento registrado para o animal" active="home">
+    <Screen navigation={navigation} title="Caderno de cuidados" subtitle="Vacinas e anotações do seu animal" active="home">
       <Card style={styles.introCard}>
         <View style={styles.introHeader}>
           <View style={styles.iconBadge}><Ionicons name="book-outline" size={22} color={cores.principalEscuro} /></View>
           <View style={styles.introCopy}>
             <Text style={ui.title}>Anotações do acompanhamento</Text>
-            <Text style={ui.body}>Registros feitos pela equipe veterinária para orientar a rotina e os próximos cuidados.</Text>
+            <Text style={ui.body}>Guarde vacinas, orientações do veterinário e observações da rotina.</Text>
           </View>
         </View>
         {!podeEditar ? <Text style={styles.readOnly}>Você está visualizando as orientações registradas pelo veterinário.</Text> : null}
@@ -55,6 +56,7 @@ export default function CadernoCuidados({ navigation, route }) {
             style={styles.smallButton}
           />
         </View>
+        <CadernoVacinas caderno={caderno} />
         <SearchBox label="Buscar no caderno" value={caderno.pesquisa} onChangeText={caderno.setPesquisa} placeholder="Buscar por título ou descrição" />
 
         <QueryState

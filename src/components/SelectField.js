@@ -1,6 +1,6 @@
 import { useAppStyles } from '../hooks/useAppStyles';
 import { useState } from 'react';
-import { Modal, Pressable, FlatList, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Modal, Platform, Pressable, FlatList, SafeAreaView, Text, TextInput, View } from 'react-native';
 import Button from './Button';
 
 export default function SelectField({ label, value, onChange, options, placeholder = 'Selecione', disabled = false }) {
@@ -14,8 +14,8 @@ export default function SelectField({ label, value, onChange, options, placehold
     <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} disabled={disabled} style={[ui.select, disabled && { opacity: 0.6 }]} onPress={() => { setSearch(''); setOpen(true); }}>
       <Text style={ui.body}>{selected?.label || placeholder} ▾</Text>
     </Pressable>
-    <Modal visible={open} animationType="slide" onRequestClose={() => setOpen(false)}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: cores.fundo }}>
+    <Modal visible={open} transparent animationType="slide" onRequestClose={() => setOpen(false)}>
+      <SafeAreaView style={{ flex: 1, width: '100%', alignSelf: 'center', maxWidth: Platform.OS === 'web' ? 480 : undefined, backgroundColor: cores.fundo }}>
         <View style={{ flex: 1, padding: 24 }}>
           <Text style={ui.heading}>{label}</Text>
           <TextInput accessibilityLabel={`Buscar ${label.toLowerCase()}`} placeholder="Buscar…" value={search} onChangeText={setSearch} style={ui.search} />

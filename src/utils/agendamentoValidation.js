@@ -18,7 +18,7 @@ export function agendamentoPayload(draft, pets, usuarios) {
 
 export function appointmentDraft(item) {
   if (!item) return { data: '', horario: '', status: 'Agendado', petId: '', veterinarioId: '' };
-  // The API stores the appointment's local wall time without a time zone.
+  // A API guarda o horário local, sem conversão de fuso.
   const [year, month, day] = item.dataAgendamento.slice(0, 10).split('-');
   return { data: `${day}/${month}/${year}`, horario: item.dataAgendamento.slice(11, 16), status: item.status, petId: item.petId, veterinarioId: item.veterinarioId };
 }

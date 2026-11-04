@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import DobuLogo from '../components/DobuLogo';
 
 export default function Inicial({ navigation }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return (
     <SafeAreaView style={styles.tela}>
       <View style={styles.topo}>

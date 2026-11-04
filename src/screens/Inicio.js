@@ -8,7 +8,7 @@ import { useDashboard } from '../hooks/useDashboard';
 import QueryState from '../components/QueryState';
 
 export default function Inicio({ navigation }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { estilos, styles } = useAppStyles(createStyles);
   const { user: usuario, query, animals, upcoming } = useDashboard();
 
   return (
@@ -20,7 +20,7 @@ export default function Inicio({ navigation }) {
         <View style={styles.heroHome}>
           <View style={styles.textoHero}>
             <Text style={styles.tituloHome}>Olá, {usuario?.nome}!</Text>
-            <Text style={styles.chamada}>Vamos cuidar do seu animal juntos hoje?</Text>
+            <Text style={styles.chamada}>Os cuidados do seu animal em um só lugar.</Text>
             <QueryState query={query}>
               <Text style={styles.pontosMini}>{animals.length} animal(is) • {upcoming.length} próximo(s) atendimento(s)</Text>
             </QueryState>

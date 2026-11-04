@@ -7,7 +7,7 @@ import DobuLogo from './DobuLogo';
 import BottomNavigation from './BottomNavigation';
 
 export default function Screen({ navigation, title, subtitle, active, children }) {
-  const { cores, ui, estilos, styles } = useAppStyles();
+  const { estilos } = useAppStyles();
   const { user } = useAuth();
   return (
     <SafeAreaView style={estilos.tela}>

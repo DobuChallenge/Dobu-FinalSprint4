@@ -9,7 +9,7 @@ import { usePetList } from '../hooks/usePetForm';
 import { useCatalogos, usePets } from '../hooks/usePets';
 
 export default function ListaPets({ navigation }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const { user } = useAuth();
   const petsQuery = usePets();
   const catalogosQuery = useCatalogos();

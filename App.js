@@ -7,7 +7,7 @@ import QueryProvider from './src/providers/QueryProvider';
 import AuthProvider from './src/providers/AuthProvider';
 
 import AppNavigator from './src/navigation/AppNavigator';
-import { cores } from './src/styles/tema';
+import ThemeToggle from './src/components/ThemeToggle';
 import ThemeProvider, { useTheme } from './src/providers/ThemeProvider';
 import NotificationProvider from './src/providers/NotificationProvider';
 import useNotificationNavigation from './src/hooks/useNotificationNavigation';
@@ -18,9 +18,13 @@ export default function App() {
   return (
     <QueryProvider>
       <AuthProvider>
-        <ThemeProvider><SafeAreaProvider>
-          <NotificationProvider><ThemedNavigation /></NotificationProvider>
-        </SafeAreaProvider></ThemeProvider>
+        <ThemeProvider>
+          <SafeAreaProvider>
+            <NotificationProvider>
+              <ThemedNavigation />
+            </NotificationProvider>
+          </SafeAreaProvider>
+        </ThemeProvider>
       </AuthProvider>
     </QueryProvider>
   );
@@ -32,8 +36,15 @@ function ThemedNavigation() {
   const { mode, colors } = useTheme();
   const base = mode === 'dark' ? DarkTheme : DefaultTheme;
   const theme = { ...base, colors: { ...base.colors, background: colors.fundo, card: colors.fundoClaro, text: colors.texto, primary: colors.principal } };
-  return <View style={{ flex: 1, alignItems: 'center', backgroundColor: colors.fundo }}><View style={{ flex: 1, width: '100%', maxWidth: Platform.OS === 'web' ? 480 : undefined }}><NavigationContainer ref={navigationRef} onReady={() => setReady(true)} theme={theme}>
-    <StatusBar style={mode === 'dark' ? 'light' : 'dark'} backgroundColor={colors.fundo} />
-    <AppNavigator />
-  </NavigationContainer></View></View>;
+  return (
+    <View style={{ flex: 1, alignItems: 'center', backgroundColor: colors.fundo }}>
+      <View style={{ flex: 1, width: '100%', maxWidth: Platform.OS === 'web' ? 480 : undefined }}>
+        <NavigationContainer ref={navigationRef} onReady={() => setReady(true)} theme={theme}>
+          <StatusBar style={mode === 'dark' ? 'light' : 'dark'} backgroundColor={colors.fundo} />
+          <AppNavigator />
+        </NavigationContainer>
+        <ThemeToggle />
+      </View>
+    </View>
+  );
 }

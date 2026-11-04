@@ -4,7 +4,7 @@ import { Modal, Platform, Pressable, FlatList, SafeAreaView, Text, TextInput, Vi
 import Button from './Button';
 
 export default function SelectField({ label, value, onChange, options, placeholder = 'Selecione', disabled = false }) {
-  const { cores, ui, estilos, styles } = useAppStyles();
+  const { cores, ui } = useAppStyles();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const normalize = (text) => String(text).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();

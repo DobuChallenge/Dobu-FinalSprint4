@@ -13,7 +13,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useInformacaoForm, useInformacoesCaderno } from '../hooks/useInformacoes';
 
 export default function CadernoCuidados({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   const { user } = useAuth();
   const caderno = useInformacoesCaderno(route?.params?.petId);
   const form = useInformacaoForm(caderno.petId, caderno.mutations.criar);
@@ -115,7 +115,7 @@ export default function CadernoCuidados({ navigation, route }) {
 }
 
 function SearchBox({ label, value, onChangeText, placeholder }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   return <View style={styles.searchGroup}>
     <Text style={ui.label}>{label}</Text>
     <View style={styles.searchBox}>
@@ -126,7 +126,7 @@ function SearchBox({ label, value, onChangeText, placeholder }) {
 }
 
 function StateCard({ icon, text }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   return <Card style={styles.stateCard}><Ionicons name={icon} size={26} color={cores.textoClaro} /><Text style={styles.stateText}>{text}</Text></Card>;
 }
 
@@ -148,12 +148,12 @@ const createStyles = (cores) => StyleSheet.create({
   cardKicker: { color: cores.principalEscuro, fontSize: 12, fontWeight: '900', textTransform: 'uppercase' },
   cardTitle: { color: cores.marrom, fontSize: 18, fontWeight: '900', marginTop: 2 },
   noteText: { color: cores.texto, fontSize: 16, lineHeight: 24, marginTop: 10 },
-  deleteButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#FFF1F1', borderWidth: 1, borderColor: '#F6C7C7', alignItems: 'center', justifyContent: 'center' },
+  deleteButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: cores.erroSuave, borderWidth: 1, borderColor: cores.vermelho, alignItems: 'center', justifyContent: 'center' },
   pressed: { opacity: 0.72 },
   formCard: { backgroundColor: cores.destaqueSuave, borderColor: '#F4D69A', borderWidth: 1, marginTop: 8, marginBottom: 24 },
   formTitle: { color: cores.marrom, fontSize: 18, fontWeight: '900', marginBottom: 6 },
   formHelp: { color: cores.textoClaro, fontSize: 15, lineHeight: 22, marginBottom: 18 },
-  success: { color: '#2E6B32', fontSize: 15, fontWeight: '800', lineHeight: 22, marginBottom: 14 },
+  success: { color: cores.verde, fontSize: 15, fontWeight: '800', lineHeight: 22, marginBottom: 14 },
   stateCard: { alignItems: 'center', marginBottom: 22, paddingVertical: 22 },
   stateText: { color: cores.textoClaro, fontSize: 15, lineHeight: 22, textAlign: 'center', marginTop: 8 },
 });

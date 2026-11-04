@@ -2,7 +2,7 @@ import { useAppStyles } from '../hooks/useAppStyles';
 import { StyleSheet, View } from 'react-native';
 
 export default function Card({ children, style }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return <View style={[styles.cartao, style]}>{children}</View>;
 }
 

@@ -1,6 +1,6 @@
+import { useLoginForm } from '../hooks/useAuthForms';
 import { useAppStyles } from '../hooks/useAppStyles';
-import { useState } from 'react';
-import { Alert, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '../components/Button';
@@ -9,36 +9,10 @@ import TextInput from '../components/TextInput';
 import Card from '../components/Card';
 import DobuLogo from '../components/DobuLogo';
 
-import { useLogin } from '../hooks/useAuth';
-import { validateLogin } from '../utils/authValidation';
-import { ApiError } from '../api/httpClient';
 
 export default function Login({ navigation }) {
-  const { cores, ui, estilos, styles } = useAppStyles();
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const login = useLogin();
-  const entrando = login.isPending;
-
-  async function entrar() {
-    const emailTratado = email.trim().toLowerCase();
-    if (entrando) return;
-    const erroValidacao = validateLogin(emailTratado, senha);
-    if (erroValidacao) {
-      Alert.alert('Confira os dados', erroValidacao);
-      return;
-    }
-
-    try {
-      await login.mutateAsync({ email: emailTratado, senha });
-      setSenha('');
-      Alert.alert('Bem-vindo!', 'Login realizado com sucesso.');
-    } catch (error) {
-      Alert.alert('Erro ao entrar', error instanceof ApiError ? error.message : 'Não foi possível fazer login.');
-    } finally {
-      login.reset();
-    }
-  }
+  const { cores, estilos } = useAppStyles();
+  const { email, setEmail, senha, setSenha, entrando, entrar } = useLoginForm();
 
   return (
     <SafeAreaView style={estilos.tela}>
@@ -52,11 +26,11 @@ export default function Login({ navigation }) {
           }}
         />
 
-        <Header navigation={navigation} title="Login" subtitle="Acesse sua jornada de cuidado" />
+        <Header navigation={navigation} title="Login" subtitle="Entre na sua conta" />
 
         <Card
           style={{
-            backgroundColor: '#FBBA5B',
+            backgroundColor: cores.principal,
             borderRadius: 18,
             paddingVertical: 22,
           }}

@@ -10,7 +10,7 @@ import { useAgenda } from '../hooks/useAgenda';
 import { appointmentStatuses } from '../utils/agendamentoValidation';
 
 export default function Agendamentos({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles();
+  const { ui } = useAppStyles();
   const petId = route.params?.petId;
   const agenda = useAgenda(petId);
   const remove = (item) => Alert.alert('Excluir agendamento?', `O atendimento de ${item.petNome} será removido.`, [

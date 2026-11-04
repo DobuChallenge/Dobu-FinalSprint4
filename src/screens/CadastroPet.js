@@ -14,7 +14,7 @@ import { usePetForm } from '../hooks/usePetForm';
 import { useCatalogoBasicoMutation, useCatalogos, usePet, usePetMutations } from '../hooks/usePets';
 
 export default function CadastroPet({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { ui, styles } = useAppStyles(createStyles);
   const id = route.params?.id;
   const editing = Boolean(id);
   const { user } = useAuth();

@@ -10,7 +10,7 @@ import { usePetDetails } from '../hooks/usePetForm';
 import { useCatalogos, usePet, usePetMutations } from '../hooks/usePets';
 
 export default function PerfilPet({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   const id = route.params?.id;
   const petQuery = usePet(id);
   const catalogosQuery = useCatalogos();
@@ -58,7 +58,7 @@ export default function PerfilPet({ navigation, route }) {
     <Screen
       navigation={navigation}
       title={details?.name || 'Perfil do animal'}
-      subtitle="Dados e atalhos de cuidado"
+      subtitle="Perfil do animal"
       active="home"
     >
       <QueryState query={petQuery}>
@@ -122,7 +122,7 @@ export default function PerfilPet({ navigation, route }) {
 }
 
 function DataRow({ icon, label, value }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.row}>
       <Ionicons name={icon} size={21} color={cores.principalEscuro} />

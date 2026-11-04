@@ -11,7 +11,7 @@ Aplicativo em React Native e Expo para acompanhar os cuidados dos animais, mesmo
 - Pesquisa de raças, cuidados e fontes públicas sobre animais;
 - Cadastro de Dobu-Cams por animal, conexão de câmera externa e marcação dos potes;
 - Notificações locais dos agendamentos;
-- Tema claro, escuro ou do sistema;
+- Tema claro ou escuro pelo botão no topo; o perfil também permite seguir o tema do sistema;
 - Tela Sobre com versão e commit de referência.
 
 As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagens.
@@ -39,6 +39,8 @@ npx expo start
 # Prévia no navegador:
 npx expo start --web
 ```
+
+Para testar no emulador Android, abra um dispositivo virtual pelo Android Studio e pressione `a` no terminal do Expo. Use as URLs com `10.0.2.2` para acessar os serviços do computador.
 
 A sessão usa SecureStore no aplicativo e localStorage na prévia web. Notificações nativas devem ser testadas no APK.
 

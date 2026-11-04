@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 
 export default function Header({ title, subtitle, navigation, showBack = true }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const { user } = useAuth();
   const telaPrincipal = title === 'Meu perfil' || title?.startsWith('Olá,') || title?.startsWith('Veterin');
   const mostrarVoltar = showBack && !telaPrincipal && navigation?.canGoBack?.();

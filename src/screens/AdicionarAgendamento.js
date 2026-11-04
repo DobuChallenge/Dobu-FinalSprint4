@@ -34,7 +34,7 @@ const availableTimes = Array.from({ length: 21 }, (_, index) => {
 });
 
 export default function AdicionarAgendamento({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { ui } = useAppStyles(createStyles);
   const id = route.params?.id;
   const editor = useAgendamentoEditor(id);
   const form = useAgendamentoForm({ id, initial: editor.initial, pets: editor.pets, usuarios: editor.usuarios, petId: route.params?.petId });
@@ -53,7 +53,7 @@ export default function AdicionarAgendamento({ navigation, route }) {
 }
 
 function AgendamentoForm({ navigation, editing, form, pets }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   const selectedDate = parseDraftDate(form.draft.data);
   const [visibleMonth, setVisibleMonth] = useState(() => {
     const initial = selectedDate || new Date();

@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 export default function Button({ title, icon, cor = 'amarelo', onPress, style, disabled = false }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const branco = cor === 'branco';
   const cinzaEscuro = cor === 'cinzaEscuro';
   const vermelho = cor === 'vermelho';

@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function NavigationCard({ title, description, icon, onPress, highlight = false }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const empty = !title && !description;
 
   return (

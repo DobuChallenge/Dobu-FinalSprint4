@@ -8,7 +8,7 @@ import { useLembretes } from '../hooks/useAgenda';
 import NotificationSettings from '../components/NotificationSettings';
 
 export default function Lembretes({ navigation }) {
-  const { cores, ui, estilos, styles } = useAppStyles();
+  const { ui } = useAppStyles();
   const { query, items } = useLembretes();
   return <Screen navigation={navigation} title="Lembretes" subtitle="Seus próximos atendimentos" active="lembretes">
     <Text style={ui.caption}>Suas próximas consultas. Para ver atendimentos anteriores ou cancelados, abra o histórico.</Text>

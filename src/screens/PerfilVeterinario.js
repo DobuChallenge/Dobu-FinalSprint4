@@ -12,7 +12,7 @@ import { useDashboard } from '../hooks/useDashboard';
 import { useProfileExtras } from '../hooks/useProfileExtras';
 
 export default function PerfilVeterinario({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   const dashboard = useDashboard();
   const savedExtras = useProfileExtras(dashboard.user);
   const extras = { ...savedExtras, ...(dashboard.user.profileExtras || {}), ...(route.params?.profileExtras || {}) };
@@ -62,7 +62,7 @@ export default function PerfilVeterinario({ navigation, route }) {
 }
 
 function Info({ label, value }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return (
     <View style={styles.info}>
       <Text style={styles.infoLabel}>{label}</Text>

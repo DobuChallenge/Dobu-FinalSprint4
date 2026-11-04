@@ -3,18 +3,17 @@ import { ActivityIndicator, StyleSheet, Text, TextInput, View } from 'react-nati
 
 import Button from '../components/Button';
 import Card from '../components/Card';
-import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import { useChatAgendamento } from '../hooks/useChatAgendamento';
 
 export default function ChatAgendamento({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   const { user, mensagens, texto, setTexto, carregando, enviando, erro, carregar, confirmou, enviar, souVeterinario } = useChatAgendamento(route.params?.id);
   return (
     <Screen navigation={navigation} title="Conversa do agendamento" subtitle={`Confirme o atendimento de ${route.params?.petNome || 'seu animal'}`} active="home">
       <Card style={styles.confirmCard}>
-        <Text style={ui.title}>Confirmação de disponibilidade</Text>
-        <Text style={ui.body}>Os dois lados podem confirmar que conseguem participar do atendimento.</Text>
+        <Text style={ui.title}>Confirmar horário</Text>
+        <Text style={ui.body}>Tutor e veterinário podem confirmar a consulta por aqui.</Text>
         <View style={styles.confirmRows}>
           <Status label="Responsável" ok={confirmou.responsavel} />
           <Status label="Veterinário" ok={confirmou.veterinario} />
@@ -42,7 +41,7 @@ export default function ChatAgendamento({ navigation, route }) {
 }
 
 function Status({ label, ok }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return <View style={styles.status}><Text style={styles.statusLabel}>{label}</Text><Text style={[styles.statusValue, ok ? styles.ok : styles.waiting]}>{ok ? 'Confirmado' : 'Aguardando'}</Text></View>;
 }
 
@@ -52,7 +51,7 @@ const createStyles = (cores) => StyleSheet.create({
   status: { flex: 1, minWidth: 0, backgroundColor: cores.fundoClaro, borderRadius: 12, padding: 12 },
   statusLabel: { color: cores.textoClaro, fontSize: 13, fontWeight: '800' },
   statusValue: { fontSize: 14, fontWeight: '900', marginTop: 4 },
-  ok: { color: '#2E6B32' },
+  ok: { color: cores.verde },
   waiting: { color: cores.principalEscuro },
   sectionTitle: { color: cores.marrom, fontSize: 19, fontWeight: '900', marginBottom: 10 },
   messageCard: { marginBottom: 10 },

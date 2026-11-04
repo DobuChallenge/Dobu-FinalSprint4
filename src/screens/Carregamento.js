@@ -13,7 +13,7 @@ import { useAuth } from '../hooks/useAuth';
 import Button from '../components/Button';
 
 export default function Carregamento() {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const { restoreError, restore } = useAuth();
 
   return (
@@ -24,7 +24,7 @@ export default function Carregamento() {
         <DobuLogo large />
 
         <Text style={styles.subtitulo}>
-          Cuidado contínuo para animais mais saudáveis
+          Carregando o Dobu…
         </Text>
       </View>
 

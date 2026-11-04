@@ -5,7 +5,7 @@ import Button from './Button';
 import { formatAppointmentDate } from '../utils/agendamentoValidation';
 
 export default function AppointmentCard({ item, onEdit, onDelete, onChat, pending }) {
-  const { cores, ui, estilos, styles } = useAppStyles();
+  const { ui } = useAppStyles();
   return <Card>
     <Text style={ui.badge}>{item.status}</Text>
     <Text style={ui.title}>{item.petNome}</Text>

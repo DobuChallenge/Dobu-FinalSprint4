@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput as NativeTextInput, View } from 'react-native';
 
 export default function TextInput({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType, multiline, editable = true }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const senhaEscondida = secureTextEntry && !mostrarSenha;
 

@@ -1,6 +1,6 @@
+import { useCadastroForm } from '../hooks/useAuthForms';
 import { useAppStyles } from '../hooks/useAppStyles';
-import { useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '../components/Button';
@@ -8,51 +8,10 @@ import Card from '../components/Card';
 import DobuLogo from '../components/DobuLogo';
 import Header from '../components/Header';
 import PhotoPicker from '../components/PhotoPicker';
-import { useRegister } from '../hooks/useAuth';
-import { validateRegister } from '../utils/authValidation';
-import { ApiError } from '../api/httpClient';
 
 export default function Cadastro({ navigation }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
-  const [nomeUsuario, setNomeUsuario] = useState('');
-  const [emailUsuario, setEmailUsuario] = useState('');
-  const [senha, setSenha] = useState('');
-  const [tipoConta, setTipoConta] = useState('responsavel');
-  const [foto, setFoto] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [crmv, setCrmv] = useState('');
-  const [ufCrmv, setUfCrmv] = useState('');
-  const [clinica, setClinica] = useState('');
-  const [especialidade, setEspecialidade] = useState('');
-  const cadastro = useRegister();
-  const salvando = cadastro.isPending;
-
-  async function cadastrar() {
-    if (salvando) return;
-    const dados = { nome: nomeUsuario.trim(), email: emailUsuario.trim().toLowerCase(), senha, tipoUsuario: tipoConta.toUpperCase() };
-    const erroValidacao = validateRegister(dados);
-    if (erroValidacao) {
-      Alert.alert('Confira os dados', erroValidacao);
-      return;
-    }
-    try {
-      const profileExtras = {
-        foto,
-        telefone: telefone.trim(),
-        crmv: crmv.trim(),
-        ufCrmv: ufCrmv.trim().toUpperCase(),
-        clinica: clinica.trim(),
-        especialidade: especialidade.trim(),
-      };
-      await cadastro.mutateAsync({
-        ...dados,
-        profileExtras,
-      });
-    } catch (error) {
-      cadastro.reset();
-      Alert.alert('Erro no cadastro', error instanceof ApiError ? error.message : 'Não foi possível realizar o cadastro.');
-    }
-  }
+  const { styles } = useAppStyles(createStyles);
+  const { nomeUsuario, setNomeUsuario, emailUsuario, setEmailUsuario, senha, setSenha, tipoConta, setTipoConta, foto, setFoto, telefone, setTelefone, crmv, setCrmv, ufCrmv, setUfCrmv, clinica, setClinica, especialidade, setEspecialidade, salvando, cadastrar } = useCadastroForm();
 
   return (
     <SafeAreaView style={styles.tela}>
@@ -117,7 +76,7 @@ export default function Cadastro({ navigation }) {
 }
 
 function TipoContaOpcao({ ativo, label, onPress }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return (
     <Pressable onPress={onPress} style={[styles.tipoOpcao, ativo && styles.tipoOpcaoAtiva]}>
       <Text style={[styles.tipoTexto, ativo && styles.tipoTextoAtivo]}>{label}</Text>
@@ -126,7 +85,7 @@ function TipoContaOpcao({ ativo, label, onPress }) {
 }
 
 function Campo({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return (
     <View style={styles.campo}>
       <Text style={styles.label}>{label}</Text>
@@ -160,11 +119,11 @@ const createStyles = (cores) => StyleSheet.create({
     alignSelf: 'center',
     width: 230,
     height: 94,
-    marginTop: 4,
+    marginTop: 60,
     marginBottom: 10,
   },
   cardCadastro: {
-    backgroundColor: '#FBBA5B',
+    backgroundColor: cores.principal,
     borderRadius: 40,
     paddingHorizontal: 36,
     paddingTop: 18,
@@ -194,7 +153,7 @@ const createStyles = (cores) => StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: cores.cinzaEscuro,
-    backgroundColor: '#EFEFEF',
+    backgroundColor: cores.fundoClaro,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -217,7 +176,7 @@ const createStyles = (cores) => StyleSheet.create({
   input: {
     minHeight: 45,
     borderRadius: 7,
-    backgroundColor: '#EFEFEF',
+    backgroundColor: cores.fundoClaro,
     color: cores.texto,
     paddingHorizontal: 13,
     fontSize: 16,
@@ -225,7 +184,7 @@ const createStyles = (cores) => StyleSheet.create({
   selectCampo: {
     minHeight: 45,
     borderRadius: 7,
-    backgroundColor: '#EFEFEF',
+    backgroundColor: cores.fundoClaro,
     borderWidth: 1,
     borderColor: cores.cinza,
     paddingHorizontal: 13,

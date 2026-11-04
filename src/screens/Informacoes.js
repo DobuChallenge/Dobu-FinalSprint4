@@ -10,7 +10,7 @@ import { useInformacoesCaderno } from '../hooks/useInformacoes';
 import { resumirRaca } from '../services/informacoes';
 
 export default function Informacoes({ navigation, route }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const caderno = useInformacoesCaderno(route?.params?.petId);
   return (
     <Screen navigation={navigation} title="Informações" subtitle="Pesquise raças, cuidados e vacinas" active="home">
@@ -21,7 +21,7 @@ export default function Informacoes({ navigation, route }) {
         onChangeText={caderno.setPesquisaRaca}
         placeholder="Ex.: vacina antirrábica, gato, alimentação"
       />
-      <Text style={styles.quickTitle}>Temas para começar</Text>
+      <Text style={styles.quickTitle}>Sugestões de busca</Text>
       <View style={styles.quickTopics}>
         {[
           'Vacinação de cães e gatos',
@@ -51,9 +51,9 @@ export default function Informacoes({ navigation, route }) {
         <View style={styles.publicSearchSection}>
           <View style={styles.publicSearchTitleRow}>
             <Ionicons name="globe-outline" size={20} color={cores.principalEscuro} />
-            <Text style={styles.publicSearchTitle}>Resultados de fontes públicas</Text>
+            <Text style={styles.publicSearchTitle}>Artigos e referências</Text>
           </View>
-          <Text style={styles.publicSearchHelp}>Conteúdo aberto para pesquisa inicial. Confirme orientações de saúde com um veterinário.</Text>
+          <Text style={styles.publicSearchHelp}>Consulte as fontes e tire suas dúvidas de saúde com o veterinário.</Text>
           <QueryState
             query={caderno.fontesPublicasQuery}
             empty={Boolean(caderno.fontesPublicasQuery.data && caderno.fontesPublicasQuery.data.length === 0)}
@@ -97,7 +97,7 @@ export default function Informacoes({ navigation, route }) {
             query={caderno.gbifQuery}
             empty={Boolean(caderno.gbifQuery.data && caderno.gbifQuery.data.length === 0)}
             emptyTitle="Nenhuma classificação encontrada"
-            emptyMessage="A taxonomia pública não encontrou esse termo."
+            emptyMessage="Tente outro nome de animal ou espécie."
           >
             {caderno.gbifQuery.data?.map((fonte) => <PublicSourceCard key={fonte.id} fonte={fonte} />)}
           </QueryState>
@@ -111,7 +111,7 @@ export default function Informacoes({ navigation, route }) {
 }
 
 function BreedCard({ raca }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   const details = resumirRaca(raca);
   const description = String(raca.descricao || '').trim();
   const care = String(raca.cuidados || '').trim();
@@ -140,7 +140,7 @@ function BreedCard({ raca }) {
 }
 
 function PublicSourceCard({ fonte }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   return (
     <Card style={styles.publicSourceCard}>
       <Text style={styles.cardKicker}>{fonte.fonte}</Text>
@@ -155,7 +155,7 @@ function PublicSourceCard({ fonte }) {
 }
 
 function BiodiversityCard({ fonte }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, styles } = useAppStyles(createStyles);
   return (
     <Card style={styles.publicSourceCard}>
       {fonte.imagem ? <Image source={{ uri: fonte.imagem }} style={styles.biodiversityImage} resizeMode="cover" /> : null}
@@ -171,7 +171,7 @@ function BiodiversityCard({ fonte }) {
 }
 
 function SearchBox({ label, value, onChangeText, placeholder }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { cores, ui, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.searchGroup}>
       <Text style={ui.label}>{label}</Text>
@@ -191,7 +191,7 @@ function SearchBox({ label, value, onChangeText, placeholder }) {
 }
 
 function InfoRow({ label, value }) {
-  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
+  const { styles } = useAppStyles(createStyles);
   return (
     <View style={styles.infoRow}>
       <Text style={styles.infoLabel}>{label}</Text>

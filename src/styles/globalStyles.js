@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { cores, espacamentos } from './tema';
 
-export const estilos = StyleSheet.create({
+export const createGlobalStyles = (cores) => StyleSheet.create({
   tela: {
     flex: 1,
     backgroundColor: cores.fundo,
@@ -38,3 +38,5 @@ export const estilos = StyleSheet.create({
     marginBottom: 14,
   },
 });
+
+export const estilos = createGlobalStyles(cores);

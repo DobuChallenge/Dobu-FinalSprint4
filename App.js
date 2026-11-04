@@ -6,17 +6,18 @@ import AuthProvider from './src/providers/AuthProvider';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import { cores } from './src/styles/tema';
+import ThemeProvider from './src/providers/ThemeProvider';
 
 export default function App() {
   return (
     <QueryProvider>
       <AuthProvider>
-        <SafeAreaProvider>
+        <ThemeProvider><SafeAreaProvider>
           <NavigationContainer>
             <StatusBar style="dark" backgroundColor={cores.fundo} />
             <AppNavigator />
           </NavigationContainer>
-        </SafeAreaProvider>
+        </SafeAreaProvider></ThemeProvider>
       </AuthProvider>
     </QueryProvider>
   );

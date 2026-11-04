@@ -20,6 +20,20 @@ O aplicativo foi desenvolvido em React Native com Expo e utiliza a API REST Dobu
 
 As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagens.
 
+## Versão para instalar
+
+O **Dobu 1.0.0 (4)** foi publicado no Firebase App Distribution.
+
+- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2fa9pp3it7tvg) — requer uma conta convidada;
+- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/2fa9pp3it7tvg) — acesso da equipe responsável pelo projeto;
+- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/71e805ba418d39fa9d0aea399f7a0d3f7927d19c).
+
+O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `71e805ba418d39fa9d0aea399f7a0d3f7927d19c`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
+
+O acesso de instalação foi liberado para a conta responsável pelo projeto. O convite do professor ainda depende do e-mail institucional.
+
+Esta versão usa os serviços da apresentação no computador `192.168.15.11`. A API e a Dobu-Cam precisam estar ligadas e acessíveis pela rede. O Firebase distribui o aplicativo; os serviços .NET e de câmera continuam separados. Para testar em outra rede, será necessário disponibilizar esses serviços em endereços acessíveis ao testador e gerar uma versão com a configuração correspondente.
+
 ## Continuidade do projeto
 
 Os dois CRUDs da Sprint 3, **animais** e **agendamentos**, continuam integrados à API. As 16 telas presentes na versão inicial deste repositório foram mantidas; a versão atual tem 20 telas, incluindo Caderno de cuidados, conversa do agendamento, cadastro de câmeras e Sobre.
@@ -31,14 +45,14 @@ O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza soment
 | Requisito | O que existe nesta versão | O que falta concluir |
 | --- | --- | --- |
 | Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A detecção de alimentação e hidratação ao vivo está pendente |
-| Publicação do aplicativo | Configuração de APK no EAS e script de distribuição | Gerar o APK, publicar no Firebase App Distribution e liberar a instalação para o e-mail institucional do professor |
-| Versão e código correspondentes | Tela Sobre com versão e hash do commit de referência | Conferir o hash no APK instalado e distribuir exatamente o mesmo arquivo usado no vídeo |
+| Publicação do aplicativo | APK 1.0.0 (4) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
+| Versão e código correspondentes | Versão, assinatura e hash do commit conferidos no APK publicado | Usar esse mesmo arquivo no vídeo e na avaliação |
 | Notificações reais | Lembretes locais criados a partir da agenda; toque abre o agendamento da conta autenticada | Validar permissão, recebimento automático e abertura da consulta no APK, e mostrar esse fluxo no vídeo |
 | Arquitetura e organização | Interface, hooks, serviços, APIs, sessão e estilos separados; TanStack Query fora das telas | Manter essa separação nos próximos ajustes |
 | Vídeo da apresentação | Link da Sprint 3 mantido como referência | Gravar e disponibilizar o vídeo final com todos os fluxos da versão publicada |
 | Tema claro e escuro | Botão no topo, preferência salva e opção de seguir o sistema pelo perfil | Conferir a aparência de todas as telas no aparelho da entrega |
 
-**A entrega ainda não está concluída.** A configuração de publicação e o código das notificações não substituem a instalação pelo professor nem a demonstração do alerta funcionando.
+**A entrega ainda não está concluída.** A publicação já foi feita, mas faltam o acesso do professor, a demonstração das notificações no APK e o vídeo final.
 
 A comparação das telas foi feita com a versão inicial deste repositório, commit `10f1ef6`. Os materiais das Sprints 1 e 2 não estão incluídos aqui; a presença das telas, por si só, não comprova que todo o escopo dessas entregas foi concluído.
 
@@ -126,7 +140,7 @@ npm run test:integration
 
 Os testes de integração criam e removem seus registros. Cobrem autenticação, pets, agenda, caderno, vacinas, câmeras e conversa. O comando de exportação verifica o bundle; não gera um APK nem comprova o funcionamento em aparelho físico.
 
-Na revisão do código `846f3e8`, passaram **54 testes automatizados e 2 testes de integração com a API real**. Também foram gerados os bundles Android, iOS e web. A inicialização no emulador Android foi confirmada pelos logs; os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
+Na revisão para a publicação, passaram **55 testes automatizados**; os **2 testes de integração com a API real** também passaram. O build nativo Android foi concluído, e o APK foi instalado e iniciado no emulador. Os bundles iOS e web foram verificados nas revisões anteriores. Os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
 
 ## APK e Firebase App Distribution
 
@@ -154,7 +168,7 @@ $releaseCommit = git rev-parse HEAD
 npm run distribuir -- C:/caminho/dobu.apk $releaseCommit
 ```
 
-Confirme o convite e a instalação pelo professor. A publicação, o acesso dele e o vídeo final ainda estão pendentes.
+A versão atual já está publicada nos links acima. Para concluir a entrega, confirme o convite e a instalação pelo professor e disponibilize o vídeo final.
 
 **Validar o APK** é testar o Dobu depois de instalado: cadastrar e entrar, registrar um animal, criar uma consulta, aguardar o aviso automático e tocar nele para abrir a consulta. Faça também os testes do caderno, tema e câmera. O objetivo é conferir se o aplicativo instalado funciona como a versão demonstrada.
 
@@ -165,14 +179,16 @@ Antes de enviar, confira:
 - [ ] APK instalado e fluxo completo testado com responsável e veterinário;
 - [ ] Câmera externa conectada e imagem recente aparecendo no monitor;
 - [ ] Notificação de um agendamento real recebida automaticamente, com abertura da consulta ao tocar;
-- [ ] APK publicado no Firebase App Distribution e professor com acesso para instalar;
-- [ ] Hash da tela Sobre correspondente ao código entregue;
+- [x] APK publicado no Firebase App Distribution;
+- [ ] Professor com convite e acesso confirmado para instalar;
+- [x] Hash dentro do APK correspondente ao commit de referência do código;
 - [ ] Vídeo final disponível, usando o mesmo APK da publicação;
 - [ ] Serviços acessíveis durante a avaliação, sem depender de um endereço local inacessível ao professor.
 
 ## Links e integrantes
 
 - [Repositório Sprint 4](https://github.com/DobuChallenge/Dobu-FinalSprint4)
+- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2fa9pp3it7tvg)
 - [Vídeo da Sprint 3](https://youtu.be/YcE1WVLbJDI)
 - [Protótipo no Figma](https://www.figma.com/design/mOXmQd2t8nKM3tjBE9g5Dn/Challenge)
 

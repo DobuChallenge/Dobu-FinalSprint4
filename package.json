@@ -5,6 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "distribuir": "node scripts/distribuir.mjs",
     "test": "node --test tests/*.test.js",
     "test:integration": "node --test tests/auth.integration.test.js tests/crud.integration.test.js",
     "export:android": "expo export --platform android --output-dir dist/android",

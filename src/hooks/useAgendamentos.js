@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from './useAuth';
 import { agendamentoMutationOptions, agendamentoQuery, agendamentosQuery } from '../services/queries';
 
-export function useAgendamentos() {
+export function useAgendamentos({ live = false } = {}) {
   const { user } = useAuth();
-  return useQuery(agendamentosQuery(user));
+  return useQuery({ ...agendamentosQuery(user), refetchInterval: live ? 30000 : false, refetchOnWindowFocus: 'always' });
 }
 
 export function useAgendamento(id) {

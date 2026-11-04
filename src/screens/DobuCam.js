@@ -47,6 +47,19 @@ export default function DobuCam({ navigation, route }) {
       {monitor.reading?.descanso && <Text style={ui.body}>Possível descanso: pouca atividade por mais de uma hora.</Text>}
       {!!monitor.error && <Text style={ui.error}>{monitor.error}</Text>}
     </Card>
+    <Card>
+      <Text style={ui.title}>Alimentação e hidratação</Text>
+      {['food', 'water'].map(kind => {
+        const bowl = monitor.reading?.bowls?.[kind];
+        const configured = markers.saved && !!markers.areas[kind];
+        return <View key={kind} style={ui.actions}>
+          <Text style={ui.label}>{kind === 'water' ? 'Pote de água' : 'Pote de comida'}</Text>
+          <Text style={ui.body}>{!configured ? 'Marque o pote e salve para ativar a análise.' : !monitor.reading?.online ? 'Aguardando câmera e leitura do animal.' : !bowl ? 'O serviço de câmera precisa ser atualizado para analisar os potes.' : bowl.active ? 'Animal observado junto ao pote.' : 'Análise ativa. Aguardando aproximação do animal.'}</Text>
+          {configured && bowl?.configured && <Text style={ui.caption}>{bowl.count} possível(is) evento(s) de {kind === 'water' ? 'hidratação' : 'alimentação'} nesta captura.{bowl.last_event_at ? ` Último: ${new Date(bowl.last_event_at).toLocaleString('pt-BR')}.` : ''}</Text>}
+        </View>;
+      })}
+      <Text style={ui.caption}>A permanência junto ao pote indica uma possível interação; não confirma a quantidade consumida.</Text>
+    </Card>
     <Text style={ui.heading}>Eventos da câmera</Text>
     {monitor.events.map((event, index) => <Card key={`${event.timestamp}-${index}`}><Text style={ui.body}>{event.message}</Text><Text style={ui.caption}>{event.timestamp ? new Date(event.timestamp).toLocaleString('pt-BR') : ''}</Text></Card>)}
     <QueryState query={pets}>

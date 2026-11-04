@@ -11,10 +11,11 @@ export const useNotifications = () => useContext(Context);
 export default function NotificationProvider({ children }) {
   const { user, restoring } = useAuth();
   const ownerId = user?.id;
-  const query = useAgendamentos();
+  const query = useAgendamentos({ live: Boolean(ownerId) });
   const [preference, setPreference] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [delivery, setDelivery] = useState(null);
   const queue = useRef(Promise.resolve());
   const currentOwner = useRef(ownerId);
   currentOwner.current = ownerId;
@@ -23,6 +24,7 @@ export default function NotificationProvider({ children }) {
   useEffect(() => {
     let active = true;
     setPreference(null);
+    setDelivery(null);
     setError('');
     if (ownerId) AsyncStorage.getItem(`dobu:notificacoes:${ownerId}`).then(value => {
       if (active) setPreference({ ownerId, enabled: value === 'true' });
@@ -34,8 +36,10 @@ export default function NotificationProvider({ children }) {
     if (restoring || (ownerId && preference?.ownerId !== ownerId) || (enabled && !query.isSuccess)) return;
     const plan = enabled ? notificationPlan(query.data, ownerId) : [];
     let active = true;
-    queue.current = queue.current.catch(() => {}).then(() => reconcileNotifications(plan)).catch(() => {
-      if (active) setError('Não foi possível atualizar os lembretes do celular. Tente ativar novamente.');
+    queue.current = queue.current.catch(() => {}).then(() => reconcileNotifications(plan)).then(result => {
+      if (active) { setDelivery(result || null); setError(''); }
+    }).catch((err) => {
+      if (active) { setDelivery(null); setError(err.message || 'Não foi possível atualizar os lembretes do celular. Tente ativar novamente.'); }
     });
     return () => { active = false; };
   }, [ownerId, restoring, enabled, preference, query.data, query.isSuccess]);
@@ -55,5 +59,5 @@ export default function NotificationProvider({ children }) {
     } finally { setBusy(false); }
   }
 
-  return <Context.Provider value={{ enabled, busy, error, toggle }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ enabled, busy, error, toggle, delivery }}>{children}</Context.Provider>;
 }

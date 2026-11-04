@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import { syncAppointmentNotifications } from './notificationSync';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({ shouldShowBanner: true, shouldShowList: true, shouldPlaySound: true, shouldSetBadge: false }),
@@ -14,23 +15,18 @@ export async function requestPermission() {
 }
 
 export async function reconcileNotifications(plan) {
-  const current = (await Notifications.getAllScheduledNotificationsAsync()).filter(item => item.content.data?.kind === 'agendamento');
-  for (const item of current) {
-    const expected = plan.find(entry => entry.identifier === item.identifier);
-    if (!expected || expected.content.data.scheduledFor !== item.content.data.scheduledFor) {
-      await Notifications.cancelScheduledNotificationAsync(item.identifier);
-    }
-  }
-  for (const item of plan) {
-    if (current.some(existing => existing.identifier === item.identifier && existing.content.data.scheduledFor === item.content.data.scheduledFor)) continue;
-    await Notifications.scheduleNotificationAsync({ ...item, trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: new Date(item.content.data.scheduledFor), channelId: 'agenda' } });
-  }
+  if (Platform.OS === 'android') await Notifications.setNotificationChannelAsync('agenda', { name: 'Agendamentos', importance: Notifications.AndroidImportance.HIGH });
+  return syncAppointmentNotifications(Notifications, plan);
 }
 
 export function listenForNotification(open) {
-  const subscription = Notifications.addNotificationResponseReceivedListener(response => open(response.notification.request.content.data));
+  const handle = (response) => {
+    open(response.notification.request.content.data);
+    Notifications.dismissNotificationAsync(response.notification.request.identifier).catch(() => {});
+  };
+  const subscription = Notifications.addNotificationResponseReceivedListener(handle);
   Notifications.getLastNotificationResponseAsync().then(response => {
-    if (response) open(response.notification.request.content.data);
+    if (response) handle(response);
   }).catch(() => {});
   return () => subscription.remove();
 }

@@ -12,7 +12,7 @@ export function cameraReading(data = {}, now = Date.now()) {
   return { online, presente: online && data.pet_detected === true, movimento: online && data.pet_detected === true && data.pet_moving === true,
     descanso: online && data.pet_detected === true && data.possible_rest === true,
     especie: data.species || '', confianca: Number(data.confidence || 0), lastFrame: data.last_frame_at,
-    quietSeconds: Number(data.quiet_seconds || 0) };
+    quietSeconds: Number(data.quiet_seconds || 0), bowls: data.bowl_observations || null };
 }
 
 export function fonteExternaAtiva(data) {

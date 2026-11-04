@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { notificationPlan } from '../src/services/notificationPlan.js';
-import { cameraReading, cameraUrls, validarArea } from '../src/services/camera.js';
+import { cameraReading, cameraUrls, validarArea, fonteExternaAtiva } from '../src/services/camera.js';
 import { vacinaPayload } from '../src/services/vacinas.js';
 
 const require = createRequire(import.meta.url);
@@ -24,6 +24,11 @@ test('alertas usam apenas consultas futuras abertas da conta atual', () => {
 });
 
 test('camera sem frame recente nunca indica presenca ou descanso', () => {
+  assert.equal(fonteExternaAtiva({ source: 'celular', running: true }), true);
+  assert.equal(fonteExternaAtiva({ source: 'webcam', running: true }), false);
+  assert.equal(fonteExternaAtiva({ source: 'exemplo', running: true }), false);
+  assert.equal(fonteExternaAtiva({ source: 'celular', running: false }), false);
+  assert.equal(fonteExternaAtiva(null), false);
   const frame = { camera_online: true, last_frame_at: '2026-11-03T11:59:59Z', pet_detected: true, pet_moving: false, possible_rest: true };
   assert.equal(cameraReading(frame, now).presente, true);
   assert.equal(cameraReading(frame, now).descanso, true);

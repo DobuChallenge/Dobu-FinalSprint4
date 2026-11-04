@@ -9,7 +9,7 @@ Aplicativo em React Native e Expo para acompanhar os cuidados dos animais, mesmo
 - Conversa por agendamento, com confirmação dos dois participantes;
 - Caderno de cuidados com anotações, vacinas e próxima dose;
 - Pesquisa de raças, cuidados e fontes públicas sobre animais;
-- Cadastro de Dobu-Cams por animal, seleção da fonte e marcação dos potes;
+- Cadastro de Dobu-Cams por animal, conexão de câmera externa e marcação dos potes;
 - Notificações locais dos agendamentos;
 - Tema claro, escuro ou do sistema;
 - Tela Sobre com versão e commit de referência.
@@ -30,7 +30,6 @@ Preencha os endereços em `.env.local`:
 ```dotenv
 EXPO_PUBLIC_API_URL=http://IP-DO-COMPUTADOR:5099
 EXPO_PUBLIC_CAMERA_API_URL=http://IP-DO-COMPUTADOR:5000
-EXPO_PUBLIC_ANALYSIS_API_URL=http://IP-DO-COMPUTADOR:8000
 ```
 
 No celular, use o IPv4 do computador e mantenha os dispositivos na mesma rede. No emulador Android, use `10.0.2.2`. Para abrir no navegador do próprio computador, pode usar `localhost`.
@@ -53,19 +52,19 @@ dotnet run --project DOBU/Dobu.Api/Dobu.Api.csproj --urls http://0.0.0.0:5099
 
 Configure o banco e a chave JWT no ambiente da API. Para desenvolvimento local ela aceita SQLite. Não coloque senhas ou chaves privadas em variáveis `EXPO_PUBLIC_`.
 
-Na pasta da Dobu-Cam, execute `python backend.py`. Na pasta do petObserver, execute `python -m uvicorn api:app --host 0.0.0.0 --port 8000`, com as dependências desses projetos instaladas.
+Na pasta da Dobu-Cam, execute `python backend.py`, com as dependências do serviço instaladas. Esta versão do mobile consulta o serviço de câmera e a API .NET; não chama diretamente a API petObserver.
 
 Na base vazia, crie as contas de responsável e veterinário, prepare o catálogo pelo cadastro de animal e cadastre um pet. Depois ficam disponíveis agenda, conversa, caderno e câmeras vinculadas a ele.
 
 ## Dobu-Cam
 
-A URL do serviço Dobu-Cam é diferente da URL da câmera externa, por exemplo `http://IP-DA-CAMERA:8080/video`. A opção de webcam usa a câmera do computador servidor. O vídeo de exemplo exige `demo-cat.mp4` no serviço e fica identificado como gravação.
+A URL do serviço Dobu-Cam é diferente da URL da câmera externa, por exemplo `http://IP-DA-CAMERA:8080/video`. O aplicativo oferece somente a conexão de câmera externa.
 
-Marque os potes no quadro e salve antes de analisar. Os resultados vêm do serviço de processamento da gravação. Eles indicam possíveis eventos; não medem o volume ingerido nem substituem avaliação veterinária. Pouca atividade por uma hora aparece como possível descanso.
+Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. As marcações não comprovam consumo: a detecção de alimentação e hidratação ao vivo ainda não está implementada. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
 
 **Parar captura** interrompe a fonte no servidor. **Parar visualização** interrompe apenas as consultas do app. O servidor atual captura uma fonte por vez; cadastrar várias câmeras não cria transmissões simultâneas.
 
-A integração usa `/status`, `/camera-frame`, `/configuracao`, `/camera-source` e `/demo-analysis`. Nenhuma imagem recente significa que o app não pode indicar presença ou descanso.
+A integração usa `/status`, `/camera-frame`, `/configuracao` e `/camera-source`. O app verifica se a fonte externa continua ativa. Sem imagem recente, ele não indica presença ou descanso.
 
 ## Notificações
 
@@ -99,7 +98,7 @@ Os testes de integração criam e removem seus registros. Cobrem autenticação,
 
 1. Faça login com `npx eas-cli login` e vincule o projeto com `npx eas-cli init`.
 2. Salve a vinculação na configuração e faça commit.
-3. Configure as três URLs no ambiente `preview` do EAS. Elas precisam estar acessíveis no aparelho do testador.
+3. Configure as duas URLs no ambiente `preview` do EAS. Elas precisam estar acessíveis no aparelho do testador.
 4. Com o Git limpo, execute `npx eas-cli build --platform android --profile preview`.
 5. Instale o APK e confira se o hash da tela Sobre coincide com `git rev-parse HEAD`.
 6. Publique esse mesmo APK no Firebase e use-o no vídeo.

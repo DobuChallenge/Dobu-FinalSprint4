@@ -8,7 +8,6 @@ import QueryState from '../components/QueryState';
 import { useCameras } from '../hooks/useCameras';
 import { useDobuCam } from '../hooks/useDobuCam';
 import { useBowlMarkers } from '../hooks/useBowlMarkers';
-import { useCameraAnalysis } from '../hooks/useCameraAnalysis';
 import { useAppStyles } from '../hooks/useAppStyles';
 
 export default function DobuCam({ navigation, route }) {
@@ -16,12 +15,10 @@ export default function DobuCam({ navigation, route }) {
   const { pets, cameras, petId, setSelected } = useCameras(route.params?.petId);
   const monitor = useDobuCam();
   const markers = useBowlMarkers(monitor.urls);
-  const analysis = useCameraAnalysis(monitor.urls, monitor.reading?.exemplo ? 'exemplo' : monitor.source, markers.areas, markers.saved);
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
       <Text style={ui.title}>Câmera ao vivo</Text>
       <Text style={ui.badge}>{monitor.reading?.online ? 'Online' : 'Aguardando imagem recente'}</Text>
-      {monitor.reading?.exemplo && <Text style={ui.badge}>Gravação de exemplo</Text>}
       {!!monitor.frame && <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: cores.campo, borderRadius: 16, overflow: 'hidden' }} onLayout={(event) => markers.setSize(event.nativeEvent.layout)} {...markers.handlers}>
         <View pointerEvents="none" style={{ flex: 1 }}>
           <Image source={{ uri: markers.frozen || monitor.frame }} style={{ width: '100%', height: '100%' }} resizeMode="stretch" />
@@ -43,17 +40,6 @@ export default function DobuCam({ navigation, route }) {
       {monitor.reading?.descanso && <Text style={ui.body}>Possível descanso: pouca atividade por mais de uma hora.</Text>}
       {!!monitor.error && <Text style={ui.error}>{monitor.error}</Text>}
     </Card>
-    <Card>
-      <Text style={ui.title}>Acompanhamento da alimentação e hidratação</Text>
-      <Text style={ui.body}>Consulte o processamento da gravação pelo serviço de análise.</Text>
-      <View style={ui.actions}>
-        <Button title="Analisar alimentação" disabled={analysis.busy} onPress={() => analysis.analisar('food')} />
-        <Button title="Analisar hidratação" disabled={analysis.busy} cor="cinzaEscuro" onPress={() => analysis.analisar('water')} />
-      </View>
-      {analysis.busy && <Text style={ui.caption}>Analisando a gravação…</Text>}
-      {!!analysis.error && <Text style={ui.error}>{analysis.error}</Text>}
-      {!!analysis.result && <Text style={ui.body}>{analysis.kind === 'food' ? 'Possível alimentação' : 'Possível hidratação'}: {analysis.result.quantidade_eventos ?? analysis.result.eventos?.length ?? 0} evento(s).</Text>}
-    </Card>
     <Text style={ui.heading}>Eventos da câmera</Text>
     {monitor.events.map((event, index) => <Card key={`${event.timestamp}-${index}`}><Text style={ui.body}>{event.message}</Text><Text style={ui.caption}>{event.timestamp ? new Date(event.timestamp).toLocaleString('pt-BR') : ''}</Text></Card>)}
     <QueryState query={pets}>
@@ -66,11 +52,8 @@ export default function DobuCam({ navigation, route }) {
       <TextInput label="Endereço da Dobu-Cam" placeholder="http://IP-DO-SERVIDOR:5000" value={monitor.endpoint} onChangeText={monitor.setEndpoint} autoCapitalize="none" />
       <TextInput label="Endereço da câmera externa" placeholder="http://IP-DA-CAMERA:8080/video" value={monitor.externalUrl} onChangeText={monitor.setExternalUrl} autoCapitalize="none" />
       <View style={ui.actions}>
-        <Button title="Câmera externa" disabled={monitor.sourceBusy} onPress={() => monitor.selecionarFonte('celular')} />
-        <Button title="Webcam do computador servidor" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={() => monitor.selecionarFonte('webcam')} />
-        <Button title="Vídeo de exemplo" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={() => monitor.selecionarFonte('exemplo')} />
-        <Button title="Parar captura" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={() => monitor.selecionarFonte('stop')} />
-        <Button title={monitor.connecting ? 'Conectando…' : 'Conectar câmera'} disabled={monitor.connecting} onPress={monitor.conectar} />
+        <Button title={monitor.sourceBusy ? 'Aguarde…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy} onPress={monitor.conectar} />
+        <Button title="Parar captura" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={monitor.pararCaptura} />
         <Button title="Parar visualização" cor="cinzaEscuro" onPress={monitor.parar} />
         <Button title="Gerenciar câmeras" cor="branco" onPress={() => navigation.navigate('MinhasCameras')} />
       </View>

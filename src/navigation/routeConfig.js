@@ -12,6 +12,7 @@ const protectedRoutes = [
   'Informacoes',
   'CadernoCuidados',
   'ChatAgendamento',
+  'MinhasCameras',
   'Agendamentos',
   'AdicionarAgendamento',
 ];

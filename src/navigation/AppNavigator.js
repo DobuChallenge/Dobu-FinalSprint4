@@ -8,6 +8,7 @@ import Agendamentos from '../screens/Agendamentos';
 import Cadastro from '../screens/Cadastro';
 import CadernoCuidados from '../screens/CadernoCuidados';
 import ChatAgendamento from '../screens/ChatAgendamento';
+import MinhasCameras from '../screens/MinhasCameras';
 import CadastroPet from '../screens/CadastroPet';
 import Carregamento from '../screens/Carregamento';
 import DobuCam from '../screens/DobuCam';
@@ -24,7 +25,7 @@ import PerfilUsuario from '../screens/PerfilUsuario';
 
 const Stack = createNativeStackNavigator();
 const screens = {
-  Carregamento, Inicial, Login, Cadastro, CadernoCuidados, ChatAgendamento,
+  Carregamento, Inicial, Login, Cadastro, CadernoCuidados, ChatAgendamento, MinhasCameras,
   Inicio, PerfilVeterinario, PerfilUsuario, EditarPerfil, CadastroPet, DobuCam,
   ListaPets, PerfilPet, Lembretes, Informacoes, Agendamentos, AdicionarAgendamento,
 };

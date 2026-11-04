@@ -59,17 +59,17 @@ export default function Inicio({ navigation }) {
           />
           <NavigationCard
             title="Informações"
-            description="Caderno de cuidados"
+            description="Guias e fontes"
             icon="information-outline"
             highlight
             onPress={() => navigation.navigate('Informacoes')}
           />
           <NavigationCard
-            title="Dobu-Cam"
-            description="Registros das câmeras"
+            title="Dobu-Cams"
+            description="Acompanhe seu pet"
             icon="videocam-outline"
             highlight
-            onPress={() => navigation.navigate('DobuCam')}
+            onPress={() => navigation.navigate('MinhasCameras')}
           />
         </View>
       </ScrollView>

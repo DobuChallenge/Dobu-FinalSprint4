@@ -22,13 +22,13 @@ As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagen
 
 ## Versão para instalar
 
-O **Dobu 1.0.2 (6)** foi publicado no Firebase App Distribution.
+O **Dobu 1.0.3 (7)** foi publicado no Firebase App Distribution.
 
-- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2lqcen02krkc8) — requer uma conta convidada;
-- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/2lqcen02krkc8) — acesso da equipe responsável pelo projeto;
-- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/8b4a2cc0fa90666583c4beb109ad2a0a05296cfa).
+- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/3u3jllcitrsso) — requer uma conta convidada;
+- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/3u3jllcitrsso) — acesso da equipe responsável pelo projeto;
+- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/446c8ed5ef3891b599dd0ee7ef7c6426da75d190).
 
-O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `8b4a2cc0fa90666583c4beb109ad2a0a05296cfa`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
+O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `446c8ed5ef3891b599dd0ee7ef7c6426da75d190`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
 
 O acesso de instalação foi liberado para a conta responsável pelo projeto. O convite do professor ainda depende do e-mail institucional.
 
@@ -38,14 +38,14 @@ Esta versão usa os serviços da apresentação no computador `192.168.15.11`. A
 
 Os dois CRUDs da Sprint 3, **animais** e **agendamentos**, continuam integrados à API. As 16 telas presentes na versão inicial deste repositório foram mantidas; a versão atual tem 20 telas, incluindo Caderno de cuidados, conversa do agendamento, cadastro de câmeras e Sobre.
 
-O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza somente câmera externa e mantém os controles para ligar, parar e marcar os potes no quadro.
+O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza somente câmera externa, com o quadro de imagem no topo, sincronização e marcação dos potes.
 
 ## Conferência dos requisitos da Sprint 4
 
 | Requisito | O que existe nesta versão | O que falta concluir |
 | --- | --- | --- |
 | Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A análise dos potes ao vivo usa permanência na região marcada; precisa de validação com a câmera e o animal reais |
-| Publicação do aplicativo | APK 1.0.2 (6) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
+| Publicação do aplicativo | APK 1.0.3 (7) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
 | Versão e código correspondentes | Versão, assinatura e hash do commit conferidos no APK publicado | Usar esse mesmo arquivo no vídeo e na avaliação |
 | Notificações reais | Lembretes locais criados a partir da agenda; toque abre o agendamento da conta autenticada | Validar permissão, recebimento automático e abertura da consulta no APK, e mostrar esse fluxo no vídeo |
 | Arquitetura e organização | Interface, hooks, serviços, APIs, sessão e estilos separados; TanStack Query fora das telas | Manter essa separação nos próximos ajustes |
@@ -108,7 +108,7 @@ O quadro permanece visível mesmo desconectado. A imagem pausada para marcar os 
 
 Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. A análise ao vivo fica ativa após salvar uma marcação. Uma identificação recente de cão ou gato deve permanecer na região por pelo menos quatro segundos para registrar uma possível alimentação ou hidratação. Água e comida têm contadores separados; sem marcação, sem animal identificado ou com os dois potes encobertos ao mesmo tempo, não são contados eventos. Uma permanência contínua conta uma única vez. As marcações e a proximidade não comprovam consumo. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
 
-**Parar captura** interrompe a fonte no servidor. **Parar visualização** interrompe apenas as consultas do app. O servidor atual captura uma fonte por vez; cadastrar várias câmeras não cria transmissões simultâneas.
+O quadro escuro no topo mostra **Sincronizando câmera…** enquanto a imagem não chega. A tela oferece a conexão externa e a atualização da imagem, sem botões separados de parar captura ou visualização. O servidor atual captura uma fonte por vez; cadastrar várias câmeras não cria transmissões simultâneas.
 
 A integração usa `/status`, `/camera-frame`, `/configuracao` e `/camera-source`. O app verifica se a fonte externa continua ativa. Sem imagem recente, ele não indica presença ou descanso.
 
@@ -188,7 +188,7 @@ Antes de enviar, confira:
 ## Links e integrantes
 
 - [Repositório Sprint 4](https://github.com/DobuChallenge/Dobu-FinalSprint4)
-- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2lqcen02krkc8)
+- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/3u3jllcitrsso)
 - [Vídeo da Sprint 3](https://youtu.be/YcE1WVLbJDI)
 - [Protótipo no Figma](https://www.figma.com/design/mOXmQd2t8nKM3tjBE9g5Dn/Challenge)
 

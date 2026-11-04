@@ -22,13 +22,13 @@ As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagen
 
 ## Versão para instalar
 
-O **Dobu 1.0.1 (5)** foi publicado no Firebase App Distribution.
+O **Dobu 1.0.2 (6)** foi publicado no Firebase App Distribution.
 
-- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/4ec8svtfnvtu0) — requer uma conta convidada;
-- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/4ec8svtfnvtu0) — acesso da equipe responsável pelo projeto;
-- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/77dd82d21d212db44215da95f2ce650f8338de4e).
+- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2lqcen02krkc8) — requer uma conta convidada;
+- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/2lqcen02krkc8) — acesso da equipe responsável pelo projeto;
+- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/8b4a2cc0fa90666583c4beb109ad2a0a05296cfa).
 
-O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `77dd82d21d212db44215da95f2ce650f8338de4e`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
+O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `8b4a2cc0fa90666583c4beb109ad2a0a05296cfa`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
 
 O acesso de instalação foi liberado para a conta responsável pelo projeto. O convite do professor ainda depende do e-mail institucional.
 
@@ -44,8 +44,8 @@ O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza soment
 
 | Requisito | O que existe nesta versão | O que falta concluir |
 | --- | --- | --- |
-| Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A detecção de alimentação e hidratação ao vivo está pendente |
-| Publicação do aplicativo | APK 1.0.1 (5) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
+| Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A análise dos potes ao vivo usa permanência na região marcada; precisa de validação com a câmera e o animal reais |
+| Publicação do aplicativo | APK 1.0.2 (6) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
 | Versão e código correspondentes | Versão, assinatura e hash do commit conferidos no APK publicado | Usar esse mesmo arquivo no vídeo e na avaliação |
 | Notificações reais | Lembretes locais criados a partir da agenda; toque abre o agendamento da conta autenticada | Validar permissão, recebimento automático e abertura da consulta no APK, e mostrar esse fluxo no vídeo |
 | Arquitetura e organização | Interface, hooks, serviços, APIs, sessão e estilos separados; TanStack Query fora das telas | Manter essa separação nos próximos ajustes |
@@ -106,7 +106,7 @@ No celular, abra o aplicativo que transmite a câmera e copie o IP exibido. No D
 
 O quadro permanece visível mesmo desconectado. A imagem pausada para marcar os potes fica preservada; o botão **Atualizar imagem** permite tentar novamente. Se não chegar imagem, o app orienta conferir o endereço, a transmissão e a rede Wi-Fi. O serviço Dobu-Cam também precisa estar rodando. A conexão com um celular real deve ser testada quando a transmissão estiver aberta.
 
-Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. As marcações não comprovam consumo: a detecção de alimentação e hidratação ao vivo ainda não está implementada. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
+Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. A análise ao vivo fica ativa após salvar uma marcação. Uma identificação recente de cão ou gato deve permanecer na região por pelo menos quatro segundos para registrar uma possível alimentação ou hidratação. Água e comida têm contadores separados; sem marcação, sem animal identificado ou com os dois potes encobertos ao mesmo tempo, não são contados eventos. Uma permanência contínua conta uma única vez. As marcações e a proximidade não comprovam consumo. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
 
 **Parar captura** interrompe a fonte no servidor. **Parar visualização** interrompe apenas as consultas do app. O servidor atual captura uma fonte por vez; cadastrar várias câmeras não cria transmissões simultâneas.
 
@@ -116,7 +116,7 @@ A integração usa `/status`, `/camera-frame`, `/configuracao` e `/camera-source
 
 Em **Lembretes**, ative as notificações e autorize o sistema. Crie um agendamento para alguns minutos depois e aguarde o horário. Tocar no alerta abre os detalhes da consulta.
 
-Alterações e cancelamentos são sincronizados quando o app consulta a agenda. Se outra pessoa alterar um atendimento enquanto o app está fechado, reabra-o para atualizar os lembretes. Sair da conta remove os alertas agendados. A implementação é local, sem push remoto.
+Alterações e cancelamentos são sincronizados quando o app consulta a agenda, com atualização a cada 30 segundos enquanto o aplicativo está ativo e ao retornar para ele. A tela de lembretes mostra a quantidade programada e o próximo horário; permissões revogadas são informadas, e tocar no alerta o remove da central de notificações. Se outra pessoa alterar um atendimento enquanto o app está fechado, reabra-o para atualizar os lembretes. Sair da conta remove os alertas agendados. A implementação é local, sem push remoto.
 
 ## Organização e testes
 
@@ -140,7 +140,7 @@ npm run test:integration
 
 Os testes de integração criam e removem seus registros. Cobrem autenticação, pets, agenda, caderno, vacinas, câmeras e conversa. O comando de exportação verifica o bundle; não gera um APK nem comprova o funcionamento em aparelho físico.
 
-Na revisão para a publicação, passaram **57 testes automatizados**; os **2 testes de integração com a API real** também passaram. O build nativo Android foi concluído, e o APK foi instalado e iniciado no emulador. Os bundles iOS e web foram verificados nas revisões anteriores. Os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
+Na revisão para a publicação, passaram **60 testes automatizados**; os **2 testes de integração com a API real** também passaram. O build nativo Android foi concluído, e o APK foi instalado e iniciado no emulador. Os bundles iOS e web foram verificados nas revisões anteriores. Os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
 
 ## APK e Firebase App Distribution
 
@@ -188,7 +188,7 @@ Antes de enviar, confira:
 ## Links e integrantes
 
 - [Repositório Sprint 4](https://github.com/DobuChallenge/Dobu-FinalSprint4)
-- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/4ec8svtfnvtu0)
+- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2lqcen02krkc8)
 - [Vídeo da Sprint 3](https://youtu.be/YcE1WVLbJDI)
 - [Protótipo no Figma](https://www.figma.com/design/mOXmQd2t8nKM3tjBE9g5Dn/Challenge)
 

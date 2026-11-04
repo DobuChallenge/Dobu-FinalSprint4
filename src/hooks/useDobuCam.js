@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { cameraConfig } from '../api/config';
 import { dobuCamApi } from '../api/dobuCam';
-import { cameraUrls, cameraReading, fonteExternaAtiva } from '../services/camera';
+import { cameraUrls, cameraReading, fonteExternaAtiva, externalCameraUrl } from '../services/camera';
 
 export function useDobuCam() {
   const [endpoint, setEndpoint] = useState(cameraConfig.baseUrl || '');
@@ -27,11 +27,10 @@ export function useDobuCam() {
     setSourceBusy(true); setError(''); setUrls(null); setReading(null); setEvents([]);
     try {
       const nextUrls = cameraUrls(endpoint);
-      const external = new URL(externalUrl.trim());
-      if (!['http:', 'https:'].includes(external.protocol)) throw new Error('Informe a URL HTTP da câmera externa.');
+      const external = externalCameraUrl(externalUrl);
       const connectedAt = Date.now();
       const base = nextUrls.status.replace(/\/status$/, '');
-      await dobuCamApi.conectarExterna(base, external.href);
+      await dobuCamApi.conectarExterna(base, external);
       if (generation.current === attempt) setUrls({ ...nextUrls, base, connectedAt });
     } catch (err) {
       if (generation.current === attempt) setError(err.message || 'Não foi possível conectar a câmera externa.');
@@ -68,7 +67,9 @@ export function useDobuCam() {
         if (Date.parse(status.last_frame_at) < urls.connectedAt) current.online = current.presente = current.movimento = current.descanso = false;
         setReading(current);
         setEvents((status.events || []).filter(event => Date.parse(event.timestamp) >= urls.connectedAt));
-        setError(''); setTick(Date.now());
+        setError(!current.online && Date.now() - urls.connectedAt > 20000
+          ? 'A câmera ainda não enviou imagem. Confira o endereço, a transmissão no celular e a conexão Wi-Fi.' : '');
+        setTick(Date.now());
       } catch (err) { if (active) { setError(err.message); setReading(null); setEvents([]); } }
       finally { if (active) timer = setTimeout(update, 1000); }
     }

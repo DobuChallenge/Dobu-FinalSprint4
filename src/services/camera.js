@@ -19,6 +19,17 @@ export function fonteExternaAtiva(data) {
   return data?.source === 'celular' && data.running === true;
 }
 
+export function externalCameraUrl(value) {
+  const address = String(value || '').trim();
+  if (!address) throw new Error('Informe o endereço exibido no aplicativo de câmera do celular.');
+  try {
+    const url = new URL(/^[a-z][a-z\d+.-]*:\/\//i.test(address) ? address : `http://${address}`);
+    if (!['http:', 'https:'].includes(url.protocol) || !url.hostname) throw new Error();
+    if (url.pathname === '/') url.pathname = '/video';
+    return url.href;
+  } catch { throw new Error('Confira o endereço da câmera. Exemplo: http://192.168.15.5:8080/video'); }
+}
+
 export function validarArea(area) {
   return Boolean(area && ['x', 'y', 'width', 'height'].every((key) => Number.isFinite(area[key])) && area.x >= 0 && area.y >= 0 && area.width > 0 && area.height > 0 && area.x + area.width <= 1.001 && area.y + area.height <= 1.001);
 }

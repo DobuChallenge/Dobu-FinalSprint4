@@ -126,6 +126,8 @@ Na revisão do código `846f3e8`, passaram **54 testes automatizados e 2 testes 
 
 ## APK e Firebase App Distribution
 
+O **APK é o arquivo de instalação do Dobu no Android**. O Firebase App Distribution permite entregar esse arquivo ao professor por convite. O enunciado exige que ele consiga instalar e avaliar o aplicativo; abrir a prévia no navegador ou no Expo Go não conclui essa parte da entrega.
+
 1. Faça login com `npx eas-cli login` e vincule o projeto com `npx eas-cli init`.
 2. Salve a vinculação na configuração e faça commit.
 3. Configure as duas URLs no ambiente `preview` do EAS. Elas precisam estar acessíveis no aparelho do testador.
@@ -135,7 +137,9 @@ Na revisão do código `846f3e8`, passaram **54 testes automatizados e 2 testes 
 
 O identificador Android é `com.dobuchallenge.mobile`. O plugin `withLocalNetwork` permite HTTP para a demonstração local. Para acesso fora dessa rede, disponibilize os serviços em HTTPS e revise essa permissão.
 
-No Firebase, cadastre um aplicativo Android com esse identificador. Instale a CLI com `npm install --global firebase-tools` e faça `firebase login`. Para distribuir:
+No console do Firebase, cadastre um aplicativo Android com esse identificador. Abra **App Distribution**, envie o APK gerado, adicione o e-mail institucional do professor como testador e clique em **Distribuir**. Ele receberá o convite para instalar. Esse envio pode ser feito pela interface, sem usar comandos.
+
+Como alternativa, instale a CLI com `npm install --global firebase-tools` e faça `firebase login`. Para distribuir pelo terminal:
 
 ```powershell
 $env:FIREBASE_APP_ID = 'ID-DO-APP-NO-FIREBASE'
@@ -147,6 +151,8 @@ npm run distribuir -- C:/caminho/dobu.apk $releaseCommit
 ```
 
 Confirme o convite e a instalação pelo professor. A publicação, o acesso dele e o vídeo final ainda estão pendentes.
+
+**Validar o APK** é testar o Dobu depois de instalado: cadastrar e entrar, registrar um animal, criar uma consulta, aguardar o aviso automático e tocar nele para abrir a consulta. Faça também os testes do caderno, tema e câmera. O objetivo é conferir se o aplicativo instalado funciona como a versão demonstrada.
 
 No vídeo, mostre os fluxos completos: cadastro e login, animais, agenda e conversa, caderno, informações, câmera, troca de tema, notificação automática, restauração da sessão e tela Sobre. O código, o APK instalado e o APK publicado devem corresponder à mesma versão.
 

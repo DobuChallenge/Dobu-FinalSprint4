@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { notificationPlan } from '../src/services/notificationPlan.js';
-import { cameraReading, cameraUrls, validarArea, fonteExternaAtiva } from '../src/services/camera.js';
+import { cameraReading, cameraUrls, validarArea, fonteExternaAtiva, externalCameraUrl } from '../src/services/camera.js';
 import { vacinaPayload } from '../src/services/vacinas.js';
 
 const require = createRequire(import.meta.url);
@@ -39,6 +39,11 @@ test('camera sem frame recente nunca indica presenca ou descanso', () => {
 });
 
 test('marcacoes ficam dentro do quadro e URLs recusam credenciais', () => {
+  assert.equal(externalCameraUrl('192.168.15.5:8080'), 'http://192.168.15.5:8080/video');
+  assert.equal(externalCameraUrl('http://192.168.15.5:8080/video'), 'http://192.168.15.5:8080/video');
+  assert.equal(externalCameraUrl('https://camera.local/stream'), 'https://camera.local/stream');
+  assert.throws(() => externalCameraUrl(''));
+  assert.throws(() => externalCameraUrl('file:///camera'));
   assert.equal(validarArea({ x: 0.1, y: 0.2, width: 0.2, height: 0.3 }), true);
   assert.equal(validarArea({ x: 0.9, y: 0, width: 0.3, height: 1 }), false);
   assert.equal(validarArea(null), false);

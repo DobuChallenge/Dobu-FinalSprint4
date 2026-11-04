@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput as NativeTextInput, View } from 'react-native';
 
-export default function TextInput({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType, multiline, editable = true }) {
+export default function TextInput({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType, multiline, editable = true, autoCapitalize, autoCorrect }) {
   const { cores, styles } = useAppStyles(createStyles);
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const senhaEscondida = secureTextEntry && !mostrarSenha;
@@ -21,8 +21,8 @@ export default function TextInput({ label, value, onChangeText, placeholder, sec
           placeholderTextColor={cores.textoClaro}
           secureTextEntry={senhaEscondida}
           keyboardType={keyboardType}
-          autoCapitalize={keyboardType === 'email-address' || secureTextEntry ? 'none' : 'sentences'}
-          autoCorrect={!secureTextEntry && keyboardType !== 'email-address'}
+          autoCapitalize={autoCapitalize ?? (['email-address', 'url'].includes(keyboardType) || secureTextEntry ? 'none' : 'sentences')}
+          autoCorrect={autoCorrect ?? (!secureTextEntry && !['email-address', 'url'].includes(keyboardType))}
           multiline={multiline}
           style={[styles.input, multiline && styles.multiline, secureTextEntry && styles.inputSenha]}
         />

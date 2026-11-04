@@ -88,6 +88,10 @@ Na base vazia, crie as contas de responsável e veterinário, prepare o catálog
 
 A URL do serviço Dobu-Cam é diferente da URL da câmera externa, por exemplo `http://IP-DA-CAMERA:8080/video`. O aplicativo oferece somente a conexão de câmera externa.
 
+No celular, abra o aplicativo que transmite a câmera e copie o IP exibido. No Dobu, informe esse IP e toque em **Ligar câmera externa**. O campo aceita `192.168.15.5:8080` ou o endereço completo; quando necessário, completa `http://` e `/video`. Os endereços ficam salvos neste aparelho, separados por conta e câmera. A conexão só inicia quando você toca no botão.
+
+Se não chegar imagem, o app orienta conferir o endereço, a transmissão e a rede Wi-Fi. O serviço Dobu-Cam também precisa estar rodando. A conexão com um celular real deve ser testada quando a transmissão estiver aberta.
+
 Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. As marcações não comprovam consumo: a detecção de alimentação e hidratação ao vivo ainda não está implementada. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
 
 **Parar captura** interrompe a fonte no servidor. **Parar visualização** interrompe apenas as consultas do app. O servidor atual captura uma fonte por vez; cadastrar várias câmeras não cria transmissões simultâneas.

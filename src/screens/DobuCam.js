@@ -13,7 +13,7 @@ import { useAppStyles } from '../hooks/useAppStyles';
 export default function DobuCam({ navigation, route }) {
   const { ui, cores } = useAppStyles();
   const { pets, cameras, petId, setSelected } = useCameras(route.params?.petId);
-  const monitor = useDobuCam();
+  const monitor = useDobuCam(route.params?.cameraId || petId);
   const markers = useBowlMarkers(monitor.urls);
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
@@ -49,10 +49,13 @@ export default function DobuCam({ navigation, route }) {
       </QueryState>
     </QueryState>
     <Card>
-      <TextInput label="Endereço da Dobu-Cam" placeholder="http://IP-DO-SERVIDOR:5000" value={monitor.endpoint} onChangeText={monitor.setEndpoint} autoCapitalize="none" />
-      <TextInput label="Endereço da câmera externa" placeholder="http://IP-DA-CAMERA:8080/video" value={monitor.externalUrl} onChangeText={monitor.setExternalUrl} autoCapitalize="none" />
+      <Text style={ui.title}>Conectar câmera externa</Text>
+      <Text style={ui.caption}>Abra a transmissão no celular e informe o IP exibido. Mantenha o celular e o computador na mesma rede Wi-Fi.</Text>
+      <TextInput label="Endereço da Dobu-Cam" placeholder="http://IP-DO-SERVIDOR:5000" value={monitor.endpoint} onChangeText={monitor.setEndpoint} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
+      <TextInput label="IP ou endereço da câmera externa" placeholder="192.168.15.5:8080" value={monitor.externalUrl} onChangeText={monitor.setExternalUrl} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
+      {!!monitor.settingsError && <Text style={ui.error}>{monitor.settingsError}</Text>}
       <View style={ui.actions}>
-        <Button title={monitor.sourceBusy ? 'Aguarde…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy} onPress={monitor.conectar} />
+        <Button title={!monitor.settingsReady ? 'Carregando endereço…' : monitor.sourceBusy ? 'Conectando…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectar} />
         <Button title="Parar captura" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={monitor.pararCaptura} />
         <Button title="Parar visualização" cor="cinzaEscuro" onPress={monitor.parar} />
         <Button title="Gerenciar câmeras" cor="branco" onPress={() => navigation.navigate('MinhasCameras')} />

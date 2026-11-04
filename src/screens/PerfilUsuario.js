@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 
 import Button from '../components/Button';
+import ThemeSelector from '../components/ThemeSelector';
 import Card from '../components/Card';
 import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
@@ -53,6 +54,7 @@ export default function PerfilUsuario({ navigation, route }) {
       </Card>
 
       <View style={ui.actions}>
+        <ThemeSelector />
         <Button title="Editar perfil" icon="create-outline" cor="branco" onPress={() => navigation.navigate('EditarPerfil')} />
         <Button title="Ver animais" icon="paw-outline" onPress={() => navigation.navigate('ListaPets')} />
         <Button title="Ver agendamentos" cor="cinzaEscuro" onPress={() => navigation.navigate('Agendamentos')} />

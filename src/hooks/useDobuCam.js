@@ -10,6 +10,7 @@ export function useDobuCam() {
   const [error, setError] = useState('');
   const [tick, setTick] = useState(Date.now());
   const [connecting, setConnecting] = useState(false);
+  const [events, setEvents] = useState([]);
   function conectar() {
     try { setUrls(cameraUrls(endpoint)); setReading(null); setError(''); setConnecting(true); }
     catch { setError('Informe o endereço da Dobu-Cam, com http:// ou https://.'); }
@@ -21,14 +22,14 @@ export function useDobuCam() {
     async function update() {
       try {
         const status = await dobuCamApi.lerStatus(urls.status);
-        if (active) { setReading(cameraReading(status)); setError(''); setTick(Date.now()); }
+        if (active) { setReading(cameraReading(status)); setEvents(status.events || []); setError(''); setTick(Date.now()); }
       } catch (err) { if (active) { setError(err.message); setReading(null); } }
       finally { if (active) { setConnecting(false); timer = setTimeout(update, 1000); } }
     }
     update();
     return () => { active = false; clearTimeout(timer); };
   }, [urls]);
-  return { endpoint, setEndpoint, conectar, reading, error, connecting, urls,
+  return { endpoint, setEndpoint, conectar, reading, error, connecting, urls, events,
     frame: urls ? `${urls.frame}?t=${tick}` : '',
     parar: () => { setUrls(null); setReading(null); setError(''); },
   };

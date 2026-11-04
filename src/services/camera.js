@@ -12,3 +12,7 @@ export function cameraReading(data) {
     especie: data.species || '', confianca: Number(data.confidence || 0), lastFrame: data.last_frame_at,
     exemplo: data.telemetry?.sensor === 'video-exemplo', quietSeconds: Number(data.quiet_seconds || 0) };
 }
+
+export function validarArea(area) {
+  return Boolean(area && ['x', 'y', 'width', 'height'].every((key) => Number.isFinite(area[key])) && area.x >= 0 && area.y >= 0 && area.width > 0 && area.height > 0 && area.x + area.width <= 1.001 && area.y + area.height <= 1.001);
+}

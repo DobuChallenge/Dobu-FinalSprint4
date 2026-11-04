@@ -5,6 +5,7 @@ function vacinaBody({ nome, dataAplicacao, dataProximaDose, petId }) {
 }
 
 export const vacinasApi = {
+  criar: ({ nome, dataAplicacao, dataProximaDose, petId }) => request('/api/vacinas', { method: 'POST', body: { nome, dataAplicacao, dataProximaDose: dataProximaDose || null, petId } }),
   listar: () => request('/api/vacinas'),
   listarPorPet: (petId) => request(`/api/vacinas/pet/${encodeURIComponent(petId)}`),
   criar: (dados) => request('/api/vacinas', { method: 'POST', body: vacinaBody(dados) }),

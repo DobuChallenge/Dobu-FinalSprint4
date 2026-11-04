@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput as NativeTextInput, View } from 'react-native';
 
 import Button from '../components/Button';
+import VacinaForm from '../components/VacinaForm';
 import Card from '../components/Card';
 import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
@@ -86,6 +87,7 @@ export default function Informacoes({ navigation, route }) {
       </QueryState>
 
       <View style={styles.cadernoHeader}>
+        <VacinaForm petId={caderno.petId} />
         <Text style={styles.sectionTitleNoMargin}>Caderno do animal</Text>
         <Button
           title="Agendar"

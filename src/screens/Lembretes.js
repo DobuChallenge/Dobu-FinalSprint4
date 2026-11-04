@@ -1,12 +1,13 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Text, View } from 'react-native';
 import Screen from '../components/Screen';
 import Button from '../components/Button';
 import QueryState from '../components/QueryState';
 import AppointmentCard from '../components/AppointmentCard';
 import { useLembretes } from '../hooks/useAgenda';
-import { ui } from '../styles/ui';
 
 export default function Lembretes({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles();
   const { query, items } = useLembretes();
   return <Screen navigation={navigation} title="Lembretes" subtitle="Seus próximos atendimentos" active="lembretes">
     <Text style={ui.caption}>Acompanhe os agendamentos futuros. Atendimentos concluídos e cancelados ficam no histórico da agenda.</Text>

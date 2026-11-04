@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import NavigationCard from '../components/NavigationCard';
@@ -5,10 +6,9 @@ import DobuLogo from '../components/DobuLogo';
 import BottomNavigation from '../components/BottomNavigation';
 import { useDashboard } from '../hooks/useDashboard';
 import QueryState from '../components/QueryState';
-import { estilos } from '../styles/globalStyles';
-import { cores } from '../styles/tema';
 
 export default function Inicio({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const { user: usuario, query, animals, upcoming } = useDashboard();
 
   return (
@@ -78,7 +78,7 @@ export default function Inicio({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   heroHome: {
     flexDirection: 'row',
     justifyContent: 'space-between',

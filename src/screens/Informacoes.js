@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput as NativeTextInput, View } from 'react-native';
 
@@ -9,10 +10,9 @@ import SelectField from '../components/SelectField';
 import TextInput from '../components/TextInput';
 import { useInformacaoForm, useInformacoesCaderno } from '../hooks/useInformacoes';
 import { formatarDataVacina, resumirRaca } from '../services/informacoes';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 
 export default function Informacoes({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const caderno = useInformacoesCaderno(route?.params?.petId);
   const form = useInformacaoForm(caderno.petId, caderno.mutations.criar);
 
@@ -181,6 +181,7 @@ export default function Informacoes({ navigation, route }) {
 }
 
 function BreedCard({ raca }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const details = resumirRaca(raca);
   const description = String(raca.descricao || '').trim();
   const care = String(raca.cuidados || '').trim();
@@ -209,6 +210,7 @@ function BreedCard({ raca }) {
 }
 
 function SearchBox({ label, value, onChangeText, placeholder }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.searchGroup}>
       <Text style={ui.label}>{label}</Text>
@@ -228,6 +230,7 @@ function SearchBox({ label, value, onChangeText, placeholder }) {
 }
 
 function InfoRow({ label, value }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.infoRow}>
       <Text style={styles.infoLabel}>{label}</Text>
@@ -237,6 +240,7 @@ function InfoRow({ label, value }) {
 }
 
 function StateCard({ icon, text }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <Card style={styles.stateCard}>
       <Ionicons name={icon} size={26} color={cores.textoClaro} />
@@ -245,11 +249,11 @@ function StateCard({ icon, text }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   sectionTitle: { color: cores.marrom, fontSize: 19, fontWeight: '900', marginBottom: 10, marginTop: 6 },
   sectionTitleNoMargin: { color: cores.marrom, fontSize: 19, fontWeight: '900' },
   searchGroup: { marginBottom: 14 },
-  searchBox: { minHeight: 52, backgroundColor: cores.branco, borderRadius: 8, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 },
+  searchBox: { minHeight: 52, backgroundColor: cores.fundoClaro, borderRadius: 8, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14 },
   searchInput: { flex: 1, color: cores.texto, fontSize: 16, marginLeft: 8 },
   breedCard: { marginBottom: 12 },
   vaccineCard: { marginBottom: 12 },

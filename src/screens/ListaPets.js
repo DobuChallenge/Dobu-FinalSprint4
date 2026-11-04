@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from '../components/Button';
@@ -6,9 +7,9 @@ import Screen from '../components/Screen';
 import { useAuth } from '../hooks/useAuth';
 import { usePetList } from '../hooks/usePetForm';
 import { useCatalogos, usePets } from '../hooks/usePets';
-import { cores } from '../styles/tema';
 
 export default function ListaPets({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const { user } = useAuth();
   const petsQuery = usePets();
   const catalogosQuery = useCatalogos();
@@ -63,11 +64,11 @@ export default function ListaPets({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   addButton: { marginBottom: 16 },
   item: {
     minHeight: 94,
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: cores.cinza,

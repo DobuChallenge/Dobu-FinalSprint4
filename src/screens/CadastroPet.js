@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { useCallback } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
@@ -11,10 +12,9 @@ import TextInput from '../components/TextInput';
 import { useAuth } from '../hooks/useAuth';
 import { usePetForm } from '../hooks/usePetForm';
 import { useCatalogoBasicoMutation, useCatalogos, usePet, usePetMutations } from '../hooks/usePets';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 
 export default function CadastroPet({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const id = route.params?.id;
   const editing = Boolean(id);
   const { user } = useAuth();
@@ -133,7 +133,7 @@ export default function CadastroPet({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   formCard: {
     backgroundColor: cores.principal,
     borderRadius: 18,

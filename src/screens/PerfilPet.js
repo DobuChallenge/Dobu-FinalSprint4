@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
@@ -7,10 +8,9 @@ import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import { usePetDetails } from '../hooks/usePetForm';
 import { useCatalogos, usePet, usePetMutations } from '../hooks/usePets';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 
 export default function PerfilPet({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const id = route.params?.id;
   const petQuery = usePet(id);
   const catalogosQuery = useCatalogos();
@@ -122,6 +122,7 @@ export default function PerfilPet({ navigation, route }) {
 }
 
 function DataRow({ icon, label, value }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.row}>
       <Ionicons name={icon} size={21} color={cores.principalEscuro} />
@@ -133,7 +134,7 @@ function DataRow({ icon, label, value }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   highlight: { alignItems: 'center' },
   avatar: {
     width: 138,

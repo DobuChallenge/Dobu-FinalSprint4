@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { useEditarPerfil } from '../hooks/useEditarPerfil';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -12,9 +13,8 @@ import { usuariosApi } from '../api/usuarios';
 import { useAuth, useUpdateCurrentUser } from '../hooks/useAuth';
 import { useProfileExtras } from '../hooks/useProfileExtras';
 import { removeProfileExtras, saveProfileExtras } from '../storage/profileExtrasStorage';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 
 export default function EditarPerfil({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles();
   const { user, draft, error, salvando, excluindo, setField, salvar, confirmarExclusao } = useEditarPerfil(navigation);
 ;

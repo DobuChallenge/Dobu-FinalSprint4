@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -7,8 +8,6 @@ import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import SelectField from '../components/SelectField';
 import { useAgendamentoEditor, useAgendamentoForm } from '../hooks/useAgendamentoForm';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 import { appointmentStatuses } from '../utils/agendamentoValidation';
 
 const monthNames = [
@@ -35,6 +34,7 @@ const availableTimes = Array.from({ length: 21 }, (_, index) => {
 });
 
 export default function AdicionarAgendamento({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const id = route.params?.id;
   const editor = useAgendamentoEditor(id);
   const form = useAgendamentoForm({ id, initial: editor.initial, pets: editor.pets, usuarios: editor.usuarios, petId: route.params?.petId });
@@ -53,6 +53,7 @@ export default function AdicionarAgendamento({ navigation, route }) {
 }
 
 function AgendamentoForm({ navigation, editing, form, pets }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const selectedDate = parseDraftDate(form.draft.data);
   const [visibleMonth, setVisibleMonth] = useState(() => {
     const initial = selectedDate || new Date();
@@ -104,6 +105,7 @@ function AgendamentoForm({ navigation, editing, form, pets }) {
 }
 
 function Calendar({ data, days, visibleMonth, disabled, onChangeMonth, onSelect }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const title = `${monthNames[visibleMonth.getMonth()]} ${visibleMonth.getFullYear()}`;
 
   return (
@@ -174,9 +176,9 @@ function buildMonthDays(baseDate) {
   return days;
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   calendarGroup: { marginBottom: 18 },
-  calendar: { backgroundColor: cores.branco, borderRadius: 8, padding: 12 },
+  calendar: { backgroundColor: cores.fundoClaro, borderRadius: 8, padding: 12 },
   calendarHeader: { minHeight: 36, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
   arrowButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: cores.fundo, alignItems: 'center', justifyContent: 'center' },
   monthTitle: { color: cores.marrom, fontSize: 17, fontWeight: '900' },

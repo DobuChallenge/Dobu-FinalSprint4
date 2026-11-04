@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Image, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -9,13 +10,12 @@ import Screen from '../components/Screen';
 import SelectField from '../components/SelectField';
 import { dobuCamApi } from '../api/dobuCam';
 import { useCameras } from '../hooks/useCameras';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 import { formatAppointmentDate } from '../utils/agendamentoValidation';
 
 const endpointPadrao = Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://127.0.0.1:5000';
 
 export default function DobuCam({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const { pets, cameras, petId, setSelected } = useCameras();
   const [endpoint, setEndpoint] = useState(endpointPadrao);
   const [statusUrl, setStatusUrl] = useState('');
@@ -184,6 +184,7 @@ export default function DobuCam({ navigation }) {
 }
 
 function StatusPill({ active }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={[styles.statusPill, active && styles.statusPillActive]}>
       <Ionicons name={active ? 'radio-button-on' : 'radio-button-off'} size={16} color={active ? cores.verde : cores.textoClaro} />
@@ -193,6 +194,7 @@ function StatusPill({ active }) {
 }
 
 function Metric({ icon, label, value, active }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={[styles.metric, active && styles.metricActive]}>
       <Ionicons name={icon} size={24} color={active ? cores.verde : cores.textoClaro} />
@@ -238,7 +240,7 @@ function interpretarBoolean(valor) {
   return false;
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   cameraCard: {
     backgroundColor: cores.texto,
   },
@@ -266,7 +268,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 7,
     borderRadius: 20,
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
   },
   statusPillActive: {
     backgroundColor: '#E7F7EA',
@@ -308,7 +310,7 @@ const styles = StyleSheet.create({
   },
   metric: {
     flex: 1,
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderRadius: 16,
     padding: 14,
     gap: 4,
@@ -335,7 +337,7 @@ const styles = StyleSheet.create({
   input: {
     minHeight: 52,
     borderRadius: 12,
-    backgroundColor: '#F6F1EC',
+    backgroundColor: cores.campo,
     color: cores.texto,
     paddingHorizontal: 14,
     fontSize: 16,

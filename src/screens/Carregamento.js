@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -10,9 +11,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import DobuLogo from '../components/DobuLogo';
 import { useAuth } from '../hooks/useAuth';
 import Button from '../components/Button';
-import { cores } from '../styles/tema';
 
 export default function Carregamento() {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const { restoreError, restore } = useAuth();
 
   return (
@@ -42,7 +43,7 @@ export default function Carregamento() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   tela: {
     flex: 1,
     backgroundColor: cores.fundo,

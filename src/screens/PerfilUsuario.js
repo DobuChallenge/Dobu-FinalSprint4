@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 
@@ -7,10 +8,9 @@ import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import { useDashboard } from '../hooks/useDashboard';
 import { useProfileExtras } from '../hooks/useProfileExtras';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 
 export default function PerfilUsuario({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const { user, logout, query, animals, appointments } = useDashboard();
   const savedExtras = useProfileExtras(user);
   const extras = { ...savedExtras, ...(user.profileExtras || {}), ...(route.params?.profileExtras || {}) };
@@ -63,6 +63,7 @@ export default function PerfilUsuario({ navigation, route }) {
 }
 
 function Avatar({ photo }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.avatar}>
       {photo ? <Image source={{ uri: photo }} style={styles.avatarImage} /> : <Ionicons name="person" size={42} color={cores.branco} />}
@@ -71,6 +72,7 @@ function Avatar({ photo }) {
 }
 
 function Info({ label, value }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.info}>
       <Text style={styles.infoLabel}>{label}</Text>
@@ -79,7 +81,7 @@ function Info({ label, value }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',

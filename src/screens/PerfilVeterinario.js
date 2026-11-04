@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
@@ -8,10 +9,9 @@ import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import { useDashboard } from '../hooks/useDashboard';
 import { useProfileExtras } from '../hooks/useProfileExtras';
-import { cores } from '../styles/tema';
-import { ui } from '../styles/ui';
 
 export default function PerfilVeterinario({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const dashboard = useDashboard();
   const savedExtras = useProfileExtras(dashboard.user);
   const extras = { ...savedExtras, ...(dashboard.user.profileExtras || {}), ...(route.params?.profileExtras || {}) };
@@ -58,6 +58,7 @@ export default function PerfilVeterinario({ navigation, route }) {
 }
 
 function Info({ label, value }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.info}>
       <Text style={styles.infoLabel}>{label}</Text>
@@ -66,7 +67,7 @@ function Info({ label, value }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',

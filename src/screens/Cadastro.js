@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,9 +11,9 @@ import PhotoPicker from '../components/PhotoPicker';
 import { useRegister } from '../hooks/useAuth';
 import { validateRegister } from '../utils/authValidation';
 import { ApiError } from '../api/httpClient';
-import { cores } from '../styles/tema';
 
 export default function Cadastro({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const [nomeUsuario, setNomeUsuario] = useState('');
   const [emailUsuario, setEmailUsuario] = useState('');
   const [senha, setSenha] = useState('');
@@ -116,6 +117,7 @@ export default function Cadastro({ navigation }) {
 }
 
 function TipoContaOpcao({ ativo, label, onPress }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <Pressable onPress={onPress} style={[styles.tipoOpcao, ativo && styles.tipoOpcaoAtiva]}>
       <Text style={[styles.tipoTexto, ativo && styles.tipoTextoAtivo]}>{label}</Text>
@@ -124,6 +126,7 @@ function TipoContaOpcao({ ativo, label, onPress }) {
 }
 
 function Campo({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <View style={styles.campo}>
       <Text style={styles.label}>{label}</Text>
@@ -142,7 +145,7 @@ function Campo({ label, value, onChangeText, placeholder, secureTextEntry, keybo
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   tela: {
     flex: 1,
     backgroundColor: cores.fundo,
@@ -248,7 +251,7 @@ const styles = StyleSheet.create({
   selectLista: {
     marginTop: 6,
     borderRadius: 8,
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderWidth: 1,
     borderColor: cores.cinza,
     overflow: 'hidden',

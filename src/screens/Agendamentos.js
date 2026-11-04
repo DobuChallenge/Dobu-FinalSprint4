@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Alert, Text, View } from 'react-native';
 import Screen from '../components/Screen';
 import QueryState from '../components/QueryState';
@@ -7,9 +8,9 @@ import SelectField from '../components/SelectField';
 import AppointmentCard from '../components/AppointmentCard';
 import { useAgenda } from '../hooks/useAgenda';
 import { appointmentStatuses } from '../utils/agendamentoValidation';
-import { ui } from '../styles/ui';
 
 export default function Agendamentos({ navigation, route }) {
+  const { cores, ui, estilos, styles } = useAppStyles();
   const petId = route.params?.petId;
   const agenda = useAgenda(petId);
   const remove = (item) => Alert.alert('Excluir agendamento?', `O atendimento de ${item.petNome} será removido.`, [

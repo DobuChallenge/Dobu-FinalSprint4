@@ -1,3 +1,4 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { useState } from 'react';
 import { Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,9 +12,9 @@ import DobuLogo from '../components/DobuLogo';
 import { useLogin } from '../hooks/useAuth';
 import { validateLogin } from '../utils/authValidation';
 import { ApiError } from '../api/httpClient';
-import { estilos } from '../styles/globalStyles';
 
 export default function Login({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const login = useLogin();

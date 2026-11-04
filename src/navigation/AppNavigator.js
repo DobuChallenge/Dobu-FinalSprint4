@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../hooks/useAuth';
 import { cores } from '../styles/tema';
+import { useTheme } from '../providers/ThemeProvider';
 import { getNavigationConfig } from './routeConfig';
 import AdicionarAgendamento from '../screens/AdicionarAgendamento';
 import Agendamentos from '../screens/Agendamentos';
@@ -27,6 +28,7 @@ const screens = {
 };
 
 export default function AppNavigator() {
+  const { colors: cores } = useTheme();
   const config = getNavigationConfig(useAuth());
   return (
     <Stack.Navigator

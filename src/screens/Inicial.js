@@ -1,10 +1,11 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../components/Button';
 import DobuLogo from '../components/DobuLogo';
-import { cores } from '../styles/tema';
 
 export default function Inicial({ navigation }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <SafeAreaView style={styles.tela}>
       <View style={styles.topo}>
@@ -35,7 +36,7 @@ export default function Inicial({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   tela: {
     flex: 1,
     backgroundColor: cores.fundo,

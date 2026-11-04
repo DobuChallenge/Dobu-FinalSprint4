@@ -22,10 +22,11 @@ import Login from '../screens/Login';
 import PerfilVeterinario from '../screens/PerfilVeterinario';
 import PerfilPet from '../screens/PerfilPet';
 import PerfilUsuario from '../screens/PerfilUsuario';
+import Sobre from '../screens/Sobre';
 
 const Stack = createNativeStackNavigator();
 const screens = {
-  Carregamento, Inicial, Login, Cadastro, CadernoCuidados, ChatAgendamento, MinhasCameras,
+  Carregamento, Inicial, Login, Cadastro, CadernoCuidados, ChatAgendamento, MinhasCameras, Sobre,
   Inicio, PerfilVeterinario, PerfilUsuario, EditarPerfil, CadastroPet, DobuCam,
   ListaPets, PerfilPet, Lembretes, Informacoes, Agendamentos, AdicionarAgendamento,
 };

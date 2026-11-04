@@ -39,10 +39,11 @@ export default function PerfilVeterinario({ navigation, route }) {
       <View style={ui.actions}>
         <Button title="Caderno de cuidados" icon="book-outline" onPress={() => navigation.navigate('CadernoCuidados')} />
         <ThemeSelector />
+        <Button title="Sobre o Dobu" cor="branco" onPress={() => navigation.navigate('Sobre')} />
         <Button title="Editar perfil" icon="create-outline" cor="branco" onPress={() => navigation.navigate('EditarPerfil')} />
         <Button title="Gerenciar agenda" icon="calendar-outline" onPress={() => navigation.navigate('Agendamentos')} />
         <Button title="Animais cadastrados" icon="paw-outline" cor="cinzaEscuro" onPress={() => navigation.navigate('ListaPets')} />
-        <Button title="Caderno de cuidados" icon="book-outline" cor="branco" onPress={() => navigation.navigate('Informacoes')} />
+        <Button title="Informações" icon="book-outline" cor="branco" onPress={() => navigation.navigate('Informacoes')} />
       </View>
 
       <QueryState query={dashboard.query}>

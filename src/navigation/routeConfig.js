@@ -1,6 +1,7 @@
 const publicRoutes = ['Inicial', 'Login', 'Cadastro'];
 const protectedRoutes = [
   'Inicio',
+  'Sobre',
   'PerfilVeterinario',
   'PerfilUsuario',
   'EditarPerfil',

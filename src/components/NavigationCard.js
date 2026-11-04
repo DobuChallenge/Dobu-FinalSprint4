@@ -1,8 +1,9 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { cores } from '../styles/tema';
 
 export default function NavigationCard({ title, description, icon, onPress, highlight = false }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const empty = !title && !description;
 
   return (
@@ -28,7 +29,7 @@ export default function NavigationCard({ title, description, icon, onPress, high
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   card: {
     width: '46%',
     minHeight: 145,

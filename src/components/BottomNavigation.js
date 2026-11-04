@@ -1,9 +1,10 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { cores } from '../styles/tema';
 
 export default function BottomNavigation({ navigation, active, homeRoute = 'Inicio' }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const insets = useSafeAreaInsets();
   const items = [
     { route: homeRoute, icon: 'home-outline', id: 'home', label: 'Início' },
@@ -26,7 +27,7 @@ export default function BottomNavigation({ navigation, active, homeRoute = 'Inic
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   rodape: {
     position: 'absolute',
     left: 0,

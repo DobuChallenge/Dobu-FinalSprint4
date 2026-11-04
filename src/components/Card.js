@@ -1,13 +1,14 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { StyleSheet, View } from 'react-native';
-import { cores } from '../styles/tema';
 
 export default function Card({ children, style }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return <View style={[styles.cartao, style]}>{children}</View>;
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   cartao: {
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderRadius: 14,
     padding: 20,
     shadowColor: '#000',

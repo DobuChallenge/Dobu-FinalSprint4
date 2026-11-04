@@ -1,8 +1,9 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text } from 'react-native';
-import { cores } from '../styles/tema';
 
 export default function Button({ title, icon, cor = 'amarelo', onPress, style, disabled = false }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const branco = cor === 'branco';
   const cinzaEscuro = cor === 'cinzaEscuro';
   const vermelho = cor === 'vermelho';
@@ -36,7 +37,7 @@ export default function Button({ title, icon, cor = 'amarelo', onPress, style, d
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   botao: {
     minHeight: 54,
     borderRadius: 27,
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   branco: {
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderWidth: 1,
     borderColor: cores.cinza,
   },
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: cores.buttonGray,
   },
   vermelho: {
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderWidth: 2,
     borderColor: cores.vermelho,
   },

@@ -1,10 +1,11 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Text, View } from 'react-native';
 import Card from './Card';
 import Button from './Button';
-import { ui } from '../styles/ui';
 import { formatAppointmentDate } from '../utils/agendamentoValidation';
 
 export default function AppointmentCard({ item, onEdit, onDelete, pending }) {
+  const { cores, ui, estilos, styles } = useAppStyles();
   return <Card>
     <Text style={ui.badge}>{item.status}</Text>
     <Text style={ui.title}>{item.petNome}</Text>

@@ -1,9 +1,10 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
-import { cores } from '../styles/tema';
 
 export default function Header({ title, subtitle, navigation, showBack = true }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const { user } = useAuth();
   const telaPrincipal = title === 'Meu perfil' || title?.startsWith('Olá,') || title?.startsWith('Veterin');
   const mostrarVoltar = showBack && !telaPrincipal && navigation?.canGoBack?.();
@@ -39,7 +40,7 @@ export default function Header({ title, subtitle, navigation, showBack = true })
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',

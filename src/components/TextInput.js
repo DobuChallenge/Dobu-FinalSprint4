@@ -1,9 +1,10 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput as NativeTextInput, View } from 'react-native';
-import { cores } from '../styles/tema';
 
 export default function TextInput({ label, value, onChangeText, placeholder, secureTextEntry, keyboardType, multiline, editable = true }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const senhaEscondida = secureTextEntry && !mostrarSenha;
 
@@ -35,7 +36,7 @@ export default function TextInput({ label, value, onChangeText, placeholder, sec
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   grupo: {
     marginBottom: 18,
   },
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   input: {
     minHeight: 52,
     borderRadius: 8,
-    backgroundColor: cores.branco,
+    backgroundColor: cores.fundoClaro,
     borderWidth: 0,
     color: cores.texto,
     paddingHorizontal: 14,

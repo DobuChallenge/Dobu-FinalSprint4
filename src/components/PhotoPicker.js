@@ -1,10 +1,11 @@
+import { useAppStyles } from '../hooks/useAppStyles';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import { Alert, Image, Linking, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import { cores } from '../styles/tema';
 
 export default function PhotoPicker({ photo, onChangePhoto, title = 'Adicionar foto', type = 'perfil', disabled = false }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -88,6 +89,7 @@ async function requestGallery() {
 }
 
 function PickerButton({ title, icon, onPress, danger }) {
+  const { cores, ui, estilos, styles } = useAppStyles(createStyles);
   return (
     <Pressable disabled={!onPress} onPress={onPress} style={[styles.modalButton, danger && styles.dangerButton, !onPress && styles.disabled]}>
       <Ionicons name={icon} size={20} color={danger ? cores.vermelho : cores.branco} />
@@ -96,7 +98,7 @@ function PickerButton({ title, icon, onPress, danger }) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (cores) => StyleSheet.create({
   container: { alignItems: 'center', marginBottom: 20 },
   photo: {
     width: 120,
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
   },
   title: { marginTop: 10, fontWeight: '700', fontSize: 18, color: cores.marrom },
   overlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.4)' },
-  modal: { backgroundColor: cores.branco, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, gap: 10 },
+  modal: { backgroundColor: cores.fundoClaro, padding: 20, borderTopLeftRadius: 20, borderTopRightRadius: 20, gap: 10 },
   modalTitle: { fontWeight: '800', textAlign: 'center', marginBottom: 10, color: cores.texto },
   modalButton: { flexDirection: 'row', gap: 10, padding: 14, backgroundColor: cores.buttonGray, borderRadius: 10, alignItems: 'center' },
   modalButtonText: { color: cores.branco, fontWeight: '700' },

@@ -22,13 +22,13 @@ As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagen
 
 ## Versão para instalar
 
-O **Dobu 1.0.0 (4)** foi publicado no Firebase App Distribution.
+O **Dobu 1.0.1 (5)** foi publicado no Firebase App Distribution.
 
-- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2fa9pp3it7tvg) — requer uma conta convidada;
-- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/2fa9pp3it7tvg) — acesso da equipe responsável pelo projeto;
-- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/71e805ba418d39fa9d0aea399f7a0d3f7927d19c).
+- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/4ec8svtfnvtu0) — requer uma conta convidada;
+- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/4ec8svtfnvtu0) — acesso da equipe responsável pelo projeto;
+- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/77dd82d21d212db44215da95f2ce650f8338de4e).
 
-O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `71e805ba418d39fa9d0aea399f7a0d3f7927d19c`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
+O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `77dd82d21d212db44215da95f2ce650f8338de4e`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
 
 O acesso de instalação foi liberado para a conta responsável pelo projeto. O convite do professor ainda depende do e-mail institucional.
 
@@ -45,7 +45,7 @@ O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza soment
 | Requisito | O que existe nesta versão | O que falta concluir |
 | --- | --- | --- |
 | Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A detecção de alimentação e hidratação ao vivo está pendente |
-| Publicação do aplicativo | APK 1.0.0 (4) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
+| Publicação do aplicativo | APK 1.0.1 (5) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
 | Versão e código correspondentes | Versão, assinatura e hash do commit conferidos no APK publicado | Usar esse mesmo arquivo no vídeo e na avaliação |
 | Notificações reais | Lembretes locais criados a partir da agenda; toque abre o agendamento da conta autenticada | Validar permissão, recebimento automático e abertura da consulta no APK, e mostrar esse fluxo no vídeo |
 | Arquitetura e organização | Interface, hooks, serviços, APIs, sessão e estilos separados; TanStack Query fora das telas | Manter essa separação nos próximos ajustes |
@@ -104,7 +104,7 @@ A URL do serviço Dobu-Cam é diferente da URL da câmera externa, por exemplo `
 
 No celular, abra o aplicativo que transmite a câmera e copie o IP exibido. No Dobu, informe esse IP e toque em **Ligar câmera externa**. O campo aceita `192.168.15.5:8080` ou o endereço completo; quando necessário, completa `http://` e `/video`. Os endereços ficam salvos neste aparelho, separados por conta e câmera. A conexão só inicia quando você toca no botão.
 
-Se não chegar imagem, o app orienta conferir o endereço, a transmissão e a rede Wi-Fi. O serviço Dobu-Cam também precisa estar rodando. A conexão com um celular real deve ser testada quando a transmissão estiver aberta.
+O quadro permanece visível mesmo desconectado. A imagem pausada para marcar os potes fica preservada; o botão **Atualizar imagem** permite tentar novamente. Se não chegar imagem, o app orienta conferir o endereço, a transmissão e a rede Wi-Fi. O serviço Dobu-Cam também precisa estar rodando. A conexão com um celular real deve ser testada quando a transmissão estiver aberta.
 
 Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. As marcações não comprovam consumo: a detecção de alimentação e hidratação ao vivo ainda não está implementada. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
 
@@ -140,7 +140,7 @@ npm run test:integration
 
 Os testes de integração criam e removem seus registros. Cobrem autenticação, pets, agenda, caderno, vacinas, câmeras e conversa. O comando de exportação verifica o bundle; não gera um APK nem comprova o funcionamento em aparelho físico.
 
-Na revisão para a publicação, passaram **55 testes automatizados**; os **2 testes de integração com a API real** também passaram. O build nativo Android foi concluído, e o APK foi instalado e iniciado no emulador. Os bundles iOS e web foram verificados nas revisões anteriores. Os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
+Na revisão para a publicação, passaram **57 testes automatizados**; os **2 testes de integração com a API real** também passaram. O build nativo Android foi concluído, e o APK foi instalado e iniciado no emulador. Os bundles iOS e web foram verificados nas revisões anteriores. Os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
 
 ## APK e Firebase App Distribution
 
@@ -188,7 +188,7 @@ Antes de enviar, confira:
 ## Links e integrantes
 
 - [Repositório Sprint 4](https://github.com/DobuChallenge/Dobu-FinalSprint4)
-- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/2fa9pp3it7tvg)
+- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/4ec8svtfnvtu0)
 - [Vídeo da Sprint 3](https://youtu.be/YcE1WVLbJDI)
 - [Protótipo no Figma](https://www.figma.com/design/mOXmQd2t8nKM3tjBE9g5Dn/Challenge)
 

@@ -4,6 +4,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useAuth } from './useAuth';
 import { useCatalogos, usePets } from './usePets';
+import { buscarFontesPublicas } from '../api/fontesPublicas';
+import { buscarPesquisasVeterinarias } from '../api/fontesCientificas';
+import { buscarTaxaINaturalist, buscarTaxonomiaGbif } from '../api/biodiversidade';
 import {
   cuidadoDaRaca,
   criarControleSubmissao,
@@ -12,6 +15,7 @@ import {
   filtrarInformacoes,
   filtrarVacinas,
   informacaoMutationOptions,
+  vacinaMutationOptions,
   informacoesQuery,
   selecionarPetDisponivel,
   vacinasQuery,
@@ -32,16 +36,53 @@ export function useInformacaoMutations() {
   };
 }
 
+export function useVacinaMutations() {
+  const { user } = useAuth();
+  const client = useQueryClient();
+  return {
+    criar: useMutation(vacinaMutationOptions(client, user, 'criar')),
+  };
+}
+
 export function useInformacoesCaderno(petIdDaRota) {
   const { user } = useAuth();
   const petsQuery = usePets();
   const catalogosQuery = useCatalogos();
   const mutations = useInformacaoMutations();
+  const vacinaMutations = useVacinaMutations();
   const vacinasQueryResult = useQuery(vacinasQuery(user));
   const [petId, setPetId] = useState('');
   const [pesquisa, setPesquisa] = useState('');
   const [pesquisaRaca, setPesquisaRaca] = useState('');
   const [pesquisaVacina, setPesquisaVacina] = useState('');
+  const fontesPublicasQuery = useQuery({
+    queryKey: ['dobu', 'fontes-publicas', pesquisaRaca.trim()],
+    queryFn: () => buscarFontesPublicas(pesquisaRaca),
+    enabled: pesquisaRaca.trim().length >= 3,
+    retry: false,
+    staleTime: 300000,
+  });
+  const pesquisasVeterinariasQuery = useQuery({
+    queryKey: ['dobu', 'pesquisas-veterinarias', pesquisaRaca.trim()],
+    queryFn: () => buscarPesquisasVeterinarias(pesquisaRaca),
+    enabled: pesquisaRaca.trim().length >= 3,
+    retry: false,
+    staleTime: 300000,
+  });
+  const inaturalistQuery = useQuery({
+    queryKey: ['dobu', 'inaturalist', pesquisaRaca.trim()],
+    queryFn: () => buscarTaxaINaturalist(pesquisaRaca),
+    enabled: pesquisaRaca.trim().length >= 3,
+    retry: false,
+    staleTime: 300000,
+  });
+  const gbifQuery = useQuery({
+    queryKey: ['dobu', 'gbif', pesquisaRaca.trim()],
+    queryFn: () => buscarTaxonomiaGbif(pesquisaRaca),
+    enabled: pesquisaRaca.trim().length >= 3,
+    retry: false,
+    staleTime: 300000,
+  });
   const rotaAplicada = useRef('');
   const pets = petsQuery.data || [];
   const petIdSolicitado = String(petIdDaRota || '');
@@ -97,9 +138,14 @@ export function useInformacoesCaderno(petIdDaRota) {
   return {
     petsQuery,
     catalogosQuery,
+    fontesPublicasQuery,
+    pesquisasVeterinariasQuery,
+    inaturalistQuery,
+    gbifQuery,
     vacinasQuery: vacinasQueryResult,
     informacoesQuery: informacoesQueryResult,
     mutations,
+    vacinaMutations,
     pet,
     petId: petIdVisivel,
     petOptions,

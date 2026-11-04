@@ -55,6 +55,18 @@ export function formatarDataVacina(valor) {
   return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
+export function statusDaVacina(dataProximaDose, hoje = new Date()) {
+  if (!dataProximaDose) return { label: 'Sem próxima dose', tipo: 'neutro' };
+  const dataTexto = String(dataProximaDose).slice(0, 10);
+  const [ano, mes, dia] = dataTexto.split('-').map(Number);
+  const proxima = new Date(ano, mes - 1, dia);
+  const referencia = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+  const dias = Math.ceil((proxima - referencia) / 86400000);
+  if (dias < 0) return { label: 'Atrasada', tipo: 'atrasada' };
+  if (dias <= 30) return { label: 'Próxima dose', tipo: 'proxima' };
+  return { label: 'Em dia', tipo: 'emdia' };
+}
+
 export function filtrarVacinas(vacinas, pets, pesquisa, petId = '') {
   const termos = normalizarTexto(pesquisa).split(/\s+/).filter(Boolean);
   const petsVisiveis = Array.isArray(pets) ? pets : [];
@@ -161,5 +173,15 @@ export function informacaoMutationOptions(client, user, action) {
       : (dados) => informacoesApi.criar(dados),
     retry: false,
     onSuccess: () => client.invalidateQueries({ queryKey: [...accountKey(user), 'informacoes'] }),
+  };
+}
+
+export function vacinaMutationOptions(client, user, action) {
+  return {
+    mutationFn: action === 'excluir'
+      ? (id) => vacinasApi.excluir(id)
+      : ({ id, dados }) => id ? vacinasApi.atualizar(id, dados) : vacinasApi.criar(dados),
+    retry: false,
+    onSuccess: () => client.invalidateQueries({ queryKey: [...accountKey(user), 'vacinas'] }),
   };
 }

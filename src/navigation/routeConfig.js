@@ -10,6 +10,7 @@ const protectedRoutes = [
   'PerfilPet',
   'Lembretes',
   'Informacoes',
+  'CadernoCuidados',
   'Agendamentos',
   'AdicionarAgendamento',
 ];

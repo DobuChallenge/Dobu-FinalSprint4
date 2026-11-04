@@ -57,6 +57,7 @@ export default function PerfilUsuario({ navigation, route }) {
         <ThemeSelector />
         <Button title="Editar perfil" icon="create-outline" cor="branco" onPress={() => navigation.navigate('EditarPerfil')} />
         <Button title="Ver animais" icon="paw-outline" onPress={() => navigation.navigate('ListaPets')} />
+        <Button title="Caderno de cuidados" icon="book-outline" onPress={() => navigation.navigate('CadernoCuidados')} />
         <Button title="Ver agendamentos" cor="cinzaEscuro" onPress={() => navigation.navigate('Agendamentos')} />
         <Button title="Sair da conta" icon="log-out-outline" cor="vermelho" onPress={sair} />
       </View>

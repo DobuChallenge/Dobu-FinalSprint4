@@ -26,7 +26,7 @@ export default function Inicio({ navigation }) {
             </QueryState>
           </View>
           <View style={styles.mascote}>
-            <Image source={require('../../assets/gato.png')} style={styles.gato} />
+            <Image source={require('../../assets/gato.webp')} style={styles.gato} />
           </View>
         </View>
 

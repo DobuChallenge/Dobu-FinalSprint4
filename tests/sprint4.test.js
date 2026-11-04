@@ -10,6 +10,18 @@ const require = createRequire(import.meta.url);
 const { parse } = require('@babel/parser');
 const now = Date.parse('2026-11-03T12:00:00Z');
 
+test('imagens usam extensoes compativeis com o formato exigido pelo Android', () => {
+  const root = new URL('../assets/', import.meta.url);
+  for (const name of readdirSync(root)) {
+    const bytes = readFileSync(new URL(name, root));
+    if (name.endsWith('.png')) assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', `${name}: assinatura PNG inválida`);
+    if (name.endsWith('.webp')) {
+      assert.equal(bytes.subarray(0, 4).toString(), 'RIFF');
+      assert.equal(bytes.subarray(8, 12).toString(), 'WEBP');
+    }
+  }
+});
+
 test('alertas usam apenas consultas futuras abertas da conta atual', () => {
   const appointment = { id: 'consulta', status: 'Confirmado', dataAgendamento: '2026-11-03T15:00:00Z', petNome: 'Mia' };
   const plan = notificationPlan([appointment, { ...appointment, id: 'cancelada', status: 'Cancelado' }, { ...appointment, id: 'concluida', status: 'Concluído' }, { ...appointment, id: 'antiga', dataAgendamento: '2026-11-01T10:00:00Z' }], 'tutor', now);

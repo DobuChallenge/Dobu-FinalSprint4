@@ -19,12 +19,12 @@ export default function DobuCam({ navigation, route }) {
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
       <Text style={ui.title}>Câmera ao vivo</Text>
-      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Conectando…' : 'Desconectada'}</Text>
+      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Sincronizando…' : 'Aguardando câmera'}</Text>
       <CameraPreview
         colors={cores}
         imageUri={markers.frozen || monitor.frame}
         imageReady={Boolean(markers.frozen || monitor.imageReady)}
-        message={monitor.urls ? monitor.imageError || 'A imagem da câmera vai aparecer aqui quando o celular começar a transmitir.' : 'Conecte a câmera externa para ver a imagem aqui.'}
+        message="Sincronizando câmera…"
         areas={markers.areas}
         handlers={markers.handlers}
         onLayout={(event) => markers.setSize(event.nativeEvent.layout)}
@@ -76,8 +76,6 @@ export default function DobuCam({ navigation, route }) {
       {!!monitor.settingsError && <Text style={ui.error}>{monitor.settingsError}</Text>}
       <View style={ui.actions}>
         <Button title={!monitor.settingsReady ? 'Carregando endereço…' : monitor.sourceBusy ? 'Conectando…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectar} />
-        <Button title="Parar captura" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={monitor.pararCaptura} />
-        <Button title="Parar visualização" cor="cinzaEscuro" onPress={monitor.parar} />
         <Button title="Gerenciar câmeras" cor="branco" onPress={() => navigation.navigate('MinhasCameras')} />
       </View>
     </Card>

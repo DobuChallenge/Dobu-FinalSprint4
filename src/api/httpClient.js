@@ -50,7 +50,7 @@ export async function request(path, { method = 'GET', body, authenticated = true
   return sendJson(`${baseUrl.href.replace(/\/+$/, '')}${path}`, { method, body, authenticated, timeoutMs });
 }
 
-export async function requestDeviceJson(url) {
+export async function requestDeviceJson(url, { method = 'GET', body, timeoutMs = 15000 } = {}) {
   let deviceUrl;
   try {
     deviceUrl = new URL(url);
@@ -60,7 +60,7 @@ export async function requestDeviceJson(url) {
   } catch {
     throw new ApiError('Informe uma URL HTTP válida para o dispositivo.', 'REQUEST_ERROR');
   }
-  return sendJson(deviceUrl.href, { method: 'GET', authenticated: false, timeoutMs: 15000 });
+  return sendJson(deviceUrl.href, { method, body, authenticated: false, timeoutMs });
 }
 
 async function sendJson(url, { method, body, authenticated, timeoutMs }) {

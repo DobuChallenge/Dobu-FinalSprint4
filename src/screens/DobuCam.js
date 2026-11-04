@@ -1,6 +1,7 @@
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Screen from '../components/Screen';
 import Card from '../components/Card';
+import CameraPreview from '../components/CameraPreview';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import SelectField from '../components/SelectField';
@@ -18,23 +19,29 @@ export default function DobuCam({ navigation, route }) {
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
       <Text style={ui.title}>Câmera ao vivo</Text>
-      <Text style={ui.badge}>{monitor.reading?.online ? 'Online' : 'Aguardando imagem recente'}</Text>
-      {!!monitor.frame && <View style={{ width: '100%', aspectRatio: 16 / 9, backgroundColor: cores.campo, borderRadius: 16, overflow: 'hidden' }} onLayout={(event) => markers.setSize(event.nativeEvent.layout)} {...markers.handlers}>
-        <View pointerEvents="none" style={{ flex: 1 }}>
-          <Image source={{ uri: markers.frozen || monitor.frame }} style={{ width: '100%', height: '100%' }} resizeMode="stretch" />
-          {['food', 'water'].map((kind) => markers.areas[kind] && <View key={kind} style={{ position: 'absolute', left: `${markers.areas[kind].x * 100}%`, top: `${markers.areas[kind].y * 100}%`, width: `${markers.areas[kind].width * 100}%`, height: `${markers.areas[kind].height * 100}%`, borderWidth: 2, borderColor: kind === 'food' ? '#FF8C28' : '#55A5D9' }}><Text numberOfLines={1} style={{ position: 'absolute', top: -17, left: 0, width: 64, fontSize: 11, color: '#FFFFFF', backgroundColor: '#333333' }}>{kind === 'food' ? 'COMIDA' : 'ÁGUA'}</Text></View>)}
-        </View>
-      </View>}
+      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Conectando…' : 'Desconectada'}</Text>
+      <CameraPreview
+        colors={cores}
+        imageUri={markers.frozen || monitor.frame}
+        imageReady={Boolean(markers.frozen || monitor.imageReady)}
+        message={monitor.urls ? monitor.imageError || 'A imagem da câmera vai aparecer aqui quando o celular começar a transmitir.' : 'Conecte a câmera externa para ver a imagem aqui.'}
+        areas={markers.areas}
+        handlers={markers.handlers}
+        onLayout={(event) => markers.setSize(event.nativeEvent.layout)}
+        onLoad={() => { if (!markers.frozen) monitor.imagemCarregada(monitor.frame); }}
+        onError={() => { if (!markers.frozen) monitor.imagemFalhou(monitor.frame); }}
+      />
       <View style={ui.actions}>
-        <Button title="Marcar pote de comida" disabled={!monitor.frame} onPress={() => markers.marcar('food', monitor.frame)} />
-        <Button title="Marcar pote de água" disabled={!monitor.frame} onPress={() => markers.marcar('water', monitor.frame)} />
+        <Button title="Atualizar imagem" disabled={!monitor.urls || !!markers.frozen} cor="cinzaEscuro" onPress={monitor.atualizarImagem} />
+        <Button title="Marcar pote de comida" disabled={!monitor.imageReady && !markers.frozen} onPress={() => markers.marcar('food', markers.frozen || monitor.loadedFrame)} />
+        <Button title="Marcar pote de água" disabled={!monitor.imageReady && !markers.frozen} onPress={() => markers.marcar('water', markers.frozen || monitor.loadedFrame)} />
         {!!markers.selected && <Text style={ui.caption}>Arraste um retângulo na imagem congelada.</Text>}
         <Button title="Salvar marcações" disabled={!monitor.urls || markers.saving} onPress={markers.salvar} />
         {!!markers.frozen && <Button title="Retomar câmera" cor="cinzaEscuro" onPress={markers.retomar} />}
         {!!markers.error && <Text style={ui.error}>{markers.error}</Text>}
       </View>
-      <Text style={ui.body}>Presença: {monitor.reading?.presente ? 'Animal identificado' : 'Sem animal identificado'}</Text>
-      <Text style={ui.body}>Movimento: {!monitor.reading?.presente ? 'Aguardando animal' : monitor.reading.movimento ? 'Em movimento' : 'Pouco movimento'}</Text>
+      <Text style={ui.body}>Presença: {!monitor.reading?.online ? 'Aguardando leitura' : monitor.reading.presente ? 'Animal identificado' : 'Sem animal identificado'}</Text>
+      <Text style={ui.body}>Movimento: {!monitor.reading?.online ? 'Aguardando leitura' : !monitor.reading.presente ? 'Aguardando animal' : monitor.reading.movimento ? 'Em movimento' : 'Pouco movimento'}</Text>
       {!!monitor.reading?.especie && <Text style={ui.caption}>Animal: {monitor.reading.especie}</Text>}
       <Text style={ui.caption}>A observação da rotina não substitui a avaliação veterinária.</Text>
       {monitor.reading?.descanso && <Text style={ui.body}>Possível descanso: pouca atividade por mais de uma hora.</Text>}

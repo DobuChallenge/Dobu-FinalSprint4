@@ -18,13 +18,20 @@ export function useDobuCam(cameraId = 'principal') {
   const [sourceBusy, setSourceBusy] = useState(false);
   const [settingsReady, setSettingsReady] = useState(false);
   const [settingsError, setSettingsError] = useState('');
+  const [imageReady, setImageReady] = useState(false);
+  const [imageError, setImageError] = useState('');
+  const [loadedFrame, setLoadedFrame] = useState('');
+  const [sourceActive, setSourceActive] = useState(false);
   const locked = useRef(false);
   const generation = useRef(0);
+  const imageRequestPending = useRef(false);
 
   useEffect(() => {
     let active = true;
     generation.current += 1;
     setUrls(null); setReading(null); setEvents([]); setError('');
+    setImageReady(false); setImageError(''); setLoadedFrame(''); setSourceActive(false);
+    imageRequestPending.current = false;
     setSettingsReady(false); setSettingsError('');
     setEndpoint(cameraConfig.baseUrl || ''); setExternalUrl('');
     if (!settingsKey) return () => { active = false; generation.current += 1; };
@@ -42,6 +49,8 @@ export function useDobuCam(cameraId = 'principal') {
   function parar() {
     generation.current += 1;
     setUrls(null); setReading(null); setEvents([]); setError('');
+    setImageReady(false); setImageError(''); setLoadedFrame(''); setSourceActive(false);
+    imageRequestPending.current = false;
   }
 
   async function conectar() {
@@ -49,6 +58,8 @@ export function useDobuCam(cameraId = 'principal') {
     locked.current = true;
     const attempt = ++generation.current;
     setSourceBusy(true); setError(''); setUrls(null); setReading(null); setEvents([]);
+    setImageReady(false); setImageError(''); setLoadedFrame(''); setSourceActive(false);
+    imageRequestPending.current = false;
     try {
       const nextUrls = cameraUrls(endpoint);
       const external = externalCameraUrl(externalUrl);
@@ -57,6 +68,9 @@ export function useDobuCam(cameraId = 'principal') {
       await dobuCamApi.conectarExterna(base, external);
       if (generation.current === attempt) {
         setExternalUrl(external);
+        setSourceActive(true);
+        imageRequestPending.current = true;
+        setTick(Date.now());
         setUrls({ ...nextUrls, base, connectedAt });
         setSettingsError('');
         try { await AsyncStorage.setItem(settingsKey, JSON.stringify({ endpoint: endpoint.trim(), externalUrl: external })); }
@@ -83,32 +97,45 @@ export function useDobuCam(cameraId = 'principal') {
     let timer;
     async function update() {
       try {
-        const [source, status] = await Promise.all([
+        const [sourceResult, statusResult] = await Promise.allSettled([
           dobuCamApi.consultarFonte(urls.base),
           dobuCamApi.lerStatus(urls.status),
         ]);
         if (!active) return;
-        if (!fonteExternaAtiva(source)) {
-          setReading(null); setEvents([]); setUrls(null);
+        if (sourceResult.status === 'rejected') throw sourceResult.reason;
+        if (!fonteExternaAtiva(sourceResult.value)) {
+          setReading(null); setEvents([]); setSourceActive(false);
+          setImageReady(false); setLoadedFrame(''); imageRequestPending.current = false;
           setError('A câmera externa não está ativa. Conecte novamente para continuar.');
           return;
         }
-        const current = cameraReading(status);
-        if (Date.parse(status.last_frame_at) < urls.connectedAt) current.online = current.presente = current.movimento = current.descanso = false;
-        setReading(current);
-        setEvents((status.events || []).filter(event => Date.parse(event.timestamp) >= urls.connectedAt));
-        setError(!current.online && Date.now() - urls.connectedAt > 20000
-          ? 'A câmera ainda não enviou imagem. Confira o endereço, a transmissão no celular e a conexão Wi-Fi.' : '');
-        setTick(Date.now());
-      } catch (err) { if (active) { setError(err.message); setReading(null); setEvents([]); } }
+        setSourceActive(true);
+        if (statusResult.status === 'fulfilled') {
+          const status = statusResult.value;
+          const current = cameraReading(status);
+          if (Date.parse(status.last_frame_at) < urls.connectedAt) current.online = current.presente = current.movimento = current.descanso = false;
+          setReading(current);
+          setEvents((status.events || []).filter(event => Date.parse(event.timestamp) >= urls.connectedAt));
+          setError(!current.online && Date.now() - urls.connectedAt > 20000
+            ? 'Confira o endereço e a transmissão do celular se a imagem ainda não apareceu.' : '');
+        } else {
+          setReading(null); setEvents([]);
+          setError('Não foi possível atualizar a leitura do animal. A imagem continua sendo consultada.');
+        }
+        if (!imageRequestPending.current) { imageRequestPending.current = true; setTick(Date.now()); }
+      } catch (err) { if (active) { setError(err.message); setReading(null); setEvents([]); setSourceActive(false); setImageReady(false); imageRequestPending.current = false; } }
       finally { if (active) timer = setTimeout(update, 1000); }
     }
     update();
     return () => { active = false; clearTimeout(timer); };
   }, [urls]);
 
-  return { endpoint, setEndpoint, conectar, reading, error, urls, events, externalUrl, setExternalUrl, sourceBusy, pararCaptura, settingsReady, settingsError,
-    frame: urls && reading?.online ? `${urls.frame}?t=${tick}` : '',
+  const frame = urls && sourceActive ? `${urls.frame}?t=${tick}` : '';
+  return { endpoint, setEndpoint, conectar, reading, error, urls, events, externalUrl, setExternalUrl, sourceBusy, pararCaptura, settingsReady, settingsError, imageReady, imageError, loadedFrame,
+    frame,
+    atualizarImagem: () => { imageRequestPending.current = true; setImageError(''); setTick(Date.now()); },
+    imagemCarregada: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(true); setImageError(''); setLoadedFrame(uri); } },
+    imagemFalhou: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(false); setImageError('A imagem não carregou. Confira se a transmissão do celular está aberta e tente atualizar.'); } },
     parar,
   };
 }

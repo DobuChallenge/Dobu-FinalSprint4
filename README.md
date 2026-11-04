@@ -1,6 +1,10 @@
 # Dobu Mobile — Sprint 4
 
-Aplicativo em React Native e Expo para acompanhar os cuidados dos animais, mesmo à distância. Este repositório contém o mobile; a API .NET, a Dobu-Cam e o petObserver ficam separados.
+**Cuidado que acompanha.**
+
+O Dobu é um aplicativo para organizar os cuidados dos animais e facilitar o acompanhamento entre tutores e veterinários. A proposta é manter vacinas, anotações e consultas em um só lugar e permitir que o tutor observe seu animal pela Dobu-Cam, mesmo à distância.
+
+O aplicativo foi desenvolvido em React Native com Expo e utiliza a API REST Dobu em .NET. Este repositório contém o mobile; a API .NET e os serviços de câmera ficam em projetos separados.
 
 ## Funcionalidades
 
@@ -15,6 +19,28 @@ Aplicativo em React Native e Expo para acompanhar os cuidados dos animais, mesmo
 - Tela Sobre com versão e commit de referência.
 
 As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagens.
+
+## Continuidade do projeto
+
+Os dois CRUDs da Sprint 3, **animais** e **agendamentos**, continuam integrados à API. As 16 telas presentes na versão inicial deste repositório foram mantidas; a versão atual tem 20 telas, incluindo Caderno de cuidados, conversa do agendamento, cadastro de câmeras e Sobre.
+
+O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza somente câmera externa e mantém os controles para ligar, parar e marcar os potes no quadro.
+
+## Conferência dos requisitos da Sprint 4
+
+| Requisito | O que existe nesta versão | O que falta concluir |
+| --- | --- | --- |
+| Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A detecção de alimentação e hidratação ao vivo está pendente |
+| Publicação do aplicativo | Configuração de APK no EAS e script de distribuição | Gerar o APK, publicar no Firebase App Distribution e liberar a instalação para o e-mail institucional do professor |
+| Versão e código correspondentes | Tela Sobre com versão e hash do commit de referência | Conferir o hash no APK instalado e distribuir exatamente o mesmo arquivo usado no vídeo |
+| Notificações reais | Lembretes locais criados a partir da agenda; toque abre o agendamento da conta autenticada | Validar permissão, recebimento automático e abertura da consulta no APK, e mostrar esse fluxo no vídeo |
+| Arquitetura e organização | Interface, hooks, serviços, APIs, sessão e estilos separados; TanStack Query fora das telas | Manter essa separação nos próximos ajustes |
+| Vídeo da apresentação | Link da Sprint 3 mantido como referência | Gravar e disponibilizar o vídeo final com todos os fluxos da versão publicada |
+| Tema claro e escuro | Botão no topo, preferência salva e opção de seguir o sistema pelo perfil | Conferir a aparência de todas as telas no aparelho da entrega |
+
+**A entrega ainda não está concluída.** A configuração de publicação e o código das notificações não substituem a instalação pelo professor nem a demonstração do alerta funcionando.
+
+A comparação das telas foi feita com a versão inicial deste repositório, commit `10f1ef6`. Os materiais das Sprints 1 e 2 não estão incluídos aqui; a presença das telas, por si só, não comprova que todo o escopo dessas entregas foi concluído.
 
 ## Rodar o app
 
@@ -96,6 +122,8 @@ npm run test:integration
 
 Os testes de integração criam e removem seus registros. Cobrem autenticação, pets, agenda, caderno, vacinas, câmeras e conversa. O comando de exportação verifica o bundle; não gera um APK nem comprova o funcionamento em aparelho físico.
 
+Na revisão do código `846f3e8`, passaram **54 testes automatizados e 2 testes de integração com a API real**. Também foram gerados os bundles Android, iOS e web. A inicialização no emulador Android foi confirmada pelos logs; os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
+
 ## APK e Firebase App Distribution
 
 1. Faça login com `npx eas-cli login` e vincule o projeto com `npx eas-cli init`.
@@ -121,6 +149,16 @@ npm run distribuir -- C:/caminho/dobu.apk $releaseCommit
 Confirme o convite e a instalação pelo professor. A publicação, o acesso dele e o vídeo final ainda estão pendentes.
 
 No vídeo, mostre os fluxos completos: cadastro e login, animais, agenda e conversa, caderno, informações, câmera, troca de tema, notificação automática, restauração da sessão e tela Sobre. O código, o APK instalado e o APK publicado devem corresponder à mesma versão.
+
+Antes de enviar, confira:
+
+- [ ] APK instalado e fluxo completo testado com responsável e veterinário;
+- [ ] Câmera externa conectada e imagem recente aparecendo no monitor;
+- [ ] Notificação de um agendamento real recebida automaticamente, com abertura da consulta ao tocar;
+- [ ] APK publicado no Firebase App Distribution e professor com acesso para instalar;
+- [ ] Hash da tela Sobre correspondente ao código entregue;
+- [ ] Vídeo final disponível, usando o mesmo APK da publicação;
+- [ ] Serviços acessíveis durante a avaliação, sem depender de um endereço local inacessível ao professor.
 
 ## Links e integrantes
 

@@ -7,8 +7,10 @@ import Card from '../components/Card';
 import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
 import SelectField from '../components/SelectField';
+import TextInput from '../components/TextInput';
 import { useAgendamentoEditor, useAgendamentoForm } from '../hooks/useAgendamentoForm';
 import { appointmentStatuses } from '../utils/agendamentoValidation';
+import { appointmentTimeOptions, formatTimeInput } from '../utils/appointmentTimes';
 
 const monthNames = [
   'Janeiro',
@@ -26,12 +28,6 @@ const monthNames = [
 ];
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-const availableTimes = Array.from({ length: 21 }, (_, index) => {
-  const totalMinutes = 8 * 60 + index * 30;
-  const hour = String(Math.floor(totalMinutes / 60)).padStart(2, '0');
-  const minute = String(totalMinutes % 60).padStart(2, '0');
-  return `${hour}:${minute}`;
-});
 
 export default function AdicionarAgendamento({ navigation, route }) {
   const { ui } = useAppStyles(createStyles);
@@ -60,8 +56,9 @@ function AgendamentoForm({ navigation, editing, form, pets }) {
     return new Date(initial.getFullYear(), initial.getMonth(), 1);
   });
   const days = useMemo(() => buildMonthDays(visibleMonth), [visibleMonth]);
+  const [manualTime, setManualTime] = useState(false);
   const statusOptions = [...new Set([...appointmentStatuses, form.draft.status])].filter(Boolean).map((value) => ({ value, label: value }));
-  const timeOptions = [...new Set([...availableTimes, form.draft.horario])].filter(Boolean).map((value) => ({ value, label: value }));
+  const timeOptions = [{ value: 'custom', label: 'Digitar horário (HH:MM)' }, ...appointmentTimeOptions(form.draft.horario)];
 
   if (!pets.length) {
     return (
@@ -94,7 +91,8 @@ function AgendamentoForm({ navigation, editing, form, pets }) {
         onChangeMonth={(direction) => setVisibleMonth((current) => new Date(current.getFullYear(), current.getMonth() + direction, 1))}
         onSelect={(date) => form.change('data', formatDate(date))}
       />
-      <SelectField label="Horário" value={form.draft.horario} onChange={(value) => form.change('horario', value)} options={timeOptions} placeholder="Selecione o horário" disabled={form.pending} />
+      <SelectField label="Horário" value={manualTime ? 'custom' : form.draft.horario} onChange={(value) => { setManualTime(value === 'custom'); if (value !== 'custom') form.change('horario', value); }} options={timeOptions} placeholder="Selecione o horário" disabled={form.pending} />
+      {manualTime && <TextInput label="Horário exato" value={form.draft.horario} onChangeText={(value) => form.change('horario', formatTimeInput(value))} placeholder="HH:MM" keyboardType="number-pad" autoCapitalize="none" autoCorrect={false} editable={!form.pending} />}
       <SelectField label="Status" value={form.draft.status} onChange={(value) => form.change('status', value)} options={statusOptions} disabled={form.pending} />
       {form.error ? <Text style={ui.error} accessibilityRole="alert">{form.error}</Text> : null}
       <View style={ui.actions}>

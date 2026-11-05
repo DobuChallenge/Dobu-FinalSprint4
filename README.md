@@ -14,7 +14,7 @@ O responsável cadastra seus animais, consulta o caderno de cuidados e organiza 
 | --- | --- |
 | Conta | Cadastro de responsável ou veterinário, login, edição de perfil, foto e restauração da sessão |
 | Animais | Cadastro, consulta, edição e exclusão, com espécie, raça e responsável |
-| Agendamentos | Cadastro, consulta, edição, cancelamento e exclusão de consultas |
+| Agendamentos | Cadastro, consulta, edição, cancelamento e exclusão de consultas, com horários do dia inteiro e opção de digitar hora e minuto |
 | Conversa da consulta | Mensagens e confirmação do horário pelos dois participantes |
 | Caderno de cuidados | Anotações por animal, registro de vacinas e próxima dose |
 | Informações | Pesquisa de raças e conteúdos sobre animais em fontes públicas |
@@ -33,7 +33,7 @@ A distribuição é feita pelo **Firebase App Distribution**, para as contas con
 
 Abra o link usando a mesma conta Google que recebeu o convite. O Firebase apresenta a versão disponível e as instruções de instalação. O aplicativo Android utiliza o identificador `com.dobuchallenge.mobile`.
 
-A versão publicada é a **1.0.7 (11)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/v1.0.7-sprint4) está identificado pela tag `v1.0.7-sprint4`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
+A versão publicada é a **1.0.8 (12)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/v1.0.8-sprint4) está identificado pela tag `v1.0.8-sprint4`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
 
 A API para esta versão está disponível em HTTPS:
 
@@ -66,7 +66,7 @@ O serviço processa uma captura por vez. Cadastrar várias câmeras organiza os 
 
 ## Notificações das consultas
 
-O Dobu usa **notificações locais do Android**, vinculadas a agendamentos reais. Em **Lembretes**, ative os alertas e conceda a permissão solicitada pelo sistema. Uma consulta futura com status Agendado ou Confirmado gera um lembrete para o horário cadastrado. O aviso identifica o animal e, ao ser tocado, abre o agendamento correspondente na conta autenticada.
+O Dobu usa **notificações locais do Android**, vinculadas a agendamentos reais. Em **Lembretes**, ative os alertas e conceda a permissão solicitada pelo sistema. No formulário da consulta, o seletor oferece horários a cada cinco minutos ou **Digitar horário (HH:MM)** para informar um horário exato. Uma consulta futura com status Agendado ou Confirmado gera um lembrete para o horário cadastrado. O aviso identifica o animal e, ao ser tocado, abre o agendamento correspondente na conta autenticada.
 
 A tela mostra quantos lembretes estão programados e qual é o próximo horário. Ao editar ou cancelar uma consulta, o aplicativo ajusta os lembretes durante a próxima sincronização da agenda. Essa consulta ocorre a cada 30 segundos enquanto o app está ativo e quando ele volta ao primeiro plano. Ao sair da conta, os lembretes daquela sessão são removidos.
 

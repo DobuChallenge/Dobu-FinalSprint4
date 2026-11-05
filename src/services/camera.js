@@ -7,7 +7,8 @@ export function cameraUrls(base) {
 
 export function cameraReading(data = {}, now = Date.now()) {
   const lastFrame = Date.parse(data.last_frame_at || '');
-  const age = now - lastFrame;
+  const serverTime = Date.parse(data.server_time || '');
+  const age = (Number.isFinite(serverTime) ? serverTime : now) - lastFrame;
   const online = data.camera_online === true && Number.isFinite(lastFrame) && age >= -5000 && age < 15000;
   return { online, presente: online && data.pet_detected === true, movimento: online && data.pet_detected === true && data.pet_moving === true,
     descanso: online && data.pet_detected === true && data.possible_rest === true,

@@ -1,5 +1,5 @@
 import { useAppStyles } from '../hooks/useAppStyles';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../hooks/useAuth';
 import Header from './Header';
@@ -13,7 +13,7 @@ export default function Screen({ navigation, title, subtitle, active, children }
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
           <Header navigation={navigation} title={title} subtitle={subtitle} />
-          {children}
+          <View style={{ gap: 16 }}>{children}</View>
         </ScrollView>
       </KeyboardAvoidingView>
       <BottomNavigation navigation={navigation} active={active} homeRoute={user?.tipoConta === 'veterinario' ? 'PerfilVeterinario' : 'Inicio'} />

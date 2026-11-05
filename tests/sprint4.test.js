@@ -10,6 +10,12 @@ const require = createRequire(import.meta.url);
 const { parse } = require('@babel/parser');
 const now = Date.parse('2026-11-03T12:00:00Z');
 
+test('a leitura usa o relógio do servidor sem confundir atraso do celular com câmera offline', () => {
+  const status = { camera_online: true, pet_detected: true, server_time: '2026-11-03T12:00:00Z', last_frame_at: '2026-11-03T11:59:59Z' };
+  assert.equal(cameraReading(status, now - 60000).online, true);
+  assert.equal(cameraReading({ ...status, last_frame_at: '2026-11-03T11:59:00Z' }, now - 60000).online, false);
+});
+
 test('imagens usam extensoes compativeis com o formato exigido pelo Android', () => {
   const root = new URL('../assets/', import.meta.url);
   for (const name of readdirSync(root)) {

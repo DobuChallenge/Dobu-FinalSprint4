@@ -18,8 +18,9 @@ export default function DobuCam({ navigation, route }) {
   const markers = useBowlMarkers(monitor.urls);
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
-      <Text style={ui.title}>Câmera ao vivo</Text>
-      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Sincronizando…' : 'Aguardando câmera'}</Text>
+      <Text style={ui.title}>{monitor.demo ? 'Vídeo de demonstração' : 'Câmera ao vivo'}</Text>
+      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? monitor.demo ? 'Demonstração' : 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Sincronizando…' : 'Aguardando câmera'}</Text>
+      {monitor.demo && <Text style={ui.caption}>Gravação do gato usada para demonstrar o monitoramento.</Text>}
       <CameraPreview
         colors={cores}
         imageUri={markers.frozen || monitor.frame}
@@ -76,6 +77,7 @@ export default function DobuCam({ navigation, route }) {
       {!!monitor.settingsError && <Text style={ui.error}>{monitor.settingsError}</Text>}
       <View style={ui.actions}>
         <Button title={!monitor.settingsReady ? 'Carregando endereço…' : monitor.sourceBusy ? 'Conectando…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectar} />
+        <Button title="Reproduzir vídeo do gato" cor="cinzaEscuro" disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectarDemo} />
         <Button title="Gerenciar câmeras" cor="branco" onPress={() => navigation.navigate('MinhasCameras')} />
       </View>
     </Card>

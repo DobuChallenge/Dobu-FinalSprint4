@@ -221,6 +221,7 @@ O vídeo da Sprint 3 permanece como registro da evolução do projeto.
 | Backend | [API .NET](https://github.com/DobuChallenge/Dobu-Sprint4.NET) |
 | Documentação da API | [Swagger](https://dobu-sprint4-api-rm563549.azurewebsites.net/swagger) |
 | Monitoramento | [Dobu-Cam](https://github.com/DobuChallenge/Dobu-Cam) |
+| Repositório | [Git-Hub](https://github.com/DobuChallenge/Dobu-FinalSprint4.git) |
 
 ## Integrantes
 

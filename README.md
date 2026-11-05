@@ -1,197 +1,172 @@
-# Dobu Mobile — Sprint 4
+# Dobu Mobile
 
 **Cuidado que acompanha.**
 
-O Dobu é um aplicativo para organizar os cuidados dos animais e facilitar o acompanhamento entre tutores e veterinários. A proposta é manter vacinas, anotações e consultas em um só lugar e permitir que o tutor observe seu animal pela Dobu-Cam, mesmo à distância.
+O Dobu aproxima tutores e veterinários no cuidado diário dos animais. O aplicativo reúne consultas, vacinas e anotações do animal e oferece acompanhamento por câmera externa para os momentos em que o tutor está longe.
 
-O aplicativo foi desenvolvido em React Native com Expo e utiliza a API REST Dobu em .NET. Este repositório contém o mobile; a API .NET e os serviços de câmera ficam em projetos separados.
+Este repositório contém o aplicativo mobile da Sprint 4, desenvolvido em React Native com Expo. A [API .NET](https://github.com/DobuChallenge/Dobu-Sprint4.NET) e a [Dobu-Cam](https://github.com/DobuChallenge/Dobu-Cam) são serviços separados que se integram ao aplicativo.
 
-## Funcionalidades
+## Conheça o aplicativo
 
-- Cadastro e login de responsáveis e veterinários, edição de perfil e sessão persistente;
-- Cadastro, consulta, edição e exclusão de animais e agendamentos;
-- Conversa por agendamento, com confirmação dos dois participantes;
-- Caderno de cuidados com anotações, vacinas e próxima dose;
-- Pesquisa de raças, cuidados e fontes públicas sobre animais;
-- Cadastro de Dobu-Cams por animal, conexão de câmera externa e marcação dos potes;
-- Notificações locais dos agendamentos;
-- Tema claro ou escuro pelo botão no topo; o perfil também permite seguir o tema do sistema;
-- Tela Sobre com versão e commit de referência.
+O responsável cadastra seus animais, consulta o caderno de cuidados e organiza os próximos atendimentos. O veterinário acompanha os animais atendidos, registra observações e conversa com o tutor para combinar a consulta. Os registros ficam vinculados ao animal, permitindo que o tutor consulte as anotações do atendimento depois.
 
-As fotos dos perfis ficam no dispositivo. A API atual não armazena essas imagens.
+| Área | Recursos |
+| --- | --- |
+| Conta | Cadastro de responsável ou veterinário, login, edição de perfil, foto e restauração da sessão |
+| Animais | Cadastro, consulta, edição e exclusão, com espécie, raça e responsável |
+| Agendamentos | Cadastro, consulta, edição, cancelamento e exclusão de consultas |
+| Conversa da consulta | Mensagens e confirmação do horário pelos dois participantes |
+| Caderno de cuidados | Anotações por animal, registro de vacinas e próxima dose |
+| Informações | Pesquisa de raças e conteúdos sobre animais em fontes públicas |
+| Dobu-Cams | Cadastro por animal, nome da câmera, conexão externa e marcação dos potes no quadro |
+| Lembretes | Notificações locais no horário das consultas futuras |
+| Aparência | Temas claro e escuro, preferência salva e opção de seguir o sistema |
+| Sobre | Versão instalada e commit de referência do APK |
 
-## Versão para instalar
+Os CRUDs de animais e agendamentos das entregas anteriores foram preservados. O caderno de cuidados ficou separado da pesquisa de informações. As fotos dos perfis são armazenadas no aparelho; os demais registros dessa tabela utilizam a API quando há persistência no servidor.
 
-O **Dobu 1.0.3 (7)** foi publicado no Firebase App Distribution.
+## Instalação no Android
 
-- [Instalar pelo Firebase](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/3u3jllcitrsso) — requer uma conta convidada;
-- [Abrir a versão no console Firebase](https://console.firebase.google.com/project/dobu-sprint4-20261104-brn3dk/appdistribution/app/android:com.dobuchallenge.mobile/releases/3u3jllcitrsso) — acesso da equipe responsável pelo projeto;
-- [Código do APK publicado](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/446c8ed5ef3891b599dd0ee7ef7c6426da75d190).
+A distribuição é feita pelo **Firebase App Distribution**, para as contas convidadas:
 
-O APK foi gerado em modo release, teve a assinatura verificada e foi instalado e iniciado no emulador Android. O hash dentro do arquivo é `446c8ed5ef3891b599dd0ee7ef7c6426da75d190`. Essa é a referência do código da versão publicada; atualizações posteriores deste README não alteram o APK.
+[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d)
 
-O acesso de instalação foi liberado para a conta responsável pelo projeto. O convite do professor ainda depende do e-mail institucional.
+Abra o link usando a mesma conta Google que recebeu o convite. O Firebase apresenta a versão disponível e as instruções de instalação. O aplicativo Android utiliza o identificador `com.dobuchallenge.mobile`.
 
-Esta versão usa os serviços da apresentação no computador `192.168.15.11`. A API e a Dobu-Cam precisam estar ligadas e acessíveis pela rede. O Firebase distribui o aplicativo; os serviços .NET e de câmera continuam separados. Para testar em outra rede, será necessário disponibilizar esses serviços em endereços acessíveis ao testador e gerar uma versão com a configuração correspondente.
+A versão preparada nesta revisão é a **1.0.4 (8)**. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
 
-## Continuidade do projeto
+A API para esta versão está disponível em HTTPS:
 
-Os dois CRUDs da Sprint 3, **animais** e **agendamentos**, continuam integrados à API. As 16 telas presentes na versão inicial deste repositório foram mantidas; a versão atual tem 20 telas, incluindo Caderno de cuidados, conversa do agendamento, cadastro de câmeras e Sobre.
-
-O caderno ficou separado da pesquisa de informações. A Dobu-Cam utiliza somente câmera externa, com o quadro de imagem no topo, sincronização e marcação dos potes.
-
-## Conferência dos requisitos da Sprint 4
-
-| Requisito | O que existe nesta versão | O que falta concluir |
-| --- | --- | --- |
-| Telas funcionais e fluxo completo | Autenticação, CRUDs, caderno, vacinas e conversa integrados à API; telas anteriores preservadas | Ensaiar o fluxo completo no APK com os dois perfis e a câmera externa real. A análise dos potes ao vivo usa permanência na região marcada; precisa de validação com a câmera e o animal reais |
-| Publicação do aplicativo | APK 1.0.3 (7) publicado no Firebase App Distribution e liberado para a conta responsável pelo projeto | Adicionar o e-mail institucional do professor e confirmar que ele consegue instalar |
-| Versão e código correspondentes | Versão, assinatura e hash do commit conferidos no APK publicado | Usar esse mesmo arquivo no vídeo e na avaliação |
-| Notificações reais | Lembretes locais criados a partir da agenda; toque abre o agendamento da conta autenticada | Validar permissão, recebimento automático e abertura da consulta no APK, e mostrar esse fluxo no vídeo |
-| Arquitetura e organização | Interface, hooks, serviços, APIs, sessão e estilos separados; TanStack Query fora das telas | Manter essa separação nos próximos ajustes |
-| Vídeo da apresentação | Link da Sprint 3 mantido como referência | Gravar e disponibilizar o vídeo final com todos os fluxos da versão publicada |
-| Tema claro e escuro | Botão no topo, preferência salva e opção de seguir o sistema pelo perfil | Conferir a aparência de todas as telas no aparelho da entrega |
-
-**A entrega ainda não está concluída.** A publicação já foi feita, mas faltam o acesso do professor, a demonstração das notificações no APK e o vídeo final.
-
-A comparação das telas foi feita com a versão inicial deste repositório, commit `10f1ef6`. Os materiais das Sprints 1 e 2 não estão incluídos aqui; a presença das telas, por si só, não comprova que todo o escopo dessas entregas foi concluído.
-
-## Rodar o app
-
-Use Node.js 22.7 ou superior e npm. Instale as dependências:
-
-```powershell
-npm ci
-Copy-Item .env.example .env.local
+```text
+https://dobu-sprint4-api-rm563549.azurewebsites.net
 ```
 
-Preencha os endereços em `.env.local`:
+A API utiliza o Oracle da faculdade. A persistência de observações da câmera utiliza uma conta Azure Cosmos DB com API compatível com MongoDB. Os serviços de banco são acessados pelo servidor; suas credenciais não fazem parte do aplicativo. A hospedagem usa a camada gratuita do App Service, sujeita a limites de uso e inicialização após períodos de inatividade.
 
-```dotenv
-EXPO_PUBLIC_API_URL=http://IP-DO-COMPUTADOR:5099
-EXPO_PUBLIC_CAMERA_API_URL=http://IP-DO-COMPUTADOR:5000
-```
-
-No celular, use o IPv4 do computador e mantenha os dispositivos na mesma rede. No emulador Android, use `10.0.2.2`. Para abrir no navegador do próprio computador, pode usar `localhost`.
-
-```powershell
-npx expo start
-# Prévia no navegador:
-npx expo start --web
-```
-
-Para testar no emulador Android, abra um dispositivo virtual pelo Android Studio e pressione `a` no terminal do Expo. Use as URLs com `10.0.2.2` para acessar os serviços do computador.
-
-A sessão usa SecureStore no aplicativo e localStorage na prévia web. Notificações nativas devem ser testadas no APK.
-
-## Serviços
-
-Inicie a [API .NET](https://github.com/DobuChallenge/Dobu-.NET) separadamente:
-
-```powershell
-dotnet run --project DOBU/Dobu.Api/Dobu.Api.csproj --urls http://0.0.0.0:5099
-```
-
-Configure o banco e a chave JWT no ambiente da API. Para desenvolvimento local ela aceita SQLite. Não coloque senhas ou chaves privadas em variáveis `EXPO_PUBLIC_`.
-
-Na pasta da Dobu-Cam, execute `python backend.py`, com as dependências do serviço instaladas. Esta versão do mobile consulta o serviço de câmera e a API .NET; não chama diretamente a API petObserver.
-
-Na base vazia, crie as contas de responsável e veterinário, prepare o catálogo pelo cadastro de animal e cadastre um pet. Depois ficam disponíveis agenda, conversa, caderno e câmeras vinculadas a ele.
+A instalação pelo Firebase e o funcionamento da API não exigem estar na rede Wi-Fi da equipe. A transmissão da câmera tem configuração própria, descrita abaixo.
 
 ## Dobu-Cam
 
-A URL do serviço Dobu-Cam é diferente da URL da câmera externa, por exemplo `http://IP-DA-CAMERA:8080/video`. O aplicativo oferece somente a conexão de câmera externa.
+Em **Dobu-Cams**, selecione o animal e cadastre uma câmera com um nome, como Sala. Abra a câmera cadastrada para acessar o monitor. O aplicativo oferece somente **câmera externa**.
 
-No celular, abra o aplicativo que transmite a câmera e copie o IP exibido. No Dobu, informe esse IP e toque em **Ligar câmera externa**. O campo aceita `192.168.15.5:8080` ou o endereço completo; quando necessário, completa `http://` e `/video`. Os endereços ficam salvos neste aparelho, separados por conta e câmera. A conexão só inicia quando você toca no botão.
+Há dois endereços nessa configuração:
 
-O quadro permanece visível mesmo desconectado. A imagem pausada para marcar os potes fica preservada; o botão **Atualizar imagem** permite tentar novamente. Se não chegar imagem, o app orienta conferir o endereço, a transmissão e a rede Wi-Fi. O serviço Dobu-Cam também precisa estar rodando. A conexão com um celular real deve ser testada quando a transmissão estiver aberta.
+- **Endereço da Dobu-Cam:** o computador ou servidor que executa o serviço Python, por exemplo `http://192.168.15.10:5000`;
+- **IP ou endereço da câmera externa:** a transmissão do celular ou da câmera IP, por exemplo `http://192.168.15.5:8080/video`.
 
-Marque os potes no quadro e salve as áreas. O monitor mostra presença e movimento da câmera conectada. A análise ao vivo fica ativa após salvar uma marcação. Uma identificação recente de cão ou gato deve permanecer na região por pelo menos quatro segundos para registrar uma possível alimentação ou hidratação. Água e comida têm contadores separados; sem marcação, sem animal identificado ou com os dois potes encobertos ao mesmo tempo, não são contados eventos. Uma permanência contínua conta uma única vez. As marcações e a proximidade não comprovam consumo. Pouca atividade por uma hora aparece como possível descanso, sem substituir uma avaliação veterinária.
+Abra a transmissão no aplicativo de câmera do celular e informe os endereços no Dobu. Toque em **Ligar câmera externa**. O serviço Python precisa conseguir acessar a transmissão e o aparelho com o Dobu precisa conseguir acessar esse serviço. Em um teste local, mantenha os dispositivos na mesma rede.
 
-O quadro escuro no topo mostra **Sincronizando câmera…** enquanto a imagem não chega. A tela oferece a conexão externa e a atualização da imagem, sem botões separados de parar captura ou visualização. O servidor atual captura uma fonte por vez; cadastrar várias câmeras não cria transmissões simultâneas.
+O quadro no topo da tela permanece visível durante a sincronização. Quando houver uma imagem disponível, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa; o aplicativo não apresenta uma imagem antiga como câmera conectada. O endereço informado fica salvo no aparelho, separado por conta e câmera.
 
-A integração usa `/status`, `/camera-frame`, `/configuracao` e `/camera-source`. O app verifica se a fonte externa continua ativa. Sem imagem recente, ele não indica presença ou descanso.
+Com a imagem carregada, marque as áreas dos potes de comida e água e salve as marcações. A análise observa a permanência de um cão ou gato identificado dentro da região marcada por pelo menos quatro segundos. Uma visita contínua conta uma vez e água e comida têm contadores separados. Sem marcação ou sem uma identificação recente do animal, nenhum evento de alimentação ou hidratação é contado.
 
-## Notificações
+Os eventos indicam **possível alimentação ou hidratação**. A proximidade do pote não comprova consumo. A pouca atividade por uma hora pode indicar possível descanso; a câmera não diagnostica doenças e não substitui avaliação veterinária. Não há eventos pré-gravados nem vídeo de exemplo nesta versão.
 
-Em **Lembretes**, ative as notificações e autorize o sistema. Crie um agendamento para alguns minutos depois e aguarde o horário. Tocar no alerta abre os detalhes da consulta.
+O serviço atual processa uma fonte de captura por vez. Cadastrar várias câmeras organiza os acessos, mas não cria transmissões simultâneas. O APK não inclui o servidor Python nem torna um IP privado acessível pela internet: para acompanhar fora da rede da câmera, o serviço precisa ser publicado em um endereço acessível e protegido.
 
-Alterações e cancelamentos são sincronizados quando o app consulta a agenda, com atualização a cada 30 segundos enquanto o aplicativo está ativo e ao retornar para ele. A tela de lembretes mostra a quantidade programada e o próximo horário; permissões revogadas são informadas, e tocar no alerta o remove da central de notificações. Se outra pessoa alterar um atendimento enquanto o app está fechado, reabra-o para atualizar os lembretes. Sair da conta remove os alertas agendados. A implementação é local, sem push remoto.
+## Notificações das consultas
 
-## Organização e testes
+O Dobu usa **notificações locais do Android**, vinculadas a agendamentos reais. Em **Lembretes**, ative os alertas e conceda a permissão solicitada pelo sistema. Uma consulta futura com status Agendado ou Confirmado gera um lembrete para o horário cadastrado. O aviso identifica o animal e, ao ser tocado, abre o agendamento correspondente na conta autenticada.
 
-- `screens` e `components`: interface;
-- `hooks` e `services`: formulários, regras e consultas;
-- `api`: comunicação HTTP;
-- `auth`, `storage` e `providers`: sessão, preferências e estado;
-- `navigation` e `styles`: rotas e temas.
+A tela mostra quantos lembretes estão programados e qual é o próximo horário. Ao editar ou cancelar uma consulta, o aplicativo ajusta os lembretes durante a próxima sincronização da agenda. Essa consulta ocorre a cada 30 segundos enquanto o app está ativo e quando ele volta ao primeiro plano. Ao sair da conta, os lembretes daquela sessão são removidos.
+
+O sistema operacional entrega os avisos já programados mesmo com o aplicativo em segundo plano. Alterações feitas por outra pessoa enquanto ele está fechado só chegam ao aparelho ao reabrir o app. Não há push remoto nesta versão.
+
+Para verificar o fluxo, cadastre uma consulta para alguns minutos depois, confira o próximo lembrete e deixe o aplicativo em segundo plano. Aguarde o aviso automático e toque nele para retornar à consulta. A prévia web não entrega notificações nativas; essa verificação deve ser feita no APK instalado.
+
+## Arquitetura
+
+A interface foi separada das regras e da comunicação HTTP. As telas recebem o estado e as ações dos hooks, enquanto os serviços concentram validação, filtros e opções das consultas do TanStack Query. As chamadas HTTP ficam em `src/api`.
+
+```mermaid
+flowchart LR
+    Telas[Telas e componentes] --> Hooks[Hooks e serviços]
+    Hooks --> Query[TanStack Query]
+    Query --> HTTP[Cliente HTTP]
+    HTTP --> API[API Dobu .NET]
+    API --> Oracle[(Oracle)]
+    API --> Mongo[(Persistência NoSQL)]
+    Hooks --> Camera[Serviço Dobu-Cam]
+    Camera --> Externa[Câmera externa]
+    Hooks --> Local[SecureStore e AsyncStorage]
+    Hooks --> Avisos[Notificações locais Android]
+```
+
+| Diretório | Responsabilidade |
+| --- | --- |
+| `src/screens` | Telas e composição da interface |
+| `src/components` | Componentes reutilizáveis, campos, cartões e quadro da câmera |
+| `src/hooks` | Estado dos formulários, carregamento e ações usadas pelas telas |
+| `src/services` | Regras, validações, consultas e planejamento dos lembretes |
+| `src/api` | Endpoints, cliente HTTP, autenticação das requisições e erros |
+| `src/auth`, `src/storage` e `src/providers` | Sessão, preferências e estado compartilhado |
+| `src/navigation` e `src/styles` | Navegação, tema e estilos |
+| `tests` | Testes automatizados de regras e integrações |
+| `plugins` | Configuração nativa de rede local |
+
+A sessão usa SecureStore no Android e armazenamento local na prévia web. Senhas não são persistidas no aparelho. Preferências de tema, fotos locais e endereços de câmera são mantidos por conta. O cliente HTTP trata erros e timeouts sem apresentar o conteúdo interno das respostas do servidor.
+
+## Executar o projeto
+
+É necessário Node.js 22.7 ou superior, npm e, para o emulador, Android Studio com um dispositivo virtual configurado.
+
+```powershell
+git clone https://github.com/DobuChallenge/Dobu-FinalSprint4.git
+cd Dobu-FinalSprint4
+npm ci
+Copy-Item .env.example .env.local
+npx expo start
+```
+
+A API HTTPS é o endereço padrão. Para usar serviços próprios, configure `.env.local`:
+
+```dotenv
+EXPO_PUBLIC_API_URL=https://dobu-sprint4-api-rm563549.azurewebsites.net
+EXPO_PUBLIC_CAMERA_API_URL=
+```
+
+O endereço da Dobu-Cam também pode ser informado na própria tela da câmera. Variáveis `EXPO_PUBLIC_` entram no aplicativo e devem conter apenas configurações públicas, nunca credenciais.
+
+No terminal do Expo, pressione `a` para abrir no emulador Android ou `w` para a prévia web. Também é possível iniciar diretamente com `npm run android` ou `npm run web`. Se a API estiver no computador local, use `http://10.0.2.2:5100` no emulador; em um celular físico, use o IPv4 desse computador.
+
+As instruções de instalação dos serviços e configuração do Oracle, MongoDB e JWT estão no [repositório da API](https://github.com/DobuChallenge/Dobu-Sprint4.NET). O serviço de câmera é iniciado com `python backend.py` na [Dobu-Cam](https://github.com/DobuChallenge/Dobu-Cam), após instalar suas dependências.
+
+## Testes e compilação
 
 ```powershell
 npm test
 npm run export:android
+npm run export:ios
 ```
 
-Para testar contra a API real, use uma base de desenvolvimento:
+A suíte verifica autenticação e sessão, validação dos formulários, isolamento de cache entre contas, vacinas, marcações da câmera, leitura sem imagem recente e sincronização dos lembretes. Também compila as telas para verificar a separação das regras da interface.
+
+Os testes de integração utilizam uma API real, criam registros temporários e removem os dados ao terminar:
 
 ```powershell
-$env:EXPO_PUBLIC_API_URL = 'http://127.0.0.1:5099'
+$env:EXPO_PUBLIC_API_URL = 'https://dobu-sprint4-api-rm563549.azurewebsites.net'
 npm run test:integration
 ```
 
-Os testes de integração criam e removem seus registros. Cobrem autenticação, pets, agenda, caderno, vacinas, câmeras e conversa. O comando de exportação verifica o bundle; não gera um APK nem comprova o funcionamento em aparelho físico.
+Esse fluxo cobre cadastro, login, sessão, animais, agenda, caderno, vacinas, cadastro de câmera e conversa. A exportação verifica os bundles Android e iOS; ela não produz um APK nem substitui os testes de interface em aparelho.
 
-Na revisão para a publicação, passaram **60 testes automatizados**; os **2 testes de integração com a API real** também passaram. O build nativo Android foi concluído, e o APK foi instalado e iniciado no emulador. Os bundles iOS e web foram verificados nas revisões anteriores. Os cliques e o recebimento das notificações ainda precisam de validação no aplicativo instalado.
+Para gerar outro APK, configure os endereços do ambiente, faça commit do código e execute `npx eas-cli build --platform android --profile preview`, após vincular o projeto à conta Expo. O perfil está em `eas.json`. A versão e o `versionCode` ficam em `app.json`; `app.config.js` inclui o commit da compilação na tela Sobre.
 
-## APK e Firebase App Distribution
+O script `npm run distribuir -- caminho/do/app.apk HASH` permite distribuir uma versão pelo Firebase CLI com `FIREBASE_APP_ID`, `PROFESSOR_EMAIL` e `FIREBASE_CLI_PATH` configurados no ambiente. O repositório deve estar limpo e o hash deve corresponder ao código do APK.
 
-O **APK é o arquivo de instalação do Dobu no Android**. O Firebase App Distribution permite entregar esse arquivo ao professor por convite. O enunciado exige que ele consiga instalar e avaliar o aplicativo; abrir a prévia no navegador ou no Expo Go não conclui essa parte da entrega.
+## Demonstração e referências
 
-1. Faça login com `npx eas-cli login` e vincule o projeto com `npx eas-cli init`.
-2. Salve a vinculação na configuração e faça commit.
-3. Configure as duas URLs no ambiente `preview` do EAS. Elas precisam estar acessíveis no aparelho do testador.
-4. Com o Git limpo, execute `npx eas-cli build --platform android --profile preview`.
-5. Instale o APK e confira se o hash da tela Sobre coincide com `git rev-parse HEAD`.
-6. Publique esse mesmo APK no Firebase e use-o no vídeo.
+O vídeo final da Sprint 4 ainda não tem um link publicado neste repositório. O [vídeo da Sprint 3](https://youtu.be/YcE1WVLbJDI) permanece como registro da versão anterior.
 
-O identificador Android é `com.dobuchallenge.mobile`. O plugin `withLocalNetwork` permite HTTP para a demonstração local. Para acesso fora dessa rede, disponibilize os serviços em HTTPS e revise essa permissão.
-
-No console do Firebase, cadastre um aplicativo Android com esse identificador. Abra **App Distribution**, envie o APK gerado, adicione o e-mail institucional do professor como testador e clique em **Distribuir**. Ele receberá o convite para instalar. Esse envio pode ser feito pela interface, sem usar comandos.
-
-Como alternativa, instale a CLI com `npm install --global firebase-tools` e faça `firebase login`. Para distribuir pelo terminal:
-
-```powershell
-$env:FIREBASE_APP_ID = 'ID-DO-APP-NO-FIREBASE'
-$env:PROFESSOR_EMAIL = 'EMAIL-INSTITUCIONAL-DO-PROFESSOR'
-$firebaseModules = npm root -g
-$env:FIREBASE_CLI_PATH = Join-Path $firebaseModules 'firebase-tools/lib/bin/firebase.js'
-$releaseCommit = git rev-parse HEAD
-npm run distribuir -- C:/caminho/dobu.apk $releaseCommit
-```
-
-A versão atual já está publicada nos links acima. Para concluir a entrega, confirme o convite e a instalação pelo professor e disponibilize o vídeo final.
-
-**Validar o APK** é testar o Dobu depois de instalado: cadastrar e entrar, registrar um animal, criar uma consulta, aguardar o aviso automático e tocar nele para abrir a consulta. Faça também os testes do caderno, tema e câmera. O objetivo é conferir se o aplicativo instalado funciona como a versão demonstrada.
-
-No vídeo, mostre os fluxos completos: cadastro e login, animais, agenda e conversa, caderno, informações, câmera, troca de tema, notificação automática, restauração da sessão e tela Sobre. O código, o APK instalado e o APK publicado devem corresponder à mesma versão.
-
-Antes de enviar, confira:
-
-- [ ] APK instalado e fluxo completo testado com responsável e veterinário;
-- [ ] Câmera externa conectada e imagem recente aparecendo no monitor;
-- [ ] Notificação de um agendamento real recebida automaticamente, com abertura da consulta ao tocar;
-- [x] APK publicado no Firebase App Distribution;
-- [ ] Professor com convite e acesso confirmado para instalar;
-- [x] Hash dentro do APK correspondente ao commit de referência do código;
-- [ ] Vídeo final disponível, usando o mesmo APK da publicação;
-- [ ] Serviços acessíveis durante a avaliação, sem depender de um endereço local inacessível ao professor.
-
-## Links e integrantes
-
-- [Repositório Sprint 4](https://github.com/DobuChallenge/Dobu-FinalSprint4)
-- [Dobu no Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/3u3jllcitrsso)
-- [Vídeo da Sprint 3](https://youtu.be/YcE1WVLbJDI)
 - [Protótipo no Figma](https://www.figma.com/design/mOXmQd2t8nKM3tjBE9g5Dn/Challenge)
+- [API Dobu — Sprint 4](https://github.com/DobuChallenge/Dobu-Sprint4.NET)
+- [Serviço Dobu-Cam](https://github.com/DobuChallenge/Dobu-Cam)
+- [Swagger da API publicada](https://dobu-sprint4-api-rm563549.azurewebsites.net/swagger)
 
-- Amandha Yumi Toyota Artulino — RM 563549
-- Giovanna Bardella Gomes — RM 561439
-- Erick Takeshi Nakajune — RM 566059
+## Integrantes
+
+| Nome | RM |
+| --- | --- |
+| Amandha Yumi Toyota Artulino | 563549 |
+| Giovanna Bardella Gomes | 561439 |
+| Erick Takeshi Nakajune | 566059 |

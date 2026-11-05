@@ -14,7 +14,7 @@ export default function Cadastro({ navigation }) {
   const { nomeUsuario, setNomeUsuario, emailUsuario, setEmailUsuario, senha, setSenha, tipoConta, setTipoConta, foto, setFoto, telefone, setTelefone, crmv, setCrmv, ufCrmv, setUfCrmv, clinica, setClinica, especialidade, setEspecialidade, salvando, cadastrar } = useCadastroForm();
 
   return (
-    <SafeAreaView style={styles.tela}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.tela}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <DobuLogo large style={styles.logo} />
         <Header navigation={navigation} title="Cadastro" subtitle="Crie sua conta no Dobu" />

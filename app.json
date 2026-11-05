@@ -2,7 +2,7 @@
   "expo": {
     "name": "Dobu Mobile",
     "slug": "dobu-mobile",
-    "version": "1.0.2",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.dobuchallenge.mobile",
-      "versionCode": 6,
+      "versionCode": 10,
       "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",

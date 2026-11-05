@@ -15,7 +15,7 @@ export default function Login({ navigation }) {
   const { email, setEmail, senha, setSenha, entrando, entrar } = useLoginForm();
 
   return (
-    <SafeAreaView style={estilos.tela}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={estilos.tela}>
       <ScrollView contentContainerStyle={estilos.conteudo} keyboardShouldPersistTaps="handled">
         <DobuLogo
           large

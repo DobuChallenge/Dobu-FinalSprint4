@@ -19,12 +19,12 @@ export default function DobuCam({ navigation, route }) {
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
       <Text style={ui.title}>Câmera ao vivo</Text>
-      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Conectando…' : 'Desconectada'}</Text>
+      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Sincronizando…' : 'Aguardando câmera'}</Text>
       <CameraPreview
         colors={cores}
         imageUri={markers.frozen || monitor.frame}
         imageReady={Boolean(markers.frozen || monitor.imageReady)}
-        message={monitor.urls ? monitor.imageError || 'A imagem da câmera vai aparecer aqui quando o celular começar a transmitir.' : 'Conecte a câmera externa para ver a imagem aqui.'}
+        message="Sincronizando câmera…"
         areas={markers.areas}
         handlers={markers.handlers}
         onLayout={(event) => markers.setSize(event.nativeEvent.layout)}
@@ -55,7 +55,7 @@ export default function DobuCam({ navigation, route }) {
         return <View key={kind} style={ui.actions}>
           <Text style={ui.label}>{kind === 'water' ? 'Pote de água' : 'Pote de comida'}</Text>
           <Text style={ui.body}>{!configured ? 'Marque o pote e salve para ativar a análise.' : !monitor.reading?.online ? 'Aguardando câmera e leitura do animal.' : !bowl ? 'O serviço de câmera precisa ser atualizado para analisar os potes.' : bowl.active ? 'Animal observado junto ao pote.' : 'Análise ativa. Aguardando aproximação do animal.'}</Text>
-          {configured && bowl?.configured && <Text style={ui.caption}>{bowl.count} possível(is) evento(s) de {kind === 'water' ? 'hidratação' : 'alimentação'} nesta captura.{bowl.last_event_at ? ` Último: ${new Date(bowl.last_event_at).toLocaleString('pt-BR')}.` : ''}</Text>}
+          {configured && bowl?.configured && <Text style={ui.caption}>{bowl.count === 1 ? '1 possível evento' : `${bowl.count} possíveis eventos`} de {kind === 'water' ? 'hidratação' : 'alimentação'} nesta captura.{bowl.last_event_at ? ` Último: ${new Date(bowl.last_event_at).toLocaleString('pt-BR')}.` : ''}</Text>}
         </View>;
       })}
       <Text style={ui.caption}>A permanência junto ao pote indica uma possível interação; não confirma a quantidade consumida.</Text>
@@ -69,15 +69,14 @@ export default function DobuCam({ navigation, route }) {
       </QueryState>
     </QueryState>
     <Card>
-      <Text style={ui.title}>Conectar câmera externa</Text>
-      <Text style={ui.caption}>Abra a transmissão no celular e informe o IP exibido. Mantenha o celular e o computador na mesma rede Wi-Fi.</Text>
+      <Text style={ui.title}>Conectar câmera</Text>
+      <Text style={ui.caption}>Use uma câmera externa pelo IP ou a webcam do computador que executa a Dobu-Cam.</Text>
       <TextInput label="Endereço da Dobu-Cam" placeholder="http://IP-DO-SERVIDOR:5000" value={monitor.endpoint} onChangeText={monitor.setEndpoint} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
       <TextInput label="IP ou endereço da câmera externa" placeholder="192.168.15.5:8080" value={monitor.externalUrl} onChangeText={monitor.setExternalUrl} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
       {!!monitor.settingsError && <Text style={ui.error}>{monitor.settingsError}</Text>}
       <View style={ui.actions}>
         <Button title={!monitor.settingsReady ? 'Carregando endereço…' : monitor.sourceBusy ? 'Conectando…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectar} />
-        <Button title="Parar captura" disabled={monitor.sourceBusy} cor="cinzaEscuro" onPress={monitor.pararCaptura} />
-        <Button title="Parar visualização" cor="cinzaEscuro" onPress={monitor.parar} />
+        <Button title="Usar webcam do computador" cor="cinzaEscuro" disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectarWebcam} />
         <Button title="Gerenciar câmeras" cor="branco" onPress={() => navigation.navigate('MinhasCameras')} />
       </View>
     </Card>

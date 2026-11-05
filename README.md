@@ -2,7 +2,7 @@
 
 **Cuidado que acompanha.**
 
-O Dobu aproxima tutores e veterinários no cuidado diário dos animais. O aplicativo reúne consultas, vacinas e anotações do animal e oferece acompanhamento por câmera externa para os momentos em que o tutor está longe.
+O Dobu aproxima tutores e veterinários no cuidado diário dos animais. O aplicativo reúne consultas, vacinas e anotações do animal e oferece acompanhamento por webcam para os momentos em que o tutor está longe.
 
 Este repositório contém o aplicativo mobile da Sprint 4, desenvolvido em React Native com Expo. A [API .NET](https://github.com/DobuChallenge/Dobu-Sprint4.NET) e a [Dobu-Cam](https://github.com/DobuChallenge/Dobu-Cam) são serviços separados que se integram ao aplicativo.
 
@@ -18,9 +18,9 @@ O responsável cadastra seus animais, consulta o caderno de cuidados e organiza 
 | Conversa da consulta | Mensagens e confirmação do horário pelos dois participantes |
 | Caderno de cuidados | Anotações por animal, registro de vacinas e próxima dose |
 | Informações | Pesquisa de raças e conteúdos sobre animais em fontes públicas |
-| Dobu-Cams | Cadastro por animal, nome da câmera, conexão externa e marcação dos potes no quadro |
+| Dobu-Cams | Cadastro por animal, nome da câmera, conexão com a webcam e marcação dos potes no quadro |
 | Lembretes | Notificações locais no horário das consultas futuras |
-| Aparência | Temas claro e escuro, preferência salva e opção de seguir o sistema |
+| Aparência | Temas claro e escuro pelo botão no topo, com preferência salva |
 | Sobre | Versão instalada e commit de referência do APK |
 
 Os CRUDs de animais e agendamentos das entregas anteriores foram preservados. O caderno de cuidados ficou separado da pesquisa de informações. As fotos dos perfis são armazenadas no aparelho; os demais registros dessa tabela utilizam a API quando há persistência no servidor.
@@ -47,22 +47,17 @@ A instalação pelo Firebase e o funcionamento da API não exigem estar na rede 
 
 ## Dobu-Cam
 
-Em **Dobu-Cams**, selecione o animal e cadastre uma câmera com um nome, como Sala. Abra a câmera cadastrada para acessar o monitor. O aplicativo oferece somente **câmera externa**.
+Em **Dobu-Cams**, selecione o animal e cadastre uma câmera com um nome, como Sala. Abra o monitor e toque em **Ligar webcam**. Esta versão utiliza somente a webcam do computador que executa o serviço Dobu-Cam, sem vídeo de demonstração.
 
-Há dois endereços nessa configuração:
+O campo **Endereço da Dobu-Cam** identifica esse serviço. Na prévia web do próprio computador, use `http://localhost:5000`. No emulador Android, o endereço inicial é `http://10.0.2.2:5000`. Em um celular físico, informe o IPv4 do computador com a porta 5000 e mantenha os aparelhos na mesma rede.
 
-- **Endereço da Dobu-Cam:** o computador ou servidor que executa o serviço Python, por exemplo `http://192.168.15.10:5000`;
-- **IP ou endereço da câmera externa:** a transmissão do celular ou da câmera IP, por exemplo `http://192.168.15.5:8080/video`.
+O quadro no topo permanece visível durante a sincronização. Quando chega uma imagem, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa. Se outro programa estiver usando a webcam, feche-o antes de conectar. O endereço fica salvo no aparelho, separado por conta e câmera.
 
-Abra a transmissão no aplicativo de câmera do celular e informe os endereços no Dobu. Toque em **Ligar câmera externa**. O serviço Python precisa conseguir acessar a transmissão e o aparelho com o Dobu precisa conseguir acessar esse serviço. Em um teste local, mantenha os dispositivos na mesma rede.
+Com a imagem carregada, marque as áreas dos potes de comida e água e salve as marcações. A análise observa a permanência de um cão ou gato identificado dentro da região marcada por pelo menos quatro segundos. Uma visita contínua conta uma vez e água e comida têm contadores separados. Sem marcação ou identificação recente do animal, não há contagem de alimentação ou hidratação.
 
-O quadro no topo da tela permanece visível durante a sincronização. Quando houver uma imagem disponível, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa; o aplicativo não apresenta uma imagem antiga como câmera conectada. O endereço informado fica salvo no aparelho, separado por conta e câmera.
+Os eventos indicam **possível alimentação ou hidratação**; a proximidade não comprova consumo. Pouca atividade por uma hora pode indicar possível descanso. A câmera não diagnostica doenças e não substitui avaliação veterinária.
 
-Com a imagem carregada, marque as áreas dos potes de comida e água e salve as marcações. A análise observa a permanência de um cão ou gato identificado dentro da região marcada por pelo menos quatro segundos. Uma visita contínua conta uma vez e água e comida têm contadores separados. Sem marcação ou sem uma identificação recente do animal, nenhum evento de alimentação ou hidratação é contado.
-
-Os eventos indicam **possível alimentação ou hidratação**. A proximidade do pote não comprova consumo. A pouca atividade por uma hora pode indicar possível descanso; a câmera não diagnostica doenças e não substitui avaliação veterinária. Não há eventos pré-gravados nem vídeo de exemplo nesta versão.
-
-O serviço atual processa uma fonte de captura por vez. Cadastrar várias câmeras organiza os acessos, mas não cria transmissões simultâneas. O APK não inclui o servidor Python nem torna um IP privado acessível pela internet: para acompanhar fora da rede da câmera, o serviço precisa ser publicado em um endereço acessível e protegido.
+O serviço processa uma captura por vez. Cadastrar várias câmeras organiza os acessos, mas não cria transmissões simultâneas. Para acompanhar a webcam fora da rede do computador, o serviço de câmera precisa de um endereço acessível e protegido. A API de cadastros e consultas já tem seu próprio endereço HTTPS.
 
 ## Notificações das consultas
 

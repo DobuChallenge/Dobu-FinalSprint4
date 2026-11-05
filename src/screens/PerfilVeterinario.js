@@ -4,7 +4,6 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 
 import AppointmentCard from '../components/AppointmentCard';
 import Button from '../components/Button';
-import ThemeSelector from '../components/ThemeSelector';
 import Card from '../components/Card';
 import QueryState from '../components/QueryState';
 import Screen from '../components/Screen';
@@ -38,7 +37,6 @@ export default function PerfilVeterinario({ navigation, route }) {
 
       <View style={ui.actions}>
         <Button title="Caderno de cuidados" icon="book-outline" onPress={() => navigation.navigate('CadernoCuidados')} />
-        <ThemeSelector />
         <Button title="Sobre o Dobu" cor="branco" onPress={() => navigation.navigate('Sobre')} />
         <Button title="Editar perfil" icon="create-outline" cor="branco" onPress={() => navigation.navigate('EditarPerfil')} />
         <Button title="Gerenciar agenda" icon="calendar-outline" onPress={() => navigation.navigate('Agendamentos')} />

@@ -18,9 +18,8 @@ export default function DobuCam({ navigation, route }) {
   const markers = useBowlMarkers(monitor.urls);
   return <Screen navigation={navigation} title="Dobu-Cam" subtitle="Acompanhe seu animal">
     <Card>
-      <Text style={ui.title}>{monitor.demo ? 'Vídeo de demonstração' : 'Câmera ao vivo'}</Text>
-      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? monitor.demo ? 'Demonstração' : 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Sincronizando…' : 'Aguardando câmera'}</Text>
-      {monitor.demo && <Text style={ui.caption}>Gravação do gato usada para demonstrar o monitoramento.</Text>}
+      <Text style={ui.title}>Câmera ao vivo</Text>
+      <Text style={ui.badge}>{markers.frozen ? 'Imagem pausada' : monitor.imageReady ? 'Conectada' : monitor.urls || monitor.sourceBusy ? 'Sincronizando…' : 'Aguardando câmera'}</Text>
       <CameraPreview
         colors={cores}
         imageUri={markers.frozen || monitor.frame}
@@ -70,14 +69,12 @@ export default function DobuCam({ navigation, route }) {
       </QueryState>
     </QueryState>
     <Card>
-      <Text style={ui.title}>Conectar câmera externa</Text>
-      <Text style={ui.caption}>Inicie a transmissão na câmera externa e informe o endereço. O serviço Dobu-Cam precisa ter acesso a essa transmissão.</Text>
+      <Text style={ui.title}>Webcam do computador</Text>
+      <Text style={ui.caption}>Ligue a webcam do computador que está executando a Dobu-Cam.</Text>
       <TextInput label="Endereço da Dobu-Cam" placeholder="http://IP-DO-SERVIDOR:5000" value={monitor.endpoint} onChangeText={monitor.setEndpoint} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
-      <TextInput label="IP ou endereço da câmera externa" placeholder="192.168.15.5:8080" value={monitor.externalUrl} onChangeText={monitor.setExternalUrl} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
       {!!monitor.settingsError && <Text style={ui.error}>{monitor.settingsError}</Text>}
       <View style={ui.actions}>
-        <Button title={!monitor.settingsReady ? 'Carregando endereço…' : monitor.sourceBusy ? 'Conectando…' : 'Ligar câmera externa'} disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectar} />
-        <Button title="Reproduzir vídeo do gato" cor="cinzaEscuro" disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectarDemo} />
+        <Button title={!monitor.settingsReady ? 'Carregando endereço…' : monitor.sourceBusy ? 'Conectando…' : 'Ligar webcam'} disabled={monitor.sourceBusy || !monitor.settingsReady} onPress={monitor.conectar} />
         <Button title="Gerenciar câmeras" cor="branco" onPress={() => navigation.navigate('MinhasCameras')} />
       </View>
     </Card>

@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 import { useAuth } from './useAuth';
 import { cameraConfig } from '../api/config';
 import { dobuCamApi } from '../api/dobuCam';
-import { cameraUrls, cameraReading, fonteExternaAtiva, externalCameraUrl } from '../services/camera';
+import { cameraUrls, cameraReading } from '../services/camera';
+
+const defaultEndpoint = cameraConfig.baseUrl || (Platform.OS === 'android' ? 'http://10.0.2.2:5000' : 'http://localhost:5000');
 
 export function useDobuCam(cameraId = 'principal') {
   const { user } = useAuth();
   const settingsKey = user?.id ? `dobu:camera:${user.id}:${cameraId}` : null;
-  const [endpoint, setEndpoint] = useState(cameraConfig.baseUrl || '');
+  const [endpoint, setEndpoint] = useState(defaultEndpoint);
   const [urls, setUrls] = useState(null);
   const [reading, setReading] = useState(null);
   const [error, setError] = useState('');
   const [tick, setTick] = useState(Date.now());
   const [events, setEvents] = useState([]);
-  const [externalUrl, setExternalUrl] = useState('');
   const [sourceBusy, setSourceBusy] = useState(false);
   const [settingsReady, setSettingsReady] = useState(false);
   const [settingsError, setSettingsError] = useState('');
@@ -22,7 +24,6 @@ export function useDobuCam(cameraId = 'principal') {
   const [imageError, setImageError] = useState('');
   const [loadedFrame, setLoadedFrame] = useState('');
   const [sourceActive, setSourceActive] = useState(false);
-  const [demo, setDemo] = useState(false);
   const locked = useRef(false);
   const generation = useRef(0);
   const imageRequestPending = useRef(false);
@@ -32,16 +33,14 @@ export function useDobuCam(cameraId = 'principal') {
     generation.current += 1;
     setUrls(null); setReading(null); setEvents([]); setError('');
     setImageReady(false); setImageError(''); setLoadedFrame(''); setSourceActive(false);
-    setDemo(false);
     imageRequestPending.current = false;
     setSettingsReady(false); setSettingsError('');
-    setEndpoint(cameraConfig.baseUrl || ''); setExternalUrl('');
+    setEndpoint(defaultEndpoint);
     if (!settingsKey) return () => { active = false; generation.current += 1; };
     AsyncStorage.getItem(settingsKey).then(value => {
       if (!active || !value) return;
       const saved = JSON.parse(value);
       if (typeof saved.endpoint === 'string') setEndpoint(saved.endpoint);
-      if (typeof saved.externalUrl === 'string') setExternalUrl(saved.externalUrl);
     }).catch(() => {
       if (active) setSettingsError('Não foi possível recuperar o endereço salvo. Digite o IP novamente.');
     }).finally(() => { if (active) setSettingsReady(true); });
@@ -55,7 +54,7 @@ export function useDobuCam(cameraId = 'principal') {
     imageRequestPending.current = false;
   }
 
-  async function conectar(useDemo = false) {
+  async function conectar() {
     if (locked.current || !settingsReady) return;
     locked.current = true;
     const attempt = ++generation.current;
@@ -64,23 +63,20 @@ export function useDobuCam(cameraId = 'principal') {
     imageRequestPending.current = false;
     try {
       const nextUrls = cameraUrls(endpoint);
-      const external = useDemo ? '' : externalCameraUrl(externalUrl);
       const connectedAt = Date.now();
       const base = nextUrls.status.replace(/\/status$/, '');
-      const response = useDemo ? await dobuCamApi.conectarDemo(base) : await dobuCamApi.conectarExterna(base, external);
+      const response = await dobuCamApi.conectarWebcam(base);
       if (generation.current === attempt) {
-        if (!useDemo) setExternalUrl(external);
-        setDemo(useDemo);
         setSourceActive(true);
         imageRequestPending.current = true;
         setTick(Date.now());
-        setUrls({ ...nextUrls, base, connectedAt, serverConnectedAt: Date.parse(response?.started_at) || connectedAt, source: useDemo ? 'exemplo' : 'celular' });
+        setUrls({ ...nextUrls, base, connectedAt, serverConnectedAt: Date.parse(response?.started_at) || connectedAt });
         setSettingsError('');
-        try { await AsyncStorage.setItem(settingsKey, JSON.stringify({ endpoint: endpoint.trim(), externalUrl: useDemo ? externalUrl : external })); }
+        try { await AsyncStorage.setItem(settingsKey, JSON.stringify({ endpoint: endpoint.trim() })); }
         catch { if (generation.current === attempt) setSettingsError('A conexão foi solicitada, mas não foi possível salvar o endereço neste aparelho.'); }
       }
     } catch (err) {
-      if (generation.current === attempt) setError(err.message || 'Não foi possível conectar a câmera externa.');
+      if (generation.current === attempt) setError(err.message || 'Não foi possível ligar a webcam.');
     } finally { locked.current = false; setSourceBusy(false); }
   }
 
@@ -106,7 +102,7 @@ export function useDobuCam(cameraId = 'principal') {
         ]);
         if (!active) return;
         if (sourceResult.status === 'rejected') throw sourceResult.reason;
-        if (!(urls.source === 'exemplo' ? sourceResult.value?.source === 'exemplo' && sourceResult.value?.running === true : fonteExternaAtiva(sourceResult.value))) {
+        if (sourceResult.value?.source !== 'webcam' || sourceResult.value?.running !== true) {
           setReading(null); setEvents([]); setSourceActive(false);
           setImageReady(false); setLoadedFrame(''); imageRequestPending.current = false;
           setError('A fonte de imagem não está ativa. Conecte novamente para continuar.');
@@ -120,7 +116,7 @@ export function useDobuCam(cameraId = 'principal') {
           setReading(current);
           setEvents((status.events || []).filter(event => Date.parse(event.timestamp) >= urls.serverConnectedAt));
           setError(!current.online && Date.now() - urls.connectedAt > 20000
-            ? 'Confira o endereço e a transmissão do celular se a imagem ainda não apareceu.' : '');
+            ? 'Confira se a webcam está disponível e se outro programa está usando a câmera.' : '');
         } else {
           setReading(null); setEvents([]);
           setError('Não foi possível atualizar a leitura do animal. A imagem continua sendo consultada.');
@@ -134,11 +130,11 @@ export function useDobuCam(cameraId = 'principal') {
   }, [urls]);
 
   const frame = urls && sourceActive ? `${urls.frame}?t=${tick}` : '';
-  return { endpoint, setEndpoint, conectar: () => conectar(false), conectarDemo: () => conectar(true), demo, reading, error, urls, events, externalUrl, setExternalUrl, sourceBusy, pararCaptura, settingsReady, settingsError, imageReady, imageError, loadedFrame,
+  return { endpoint, setEndpoint, conectar, reading, error, urls, events, sourceBusy, pararCaptura, settingsReady, settingsError, imageReady, imageError, loadedFrame,
     frame,
     atualizarImagem: () => { imageRequestPending.current = true; setImageError(''); setTick(Date.now()); },
     imagemCarregada: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(true); setImageError(''); setLoadedFrame(uri); } },
-    imagemFalhou: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(false); setImageError('A imagem não carregou. Confira se a transmissão do celular está aberta e tente atualizar.'); } },
+    imagemFalhou: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(false); setImageError('A imagem não carregou. Confira a webcam e tente atualizar.'); } },
     parar,
   };
 }

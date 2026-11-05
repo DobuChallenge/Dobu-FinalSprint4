@@ -29,11 +29,11 @@ Os CRUDs de animais e agendamentos das entregas anteriores foram preservados. O 
 
 A distribuição é feita pelo **Firebase App Distribution**, para as contas convidadas:
 
-[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/4na8p00qpnjug)
+[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/0lf1gkucvlbng)
 
 Abra o link usando a mesma conta Google que recebeu o convite. O Firebase apresenta a versão disponível e as instruções de instalação. O aplicativo Android utiliza o identificador `com.dobuchallenge.mobile`.
 
-A versão publicada é a **1.0.4 (8)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/b5f61a402fa3e70dd94e00eba6976b53f05005c7) corresponde ao commit `b5f61a402fa3e70dd94e00eba6976b53f05005c7`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
+A versão publicada é a **1.0.5 (9)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/a9d2909ed35c8c25373762fb7c48e797bb9ff04f) corresponde ao commit `a9d2909ed35c8c25373762fb7c48e797bb9ff04f`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
 
 A API para esta versão está disponível em HTTPS:
 

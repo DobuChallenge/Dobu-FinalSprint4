@@ -29,11 +29,11 @@ Os CRUDs de animais e agendamentos das entregas anteriores foram preservados. O 
 
 A distribuição é feita pelo **Firebase App Distribution**, para as contas convidadas:
 
-[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d)
+[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/4na8p00qpnjug)
 
 Abra o link usando a mesma conta Google que recebeu o convite. O Firebase apresenta a versão disponível e as instruções de instalação. O aplicativo Android utiliza o identificador `com.dobuchallenge.mobile`.
 
-A versão preparada nesta revisão é a **1.0.4 (8)**. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
+A versão publicada é a **1.0.4 (8)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/b5f61a402fa3e70dd94e00eba6976b53f05005c7) corresponde ao commit `b5f61a402fa3e70dd94e00eba6976b53f05005c7`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
 
 A API para esta versão está disponível em HTTPS:
 
@@ -148,7 +148,7 @@ $env:EXPO_PUBLIC_API_URL = 'https://dobu-sprint4-api-rm563549.azurewebsites.net'
 npm run test:integration
 ```
 
-Esse fluxo cobre cadastro, login, sessão, animais, agenda, caderno, vacinas, cadastro de câmera e conversa. A exportação verifica os bundles Android e iOS; ela não produz um APK nem substitui os testes de interface em aparelho.
+Esse fluxo cobre cadastro, login, sessão, animais, agenda, caderno, vacinas, cadastro de câmera e conversa. Na revisão desta versão, passaram 60 testes automatizados, os dois testes de integração contra a API HTTPS pública e a verificação de inclusão, consulta ordenada e exclusão de observações NoSQL. A assinatura e o commit do APK foram conferidos, e o arquivo foi instalado e iniciado no emulador Android. O recebimento e o toque na notificação ainda dependem de validação no aplicativo instalado, assim como a transmissão de uma câmera externa real. A exportação verifica os bundles Android e iOS; ela não produz um APK nem substitui os testes de interface em aparelho.
 
 Para gerar outro APK, configure os endereços do ambiente, faça commit do código e execute `npx eas-cli build --platform android --profile preview`, após vincular o projeto à conta Expo. O perfil está em `eas.json`. A versão e o `versionCode` ficam em `app.json`; `app.config.js` inclui o commit da compilação na tela Sobre.
 

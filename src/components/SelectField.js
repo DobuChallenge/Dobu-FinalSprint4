@@ -1,6 +1,7 @@
 import { useAppStyles } from '../hooks/useAppStyles';
 import { useState } from 'react';
-import { Modal, Platform, Pressable, FlatList, SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Modal, Platform, Pressable, FlatList, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from './Button';
 
 export default function SelectField({ label, value, onChange, options, placeholder = 'Selecione', disabled = false }) {

@@ -2,7 +2,6 @@ import { useAppStyles } from '../hooks/useAppStyles';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import NavigationCard from '../components/NavigationCard';
-import DobuLogo from '../components/DobuLogo';
 import BottomNavigation from '../components/BottomNavigation';
 import { useDashboard } from '../hooks/useDashboard';
 import QueryState from '../components/QueryState';
@@ -12,11 +11,8 @@ export default function Inicio({ navigation }) {
   const { user: usuario, query, animals, upcoming } = useDashboard();
 
   return (
-    <SafeAreaView style={estilos.tela}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={estilos.tela}>
       <ScrollView contentContainerStyle={estilos.conteudo}>
-        <View style={estilos.topoLogo}>
-          <DobuLogo small />
-        </View>
         <View style={styles.heroHome}>
           <View style={styles.textoHero}>
             <Text style={styles.tituloHome}>Olá, {usuario?.nome}!</Text>

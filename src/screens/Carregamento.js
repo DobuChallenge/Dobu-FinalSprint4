@@ -17,7 +17,7 @@ export default function Carregamento() {
   const { restoreError, restore } = useAuth();
 
   return (
-    <SafeAreaView style={styles.tela}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.tela}>
 
       <View style={styles.logoArea}>
 

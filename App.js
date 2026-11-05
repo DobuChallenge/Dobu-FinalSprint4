@@ -39,11 +39,11 @@ function ThemedNavigation() {
   return (
     <View style={{ flex: 1, alignItems: 'center', backgroundColor: colors.fundo }}>
       <View style={{ flex: 1, width: '100%', maxWidth: Platform.OS === 'web' ? 480 : undefined }}>
+        <ThemeToggle />
         <NavigationContainer ref={navigationRef} onReady={() => setReady(true)} theme={theme}>
           <StatusBar style={mode === 'dark' ? 'light' : 'dark'} backgroundColor={colors.fundo} />
           <AppNavigator />
         </NavigationContainer>
-        <ThemeToggle />
       </View>
     </View>
   );

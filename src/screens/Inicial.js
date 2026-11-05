@@ -7,7 +7,7 @@ import DobuLogo from '../components/DobuLogo';
 export default function Inicial({ navigation }) {
   const { styles } = useAppStyles(createStyles);
   return (
-    <SafeAreaView style={styles.tela}>
+    <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.tela}>
       <View style={styles.topo}>
         <Text style={styles.boasVindas}>Bem-vindo ao</Text>
         <DobuLogo large />

@@ -2,7 +2,7 @@
 
 **Cuidado que acompanha.**
 
-O Dobu aproxima tutores e veterinários no cuidado diário dos animais. O aplicativo reúne consultas, vacinas e anotações do animal e oferece acompanhamento por webcam para os momentos em que o tutor está longe.
+O Dobu aproxima tutores e veterinários no cuidado diário dos animais. O aplicativo reúne consultas, vacinas e anotações do animal e permite acompanhar o animal por câmera externa ou pela webcam de um computador.
 
 Este repositório contém o aplicativo mobile da Sprint 4, desenvolvido em React Native com Expo. A [API .NET](https://github.com/DobuChallenge/Dobu-Sprint4.NET) e a [Dobu-Cam](https://github.com/DobuChallenge/Dobu-Cam) são serviços separados que se integram ao aplicativo.
 
@@ -18,7 +18,7 @@ O responsável cadastra seus animais, consulta o caderno de cuidados e organiza 
 | Conversa da consulta | Mensagens e confirmação do horário pelos dois participantes |
 | Caderno de cuidados | Anotações por animal, registro de vacinas e próxima dose |
 | Informações | Pesquisa de raças e conteúdos sobre animais em fontes públicas |
-| Dobu-Cams | Cadastro por animal, nome da câmera, conexão com a webcam e marcação dos potes no quadro |
+| Dobu-Cams | Cadastro por animal, nome da câmera, câmera externa por IP, webcam do computador e marcação dos potes no quadro |
 | Lembretes | Notificações locais no horário das consultas futuras |
 | Aparência | Temas claro e escuro pelo botão no topo, com preferência salva |
 | Sobre | Versão instalada e commit de referência do APK |
@@ -47,17 +47,22 @@ A instalação pelo Firebase e o funcionamento da API não exigem estar na rede 
 
 ## Dobu-Cam
 
-Em **Dobu-Cams**, selecione o animal e cadastre uma câmera com um nome, como Sala. Abra o monitor e toque em **Ligar webcam**. Esta versão utiliza somente a webcam do computador que executa o serviço Dobu-Cam, sem vídeo de demonstração.
+Em **Dobu-Cams**, selecione o animal e cadastre uma câmera com um nome, como Sala. O monitor oferece duas formas de conexão:
 
-O campo **Endereço da Dobu-Cam** identifica esse serviço. Na prévia web do próprio computador, use `http://localhost:5000`. No emulador Android, o endereço inicial é `http://10.0.2.2:5000`. Em um celular físico, informe o IPv4 do computador com a porta 5000 e mantenha os aparelhos na mesma rede.
+| Fonte | Como conectar |
+| --- | --- |
+| Câmera externa ou celular | Abra a transmissão, informe o IP e a porta exibidos e toque em **Ligar câmera externa**. Exemplo de endereço: `http://192.168.15.5:8080/video` |
+| Webcam do computador | Toque em **Usar webcam do computador**. A captura utiliza a webcam do computador que executa o serviço Dobu-Cam; o campo de IP da câmera externa não é necessário para essa opção |
 
-O quadro no topo permanece visível durante a sincronização. Quando chega uma imagem, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa. Se outro programa estiver usando a webcam, feche-o antes de conectar. O endereço fica salvo no aparelho, separado por conta e câmera.
+O campo **Endereço da Dobu-Cam** identifica o serviço que processa a captura, separado do endereço da câmera externa. Na prévia web do próprio computador, use `http://localhost:5000`. No emulador Android, o endereço inicial é `http://10.0.2.2:5000`. Em um celular físico, informe o IPv4 do computador com a porta 5000 e mantenha os aparelhos na mesma rede.
+
+O quadro no topo permanece visível durante a sincronização. Quando chega uma imagem, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa. Para a webcam, feche outros programas que estejam usando a câmera. Para a câmera externa, confirme que a transmissão está aberta e acessível ao serviço Dobu-Cam. Os endereços ficam salvos no aparelho, separados por conta e câmera. Esta versão não oferece vídeo de demonstração.
 
 Com a imagem carregada, marque as áreas dos potes de comida e água e salve as marcações. A análise observa a permanência de um cão ou gato identificado dentro da região marcada por pelo menos quatro segundos. Uma visita contínua conta uma vez e água e comida têm contadores separados. Sem marcação ou identificação recente do animal, não há contagem de alimentação ou hidratação.
 
 Os eventos indicam **possível alimentação ou hidratação**; a proximidade não comprova consumo. Pouca atividade por uma hora pode indicar possível descanso. A câmera não diagnostica doenças e não substitui avaliação veterinária.
 
-O serviço processa uma captura por vez. Cadastrar várias câmeras organiza os acessos, mas não cria transmissões simultâneas. Para acompanhar a webcam fora da rede do computador, o serviço de câmera precisa de um endereço acessível e protegido. A API de cadastros e consultas já tem seu próprio endereço HTTPS.
+O serviço processa uma captura por vez. Cadastrar várias câmeras organiza os acessos, mas não cria transmissões simultâneas. Para acompanhar fora da rede do computador, o serviço de câmera precisa de um endereço acessível e protegido. A API de cadastros e consultas já tem seu próprio endereço HTTPS.
 
 ## Notificações das consultas
 
@@ -82,7 +87,7 @@ flowchart LR
     API --> Oracle[(Oracle)]
     API --> Mongo[(Persistência NoSQL)]
     Hooks --> Camera[Serviço Dobu-Cam]
-    Camera --> Externa[Câmera externa]
+    Camera --> Externa[Câmera externa ou webcam]
     Hooks --> Local[SecureStore e AsyncStorage]
     Hooks --> Avisos[Notificações locais Android]
 ```
@@ -143,7 +148,7 @@ $env:EXPO_PUBLIC_API_URL = 'https://dobu-sprint4-api-rm563549.azurewebsites.net'
 npm run test:integration
 ```
 
-Esse fluxo cobre cadastro, login, sessão, animais, agenda, caderno, vacinas, cadastro de câmera e conversa. Na revisão desta versão, passaram 60 testes automatizados, os dois testes de integração contra a API HTTPS pública e a verificação de inclusão, consulta ordenada e exclusão de observações NoSQL. A assinatura e o commit do APK foram conferidos, e o arquivo foi instalado e iniciado no emulador Android. O recebimento e o toque na notificação ainda dependem de validação no aplicativo instalado, assim como a transmissão de uma câmera externa real. A exportação verifica os bundles Android e iOS; ela não produz um APK nem substitui os testes de interface em aparelho.
+Esse fluxo cobre cadastro, login, sessão, animais, agenda, caderno, vacinas, cadastro de câmera e conversa. A suíte automatizada cobre as regras do aplicativo, as duas fontes de câmera e a proteção do token da conta nas chamadas aos dispositivos. Os testes de integração também foram executados contra a API HTTPS pública, com persistência Oracle e NoSQL. A assinatura e o commit do APK foram conferidos, e o arquivo foi instalado e iniciado no emulador Android. O recebimento e o toque na notificação ainda dependem de validação no aplicativo instalado, assim como a transmissão de uma câmera externa real. A exportação verifica os bundles Android e iOS; ela não produz um APK nem substitui os testes de interface em aparelho.
 
 Para gerar outro APK, configure os endereços do ambiente, faça commit do código e execute `npx eas-cli build --platform android --profile preview`, após vincular o projeto à conta Expo. O perfil está em `eas.json`. A versão e o `versionCode` ficam em `app.json`; `app.config.js` inclui o commit da compilação na tela Sobre.
 

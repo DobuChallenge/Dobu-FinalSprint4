@@ -131,3 +131,15 @@ test('leitura IoT usa a URL do dispositivo sem enviar o token do backend', async
   await assert.rejects(dobuCamApi.lerStatus('file:///status'), { code: 'REQUEST_ERROR' });
   await assert.rejects(dobuCamApi.lerStatus('http://user:password@device.example.test/status'), { code: 'REQUEST_ERROR' });
 });
+
+test('câmera externa e webcam enviam fontes distintas sem compartilhar o token da conta', async () => {
+  const { dobuCamApi } = await import('../src/api/dobuCam.js');
+  setAuthToken('token-da-conta');
+  const calls = [];
+  globalThis.fetch = async (url, options) => { calls.push({ url, options }); return Response.json({ running: true }); };
+  await dobuCamApi.conectarExterna('http://device.example.test', 'http://camera.example.test/video');
+  await dobuCamApi.conectarWebcam('http://device.example.test');
+  assert.deepEqual(JSON.parse(calls[0].options.body), { source: 'celular', url: 'http://camera.example.test/video' });
+  assert.deepEqual(JSON.parse(calls[1].options.body), { source: 'webcam' });
+  for (const call of calls) assert.equal(call.options.headers.Authorization, undefined);
+});

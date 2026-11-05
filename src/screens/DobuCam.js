@@ -55,7 +55,7 @@ export default function DobuCam({ navigation, route }) {
         return <View key={kind} style={ui.actions}>
           <Text style={ui.label}>{kind === 'water' ? 'Pote de água' : 'Pote de comida'}</Text>
           <Text style={ui.body}>{!configured ? 'Marque o pote e salve para ativar a análise.' : !monitor.reading?.online ? 'Aguardando câmera e leitura do animal.' : !bowl ? 'O serviço de câmera precisa ser atualizado para analisar os potes.' : bowl.active ? 'Animal observado junto ao pote.' : 'Análise ativa. Aguardando aproximação do animal.'}</Text>
-          {configured && bowl?.configured && <Text style={ui.caption}>{bowl.count} possível(is) evento(s) de {kind === 'water' ? 'hidratação' : 'alimentação'} nesta captura.{bowl.last_event_at ? ` Último: ${new Date(bowl.last_event_at).toLocaleString('pt-BR')}.` : ''}</Text>}
+          {configured && bowl?.configured && <Text style={ui.caption}>{bowl.count === 1 ? '1 possível evento' : `${bowl.count} possíveis eventos`} de {kind === 'water' ? 'hidratação' : 'alimentação'} nesta captura.{bowl.last_event_at ? ` Último: ${new Date(bowl.last_event_at).toLocaleString('pt-BR')}.` : ''}</Text>}
         </View>;
       })}
       <Text style={ui.caption}>A permanência junto ao pote indica uma possível interação; não confirma a quantidade consumida.</Text>
@@ -70,7 +70,7 @@ export default function DobuCam({ navigation, route }) {
     </QueryState>
     <Card>
       <Text style={ui.title}>Conectar câmera externa</Text>
-      <Text style={ui.caption}>Abra a transmissão no celular e informe o IP exibido. Mantenha o celular e o computador na mesma rede Wi-Fi.</Text>
+      <Text style={ui.caption}>Inicie a transmissão na câmera externa e informe o endereço. O serviço Dobu-Cam precisa ter acesso a essa transmissão.</Text>
       <TextInput label="Endereço da Dobu-Cam" placeholder="http://IP-DO-SERVIDOR:5000" value={monitor.endpoint} onChangeText={monitor.setEndpoint} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
       <TextInput label="IP ou endereço da câmera externa" placeholder="192.168.15.5:8080" value={monitor.externalUrl} onChangeText={monitor.setExternalUrl} keyboardType="url" editable={monitor.settingsReady && !monitor.sourceBusy} />
       {!!monitor.settingsError && <Text style={ui.error}>{monitor.settingsError}</Text>}

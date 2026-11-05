@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d">Instalar no Android</a> ·
+  <a href="https://youtu.be/4hmZqix_lCU">Assistir à apresentação</a> ·
   <a href="#conheça-o-aplicativo">Funcionalidades</a> ·
   <a href="#primeiro-acesso">Primeiro acesso</a> ·
   <a href="#executar-o-projeto">Como executar</a> ·
@@ -87,7 +88,7 @@ O campo **Endereço da Dobu-Cam** identifica o serviço que processa a captura, 
 
 O quadro da câmera permanece visível durante a sincronização. Quando chega uma imagem, ela aparece nesse mesmo espaço. A web recebe a transmissão contínua MJPEG e o Android exibe imagens atualizadas do serviço. **Atualizar imagem** solicita uma nova tentativa.
 
-Para a webcam, feche outros programas que estejam usando a câmera. Para a câmera externa, confirme que a transmissão está aberta e acessível ao serviço Dobu-Cam. Os endereços ficam salvos no aparelho, separados por conta e câmera. Esta versão não oferece vídeo de demonstração.
+Para a webcam, feche outros programas que estejam usando a câmera. Para a câmera externa, confirme que a transmissão está aberta e acessível ao serviço Dobu-Cam. Os endereços ficam salvos no aparelho, separados por conta e câmera. O monitor utiliza a captura da câmera conectada, sem vídeo de exemplo como fonte.
 
 ### Marcação dos potes e leituras
 
@@ -206,10 +207,13 @@ O script `npm run distribuir -- caminho/do/app.apk HASH` permite distribuir uma 
 
 ## Demonstração e referências
 
-O vídeo final da Sprint 4 está em preparação e seu link ainda não foi publicado neste README. O vídeo da Sprint 3 permanece como registro da evolução do projeto.
+[**Assistir à apresentação final da Sprint 4 no YouTube →**](https://youtu.be/4hmZqix_lCU)
+
+O vídeo da Sprint 3 permanece como registro da evolução do projeto.
 
 | Material | Link |
 | --- | --- |
+| Apresentação final — Sprint 4 | [Assistir no YouTube](https://youtu.be/4hmZqix_lCU) |
 | Instalação Android | [Firebase App Distribution](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d) |
 | Código do APK 1.0.8 | [Tag v1.0.8-sprint4](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/v1.0.8-sprint4) |
 | Protótipo | [Figma](https://www.figma.com/design/mOXmQd2t8nKM3tjBE9g5Dn/Challenge) |

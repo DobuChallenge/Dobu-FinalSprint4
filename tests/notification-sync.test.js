@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { syncAppointmentNotifications } from '../src/services/notificationSync.js';
-import { notificationPlan } from '../src/services/notificationPlan.js';
+import { notificationPlan, notificationTargets } from '../src/services/notificationPlan.js';
 
 function device(initial = [], granted = true) {
   const scheduled = new Map(initial.map(item => [item.identifier, item]));
@@ -48,4 +48,17 @@ test('permissao revogada remove pendencias e informa que os alertas estao bloque
   const api = device(plan(), false);
   await assert.rejects(syncAppointmentNotifications(api, plan()), /bloqueadas/);
   assert.equal(api.scheduled.size, 0);
+});
+
+test('atualizar a agenda depois do horário não cancela um aviso que o Android ainda vai entregar', async () => {
+  const api = device();
+  await syncAppointmentNotifications(api, plan());
+  const future = notificationPlan([appointment], 'tutor', Date.parse('2030-05-10T15:30:30Z'));
+  assert.equal(future.length, 0);
+  const result = await syncAppointmentNotifications(api, future, notificationTargets([appointment], 'tutor'));
+  assert.equal(result.count, 1);
+  assert.equal(api.calls.filter(call => call[0] === 'cancel').length, 0);
+  api.scheduled.clear();
+  await syncAppointmentNotifications(api, future, notificationTargets([appointment], 'tutor'));
+  assert.equal(api.calls.filter(call => call[0] === 'schedule').length, 1);
 });

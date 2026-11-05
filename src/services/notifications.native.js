@@ -14,9 +14,9 @@ export async function requestPermission() {
   return permission.granted;
 }
 
-export async function reconcileNotifications(plan) {
+export async function reconcileNotifications(plan, activePlan) {
   if (Platform.OS === 'android') await Notifications.setNotificationChannelAsync('agenda', { name: 'Agendamentos', importance: Notifications.AndroidImportance.HIGH });
-  return syncAppointmentNotifications(Notifications, plan);
+  return syncAppointmentNotifications(Notifications, plan, activePlan);
 }
 
 export function listenForNotification(open) {

@@ -1,6 +1,6 @@
-export async function syncAppointmentNotifications(api, plan) {
+export async function syncAppointmentNotifications(api, plan, activePlan = plan) {
   const current = (await api.getAllScheduledNotificationsAsync()).filter(item => item.content.data?.kind === 'agendamento');
-  if (plan.length && !(await api.getPermissionsAsync()).granted) {
+  if (activePlan.length && !(await api.getPermissionsAsync()).granted) {
     for (const item of current) await api.cancelScheduledNotificationAsync(item.identifier);
     throw new Error('As notificações estão bloqueadas no aparelho. Libere a permissão nas configurações e ative os alertas novamente.');
   }
@@ -8,7 +8,7 @@ export async function syncAppointmentNotifications(api, plan) {
     && first.content.title === second.content.title && first.content.body === second.content.body
     && first.content.data.scheduledFor === second.content.data.scheduledFor;
   for (const item of current) {
-    if (!plan.some(expected => unchanged(expected, item))) await api.cancelScheduledNotificationAsync(item.identifier);
+    if (!activePlan.some(expected => unchanged(expected, item))) await api.cancelScheduledNotificationAsync(item.identifier);
   }
   for (const item of plan) {
     if (current.some(existing => unchanged(item, existing))) continue;
@@ -17,5 +17,6 @@ export async function syncAppointmentNotifications(api, plan) {
       date: new Date(item.content.data.scheduledFor), channelId: 'agenda',
     } });
   }
-  return { count: plan.length, nextAt: plan.map(item => item.content.data.scheduledFor).sort()[0] || null };
+  const pending = (await api.getAllScheduledNotificationsAsync()).filter(item => item.content.data?.kind === 'agendamento');
+  return { count: pending.length, nextAt: pending.map(item => item.content.data.scheduledFor).sort()[0] || null };
 }

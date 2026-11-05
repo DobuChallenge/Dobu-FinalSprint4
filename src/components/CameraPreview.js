@@ -1,15 +1,21 @@
-import { ActivityIndicator, Image, Text, View } from 'react-native';
+import { createElement } from 'react';
+import { ActivityIndicator, Image, Platform, StyleSheet, Text, View } from 'react-native';
 
-export default function CameraPreview({ colors, imageUri, imageReady, message, areas, handlers, onLayout, onLoad, onError }) {
+export default function CameraPreview({ colors, imageUri, streamUri, imageReady, message, areas, handlers, onLayout, onLoad, onError }) {
   return (
     <View
       accessibilityLabel="Quadro da câmera externa"
-      style={{ width: '100%', minHeight: 220, aspectRatio: 16 / 9, flexShrink: 0, backgroundColor: '#292724', borderRadius: 16, overflow: 'hidden', marginBottom: 16 }}
+      style={{ width: '100%', height: 220, flexShrink: 0, backgroundColor: '#292724', borderRadius: 16, overflow: 'hidden', marginBottom: 16 }}
       onLayout={onLayout}
       {...handlers}
     >
-      <View pointerEvents="none" style={{ flex: 1 }}>
-        {!!imageUri && <Image accessibilityLabel="Imagem da câmera externa" source={{ uri: imageUri }} style={{ width: '100%', height: '100%' }} resizeMode="stretch" onLoad={onLoad} onError={onError} />}
+      <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+        {Platform.OS === 'web' && !!streamUri && createElement('img', {
+          src: streamUri, alt: 'Câmera ao vivo', draggable: false,
+          onError: () => onError?.(imageUri),
+          style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block', pointerEvents: 'none' },
+        })}
+        {!!imageUri && <Image accessibilityLabel="Imagem da câmera externa" source={{ uri: imageUri }} style={[StyleSheet.absoluteFill, Platform.OS === 'web' && streamUri ? { opacity: 0 } : null]} resizeMode="stretch" onLoad={() => onLoad?.(imageUri)} onError={() => onError?.(imageUri)} />}
         {!imageReady && (
           <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', padding: 20, gap: 12 }}>
             <ActivityIndicator size="large" color={colors.principal || '#FFB84D'} />

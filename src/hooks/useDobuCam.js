@@ -16,6 +16,7 @@ export function useDobuCam(cameraId = 'principal') {
   const [reading, setReading] = useState(null);
   const [error, setError] = useState('');
   const [tick, setTick] = useState(Date.now());
+  const [streamAttempt, setStreamAttempt] = useState(0);
   const [events, setEvents] = useState([]);
   const [externalUrl, setExternalUrl] = useState('');
   const [sourceBusy, setSourceBusy] = useState(false);
@@ -137,7 +138,8 @@ export function useDobuCam(cameraId = 'principal') {
   const frame = urls && sourceActive ? `${urls.frame}?t=${tick}` : '';
   return { endpoint, setEndpoint, externalUrl, setExternalUrl, conectar: () => conectarFonte('celular'), conectarWebcam: () => conectarFonte('webcam'), reading, error, urls, events, sourceBusy, pararCaptura, settingsReady, settingsError, imageReady, imageError, loadedFrame,
     frame,
-    atualizarImagem: () => { imageRequestPending.current = true; setImageError(''); setTick(Date.now()); },
+    stream: urls && sourceActive ? `${urls.base}/camera-stream?session=${urls.connectedAt}-${streamAttempt}` : '',
+    atualizarImagem: () => { imageRequestPending.current = true; setImageError(''); setStreamAttempt(value => value + 1); setTick(Date.now()); },
     imagemCarregada: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(true); setImageError(''); setLoadedFrame(uri); } },
     imagemFalhou: (uri) => { if (urls && uri === frame) { imageRequestPending.current = false; setImageReady(false); setImageError('A imagem não carregou. Confira a câmera selecionada e tente atualizar.'); } },
     parar,

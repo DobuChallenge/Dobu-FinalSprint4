@@ -1,9 +1,9 @@
-export function notificationPlan(appointments, ownerId, now = Date.now()) {
+export function notificationTargets(appointments, ownerId) {
   if (!ownerId) return [];
   return appointments.flatMap(item => {
     const status = String(item.status || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const date = new Date(item.dataAgendamento);
-    if (!['agendado', 'confirmado'].includes(status) || !Number.isFinite(date.getTime()) || date.getTime() <= now || !item.id) return [];
+    if (!['agendado', 'confirmado'].includes(status) || !Number.isFinite(date.getTime()) || !item.id) return [];
     const scheduledFor = date.toISOString();
     return [{
       identifier: `dobu:agenda:${ownerId}:${item.id}`,
@@ -15,4 +15,8 @@ export function notificationPlan(appointments, ownerId, now = Date.now()) {
       },
     }];
   });
+}
+
+export function notificationPlan(appointments, ownerId, now = Date.now()) {
+  return notificationTargets(appointments, ownerId).filter(item => Date.parse(item.content.data.scheduledFor) > now);
 }

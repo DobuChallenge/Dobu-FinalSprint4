@@ -23,13 +23,14 @@ export default function DobuCam({ navigation, route }) {
       <CameraPreview
         colors={cores}
         imageUri={markers.frozen || monitor.frame}
+        streamUri={markers.frozen ? '' : monitor.stream}
         imageReady={Boolean(markers.frozen || monitor.imageReady)}
         message="Sincronizando câmera…"
         areas={markers.areas}
         handlers={markers.handlers}
         onLayout={(event) => markers.setSize(event.nativeEvent.layout)}
-        onLoad={() => { if (!markers.frozen) monitor.imagemCarregada(monitor.frame); }}
-        onError={() => { if (!markers.frozen) monitor.imagemFalhou(monitor.frame); }}
+        onLoad={(uri) => { if (!markers.frozen) monitor.imagemCarregada(uri); }}
+        onError={(uri) => { if (!markers.frozen) monitor.imagemFalhou(uri); }}
       />
       <View style={ui.actions}>
         <Button title="Atualizar imagem" disabled={!monitor.urls || !!markers.frozen} cor="cinzaEscuro" onPress={monitor.atualizarImagem} />

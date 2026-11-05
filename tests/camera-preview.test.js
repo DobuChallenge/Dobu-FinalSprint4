@@ -31,3 +31,10 @@ test('imagem pausada e marcacoes continuam visiveis sem depender da leitura do a
   assert.match(html, /Imagem da câmera externa/);
   assert.match(html, /COMIDA/);
 });
+
+test('transmissão web usa o stream original sem substituir a imagem pausada', () => {
+  const html = renderToStaticMarkup(React.createElement(CameraPreview, { colors, imageUri: 'http://camera.invalid/camera-frame', streamUri: 'http://camera.invalid/camera-stream?session=1', imageReady: true, areas: {} }));
+  assert.match(html, /camera-stream\?session=1/);
+  const paused = renderToStaticMarkup(React.createElement(CameraPreview, { colors, imageUri: 'http://camera.invalid/frozen.jpg', imageReady: true, areas: {} }));
+  assert.doesNotMatch(paused, /camera-stream/);
+});

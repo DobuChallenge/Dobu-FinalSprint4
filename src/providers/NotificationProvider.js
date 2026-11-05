@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../hooks/useAuth';
 import { useAgendamentos } from '../hooks/useAgendamentos';
-import { notificationPlan } from '../services/notificationPlan';
+import { notificationPlan, notificationTargets } from '../services/notificationPlan';
 import { requestPermission, reconcileNotifications } from '../services/notifications';
 
 const Context = createContext(null);
@@ -35,8 +35,9 @@ export default function NotificationProvider({ children }) {
   useEffect(() => {
     if (restoring || (ownerId && preference?.ownerId !== ownerId) || (enabled && !query.isSuccess)) return;
     const plan = enabled ? notificationPlan(query.data, ownerId) : [];
+    const activePlan = enabled ? notificationTargets(query.data, ownerId) : [];
     let active = true;
-    queue.current = queue.current.catch(() => {}).then(() => reconcileNotifications(plan)).then(result => {
+    queue.current = queue.current.catch(() => {}).then(() => reconcileNotifications(plan, activePlan)).then(result => {
       if (active) { setDelivery(result || null); setError(''); }
     }).catch((err) => {
       if (active) { setDelivery(null); setError(err.message || 'Não foi possível atualizar os lembretes do celular. Tente ativar novamente.'); }

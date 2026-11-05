@@ -29,11 +29,11 @@ Os CRUDs de animais e agendamentos das entregas anteriores foram preservados. O 
 
 A distribuição é feita pelo **Firebase App Distribution**, para as contas convidadas:
 
-[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d/releases/424a8htjn4sg0)
+[Instalar o Dobu](https://appdistribution.firebase.google.com/testerapps/1:919066649336:android:d241bf696efeb54462d10d)
 
 Abra o link usando a mesma conta Google que recebeu o convite. O Firebase apresenta a versão disponível e as instruções de instalação. O aplicativo Android utiliza o identificador `com.dobuchallenge.mobile`.
 
-A versão publicada é a **1.0.6 (10)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/d75834128ecc21923fa4499e8a489d4518102f6b) corresponde ao commit `d75834128ecc21923fa4499e8a489d4518102f6b`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
+A versão publicada é a **1.0.7 (11)**, com convite de instalação enviado ao professor. O [código desse APK](https://github.com/DobuChallenge/Dobu-FinalSprint4/tree/v1.0.7-sprint4) está identificado pela tag `v1.0.7-sprint4`. A tela **Perfil → Sobre o Dobu** informa a versão e o hash completo do código usado na compilação. Essa referência identifica o código do APK, mesmo quando o README recebe atualizações posteriores.
 
 A API para esta versão está disponível em HTTPS:
 
@@ -56,7 +56,7 @@ Em **Dobu-Cams**, selecione o animal e cadastre uma câmera com um nome, como Sa
 
 O campo **Endereço da Dobu-Cam** identifica o serviço que processa a captura, separado do endereço da câmera externa. Na prévia web do próprio computador, use `http://localhost:5000`. No emulador Android, o endereço inicial é `http://10.0.2.2:5000`. Em um celular físico, informe o IPv4 do computador com a porta 5000 e mantenha os aparelhos na mesma rede.
 
-O quadro no topo permanece visível durante a sincronização. Quando chega uma imagem, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa. Para a webcam, feche outros programas que estejam usando a câmera. Para a câmera externa, confirme que a transmissão está aberta e acessível ao serviço Dobu-Cam. Os endereços ficam salvos no aparelho, separados por conta e câmera. Esta versão não oferece vídeo de demonstração.
+A prévia web utiliza a transmissão contínua da demo original; o Android recebe imagens atualizadas do mesmo serviço. O quadro fica contido no cartão e permanece visível durante a sincronização. Quando chega uma imagem, ela aparece nesse mesmo espaço. **Atualizar imagem** solicita uma nova tentativa. Para a webcam, feche outros programas que estejam usando a câmera. Para a câmera externa, confirme que a transmissão está aberta e acessível ao serviço Dobu-Cam. Os endereços ficam salvos no aparelho, separados por conta e câmera. Esta versão não oferece vídeo de demonstração.
 
 Com a imagem carregada, marque as áreas dos potes de comida e água e salve as marcações. A análise observa a permanência de um cão ou gato identificado dentro da região marcada por pelo menos quatro segundos. Uma visita contínua conta uma vez e água e comida têm contadores separados. Sem marcação ou identificação recente do animal, não há contagem de alimentação ou hidratação.
 
